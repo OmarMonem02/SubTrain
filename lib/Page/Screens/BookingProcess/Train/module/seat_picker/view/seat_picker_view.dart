@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:subtraingrad/Page/Screens/Home/home_screen.dart';
 import 'package:subtraingrad/Style/app_layout.dart';
-import 'package:subtraingrad/Style/app_styles.dart';
 
-import '../../../state_util.dart';
 import '../../booking_detail/view/booking_detail_view.dart';
 import '../controller/seat_picker_controller.dart';
 
@@ -41,7 +39,8 @@ class SeatPickerView extends StatefulWidget {
       body: SingleChildScrollView(
         child: Container(
           width: size.width * 1,
-          decoration: BoxDecoration(color: Styles.bdColor),
+          decoration:
+              BoxDecoration(color: Theme.of(context).colorScheme.background),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -157,8 +156,7 @@ class SeatPickerView extends StatefulWidget {
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
-                                onPressed: () =>
-                                    Get.offAll(const BookingDetailView()),
+                                onPressed: () => {},
                                 child: const Text(
                                   "Executive",
                                   style: TextStyle(
@@ -173,10 +171,9 @@ class SeatPickerView extends StatefulWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 20.0),
-                              child: LayoutBuilder(
-                                  builder: (context, constraints) {
+                              child: LayoutBuilder(builder: (context, raints) {
                                 double spacing = 6;
-                                var size = (constraints.biggest.width / 5.8);
+                                var size = (raints.biggest.width / 5.8);
                                 return Wrap(
                                   runSpacing: spacing,
                                   spacing: spacing,
@@ -267,17 +264,17 @@ class SeatPickerView extends StatefulWidget {
             ),
             child: Column(
               children: [
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "Selected Seat",
                       style: TextStyle(
                         fontSize: 14.0,
-                        color: Color(0xff000000),
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
-                    Text(
+                    const Text(
                       "Executive. Seat 12",
                       style: TextStyle(
                         fontSize: 16.0,
@@ -289,18 +286,18 @@ class SeatPickerView extends StatefulWidget {
                 const SizedBox(
                   height: 8.0,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "Price",
                       style: TextStyle(
                         fontSize: 14.0,
-                        color: Color(0xff000000),
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
-                    Text(
-                      "\$64.00",
+                    const Text(
+                      "250 LE",
                       style: TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,
@@ -322,7 +319,10 @@ class SeatPickerView extends StatefulWidget {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pop(context, const HomeScreen());
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BookingDetailView()));
                     },
                     child: const Text(
                       "Confirm Seat",

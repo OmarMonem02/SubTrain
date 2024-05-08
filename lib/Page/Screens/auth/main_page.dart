@@ -17,10 +17,10 @@ class MainPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (user.email == "admin@gmaill.com") {
+            if (user.email == "admin@gmail.com") {
               return const AdminHomeScreen();
             } else {
-            return const BottomNavBar();
+              return const BottomNavBar();
             }
           } else {
             return const Welcome();

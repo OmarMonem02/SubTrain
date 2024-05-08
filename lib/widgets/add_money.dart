@@ -1,15 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:gap/gap.dart';
 import 'package:subtraingrad/Page/Payments/Paymob_Manager/paymob_manager.dart';
+import 'package:subtraingrad/Page/Payments/payment_getway.dart';
+import 'package:subtraingrad/Page/Screens/Profile/profile_screen.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
 
-class AddMoney extends StatefulWidget {
-  final Function(int) addAmountToBalance; // Callback function
+final User? _user = FirebaseAuth.instance.currentUser;
 
+class AddMoney extends StatefulWidget {
   const AddMoney({
     super.key,
-    required this.addAmountToBalance,
   });
 
   @override
@@ -17,53 +19,36 @@ class AddMoney extends StatefulWidget {
 }
 
 class AddMoneyState extends State<AddMoney> {
-  InAppWebViewController? _webViewController;
+  Future<void> _fetchData() async {
+    if (_user != null) {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(_user!.uid)
+          .get();
+      final userData = snapshot.data();
+      if (userData != null && userData.containsKey('balance')) {
+        // Check for 'balance'
+        setState(() {
+          balance = userData['balance'];
+        });
+      }
+    }
+  }
 
   TextEditingController amountController = TextEditingController();
-  bool isLoading = false; // Track loading state
-  bool isTextFieldEmpty = true; // Track if text field is empty
+  bool isLoading = false;
+  bool isTextFieldEmpty = true;
 
   @override
   void initState() {
     super.initState();
-    // Listen for changes in the text field
+    _fetchData();
+
     amountController.addListener(() {
       setState(() {
-        // Update the state based on whether the text field is empty
         isTextFieldEmpty = amountController.text.isEmpty;
       });
     });
-  }
-
-  void _pay() async {
-    setState(() {
-      isLoading = true; // Set loading state to true
-    });
-
-    int amount = int.tryParse(amountController.text) ?? 0;
-    widget.addAmountToBalance(amount);
-    // Call the callback function to add amount to balance
-
-    PaymobManager().getPaymentKey(amount, "EGP").then(
-      (String paymentKey) {
-        _webViewController?.loadUrl(
-            urlRequest: URLRequest(
-          url: Uri.parse(
-              "https://accept.paymob.com/api/acceptance/iframes/832567?payment_token=$paymentKey"),
-        ));
-      },
-    ).whenComplete(() {
-      setState(() {
-        isLoading =
-            false; // Set loading state to false when operation completes
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    amountController.dispose();
-    super.dispose();
   }
 
   @override
@@ -142,5 +127,42 @@ class AddMoneyState extends State<AddMoney> {
         ),
       ),
     );
+  }
+
+  void _pay() async {
+    setState(() {
+      isLoading = true; // Set loading state to true
+    });
+
+    int amount = int.tryParse(amountController.text) ?? 0;
+
+    PaymobManager().getPaymentKey(amount, "EGP").then(
+      (String paymentKey) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PaymentGetway(
+              paymentToken: paymentKey,
+              amount: amount,
+            ),
+          ),
+        );
+      },
+    ).whenComplete(
+      () {
+        setState(
+          () {
+            isLoading =
+                false; // Set loading state to false when operation completes
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    amountController.dispose();
+    super.dispose();
   }
 }

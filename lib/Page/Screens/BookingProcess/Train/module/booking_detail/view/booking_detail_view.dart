@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:subtraingrad/widgets/bottom_nav_bar.dart';
 import '../../../shared/widgets/separator.dart';
 import '../../../state_util.dart';
 import '../../dashboard/view/dashboard_view.dart';
-import '../../seat_picker/view/seat_picker_view.dart';
 import '../controller/booking_detail_controller.dart';
 
 class BookingDetailView extends StatefulWidget {
@@ -81,7 +82,7 @@ class BookingDetailView extends StatefulWidget {
                       child: Separator(),
                     ),
                     const Positioned(
-                      bottom: 135,
+                      bottom: 220,
                       left: -18,
                       child: CircleAvatar(
                         radius: 18,
@@ -89,7 +90,7 @@ class BookingDetailView extends StatefulWidget {
                       ),
                     ),
                     const Positioned(
-                      bottom: 135,
+                      bottom: 220,
                       right: -18,
                       child: CircleAvatar(
                         radius: 18,
@@ -97,7 +98,7 @@ class BookingDetailView extends StatefulWidget {
                       ),
                     ),
                     const Positioned(
-                      bottom: 150,
+                      bottom: 237,
                       left: 18,
                       right: 18,
                       child: Separator(),
@@ -337,17 +338,19 @@ class BookingDetailView extends StatefulWidget {
                       ),
                     ),
                     Positioned(
-                      bottom: 15,
+                      bottom: 0,
                       left: 0,
                       right: 0,
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width,
-                        child: Image.asset(
-                          "assets/images/qr.png",
-                          width: 120.0,
-                          height: 120.0,
-                          fit: BoxFit.contain,
-                        ),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              QrImageView(
+                                data: "dert",
+                                size: 230,
+                              ),
+                            ]),
                       ),
                     ),
                   ],
@@ -367,9 +370,14 @@ class BookingDetailView extends StatefulWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: () => Get.to(const SeatPickerView()),
+                onPressed: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BottomNavBar()))
+                },
                 child: const Text(
-                  "Download Ticket",
+                  "Done",
                   style: TextStyle(
                     color: Color(0xff383d47),
                     fontSize: 16,

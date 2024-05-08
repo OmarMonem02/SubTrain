@@ -27,7 +27,7 @@ void showTicketBottomSheet(BuildContext context) {
 }
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({super.key});
+  const BottomNavBar({super.key,});
 
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
