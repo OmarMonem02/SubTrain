@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "198914408979",
+    "project_id": "subtraingrad",
+    "storage_bucket": "subtraingrad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198914408979:android:d7afd1361345d47fd4f5e6",
+        "android_client_info": {
+          "package_name": "com.example.subtraingrad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBm_Xb6LVM20OLYCRhYne45-hOt9P6xrqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
