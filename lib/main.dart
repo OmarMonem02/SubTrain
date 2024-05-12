@@ -7,6 +7,8 @@ import 'package:subtraingrad/Page/Screens/auth/main_page.dart';
 import 'package:subtraingrad/Theme/dark_theme.dart';
 import 'package:subtraingrad/Theme/light_theme.dart';
 import 'package:subtraingrad/routes.dart';
+import 'package:geolocator/geolocator.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,3 +43,9 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// checkPermission() async{
+//   bool serviceEnabled;
+//   LocationPermission permission;
+//   serviceEnabled = await Geolocator.isLocation
+// }

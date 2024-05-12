@@ -8,7 +8,7 @@ import 'package:subtraingrad/widgets/bottom_nav_bar.dart';
 class MainPage extends StatelessWidget {
   MainPage({super.key});
   final userData = FirebaseFirestore.instance.collection("users");
-  final user = FirebaseAuth.instance.currentUser!;
+  final user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class MainPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (user.email == "admin@gmail.com") {
+            if (user?.email == "admin@gmail.com") {
               return const AdminHomeScreen();
             } else {
               return const BottomNavBar();

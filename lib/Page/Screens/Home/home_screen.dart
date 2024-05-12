@@ -7,7 +7,6 @@ import 'package:subtraingrad/Page/Chat_Bot/chat_screen.dart';
 import 'package:subtraingrad/Page/Screens/Home/subway_home.dart';
 import 'package:subtraingrad/Page/Screens/Home/train_home.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
-import 'package:geocoding/geocoding.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -131,7 +130,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            getPlacemarks;
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return const ChatScreen();
             }));
@@ -144,44 +142,5 @@ class _HomeScreenState extends State<HomeScreen> {
             width: 33,
           )),
     );
-  }
-
-  Future<String> getPlacemarks(double lat, double long) async {
-    try {
-      List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
-
-      var address = '';
-
-      if (placemarks.isNotEmpty) {
-        // Concatenate non-null components of the address
-        var streets = placemarks.reversed
-            .map((placemark) => placemark.street)
-            .where((street) => street != null);
-
-        // Filter out unwanted parts
-        streets = streets.where((street) =>
-            street!.toLowerCase() !=
-            placemarks.reversed.last.locality!
-                .toLowerCase()); // Remove city names
-        streets = streets
-            .where((street) => !street!.contains('+')); // Remove street codes
-
-        address += streets.join(', ');
-
-        address += ', ${placemarks.reversed.last.subLocality ?? ''}';
-        address += ', ${placemarks.reversed.last.locality ?? ''}';
-        address += ', ${placemarks.reversed.last.subAdministrativeArea ?? ''}';
-        address += ', ${placemarks.reversed.last.administrativeArea ?? ''}';
-        address += ', ${placemarks.reversed.last.postalCode ?? ''}';
-        address += ', ${placemarks.reversed.last.country ?? ''}';
-      }
-
-      print("Your Address for ($lat, $long) is: $address");
-
-      return address;
-    } catch (e) {
-      print("Error getting placemarks: $e");
-      return "No Address";
-    }
   }
 }
