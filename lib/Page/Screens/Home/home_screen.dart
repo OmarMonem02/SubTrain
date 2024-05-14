@@ -191,6 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
             '${result[0].name},${result[0].locality},${result[0].administrativeArea}';
       }
       print(position);
+      print(address);
     } catch (e) {
       Fluttertoast.showToast(msg: "${e.toString()}");
     }
