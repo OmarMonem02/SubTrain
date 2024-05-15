@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:subtraingrad/Page/Screens/auth/auth_page.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});
@@ -69,7 +70,12 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
                 // ignore: use_build_context_synchronously
-                Navigator.pushReplacementNamed(context, 'auth');
+                Navigator.push(
+                    // ignore: use_build_context_synchronously
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AuthPage(),
+                    ));
               },
               icon: Icon(
                 Icons.logout_rounded,

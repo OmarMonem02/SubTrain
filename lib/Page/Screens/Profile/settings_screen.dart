@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:subtraingrad/Page/Screens/auth/auth_page.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -41,7 +42,11 @@ class _SettingPageState extends State<SettingPage> {
             IconButton(
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
-                Navigator.pushReplacementNamed(context, 'auth');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AuthPage(),
+                    ));
               },
               icon: Icon(
                 Icons.logout_rounded,

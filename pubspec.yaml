@@ -50,7 +50,7 @@ dependencies:
   intl: any
   url_launcher: ^6.2.5
   dio: ^5.4.1
-
+  geolocator: ^11.0.0
   #firebase dependencies:
   firebase_core: ^2.27.1
   firebase_auth: ^4.17.9
@@ -71,6 +71,11 @@ dependencies:
   chat_gpt_sdk: ^3.0.4
   geocoding: ^3.0.0
   collection: ^1.18.0
+  chat_bubbles: ^1.5.0
+  http: ^1.2.1
+  google_generative_ai: ^0.4.0
+  flutter_dotenv: ^5.1.0
+  searchfield: ^1.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

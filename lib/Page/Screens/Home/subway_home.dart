@@ -27,7 +27,8 @@ class SubwayHome extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Subway()),
+                MaterialPageRoute(
+                    builder: (context) => const SubwayBookingScreen()),
               );
             },
             child: Ink(

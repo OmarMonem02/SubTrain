@@ -1,13 +1,17 @@
+// ignore_for_file: avoid_print, unnecessary_string_interpolations
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:subtraingrad/Page/Chat_Bot/chat_screen.dart';
 import 'package:subtraingrad/Page/Screens/Home/subway_home.dart';
 import 'package:subtraingrad/Page/Screens/Home/train_home.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
-import 'package:geocoding/geocoding.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,12 +23,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String username = ""; // Initialize an empty username
   final User? _user = FirebaseAuth.instance.currentUser;
+  bool scanning = true;
+  String? address, coordinates;
 
   // Fetch data on initialization
   @override
   void initState() {
     super.initState();
     _fetchData();
+    checkPermission();
   }
 
   // Function to fetch the username
@@ -131,7 +138,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            getPlacemarks;
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return const ChatScreen();
             }));
@@ -146,42 +152,48 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<String> getPlacemarks(double lat, double long) async {
-    try {
-      List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
-
-      var address = '';
-
-      if (placemarks.isNotEmpty) {
-        // Concatenate non-null components of the address
-        var streets = placemarks.reversed
-            .map((placemark) => placemark.street)
-            .where((street) => street != null);
-
-        // Filter out unwanted parts
-        streets = streets.where((street) =>
-            street!.toLowerCase() !=
-            placemarks.reversed.last.locality!
-                .toLowerCase()); // Remove city names
-        streets = streets
-            .where((street) => !street!.contains('+')); // Remove street codes
-
-        address += streets.join(', ');
-
-        address += ', ${placemarks.reversed.last.subLocality ?? ''}';
-        address += ', ${placemarks.reversed.last.locality ?? ''}';
-        address += ', ${placemarks.reversed.last.subAdministrativeArea ?? ''}';
-        address += ', ${placemarks.reversed.last.administrativeArea ?? ''}';
-        address += ', ${placemarks.reversed.last.postalCode ?? ''}';
-        address += ', ${placemarks.reversed.last.country ?? ''}';
+  checkPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      await Geolocator.openLocationSettings();
+      return;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        Fluttertoast.showToast(msg: "Request Denied !");
+        return;
       }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      Fluttertoast.showToast(msg: "Request Denied Forever !");
+      return;
+    }
+    getLocation();
+  }
 
-      print("Your Address for ($lat, $long) is: $address");
-
-      return address;
+  getLocation() async {
+    setState(() {
+      scanning = true;
+    });
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      coordinates =
+          'Latitude : ${position.latitude}\nLongitude : ${position.longitude}';
+      List<Placemark> result =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+      if (result.isEmpty) {
+        address =
+            '${result[0].name},${result[0].locality},${result[0].administrativeArea}';
+      }
+      print(position);
+      print(address);
     } catch (e) {
-      print("Error getting placemarks: $e");
-      return "No Address";
+      Fluttertoast.showToast(msg: "${e.toString()}");
     }
   }
 }
