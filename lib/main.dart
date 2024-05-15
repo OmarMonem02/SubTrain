@@ -6,7 +6,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:subtraingrad/Page/Screens/auth/main_page.dart';
 import 'package:subtraingrad/Theme/dark_theme.dart';
 import 'package:subtraingrad/Theme/light_theme.dart';
-import 'package:subtraingrad/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +27,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,
-      routes: routes,
       home: AnimatedSplashScreen(
         duration: 2500,
         backgroundColor: Theme.of(context).colorScheme.background,

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:subtraingrad/Page/%D9%90Admin_Pages/admin_home_screen.dart';
+import 'package:subtraingrad/%D9%90Admin_Pages/admin_home_screen.dart';
 import 'package:subtraingrad/Page/Screens/auth/welcome_screen.dart';
 import 'package:subtraingrad/widgets/bottom_nav_bar.dart';
 
