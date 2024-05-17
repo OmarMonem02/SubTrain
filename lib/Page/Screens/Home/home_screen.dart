@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, unnecessary_string_interpolations
 
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -146,8 +147,8 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.white,
           tooltip: "Chat with Broxi",
           child: Image.asset(
-            "assets/Logo.png",
-            width: 33,
+            "assets/logo3.png",
+            height: double.infinity,
           )),
     );
   }

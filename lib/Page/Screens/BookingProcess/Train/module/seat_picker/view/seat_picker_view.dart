@@ -15,7 +15,6 @@ class SeatPickerView extends StatefulWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
           "Select Seat",
