@@ -17,7 +17,7 @@ class Welcome extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(
-                  height: 140,
+                  height: 80,
                 ),
                 const Text(
                   "Welcome",
@@ -27,22 +27,12 @@ class Welcome extends StatelessWidget {
                       color: Color.fromRGBO(26, 96, 122, 1)),
                 ),
                 const SizedBox(
-                  height: 60,
+                  height: 20,
                 ),
                 const Image(
                   alignment: Alignment.center,
-                  image: AssetImage('assets/Logo.png'),
-                  height: 150,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text(
-                  "SubTrain",
-                  style: TextStyle(
-                      fontSize: 33,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(26, 96, 122, 1)),
+                  image: AssetImage('assets/logo3.png'),
+                  height: 350,
                 ),
                 const SizedBox(
                   height: 70,

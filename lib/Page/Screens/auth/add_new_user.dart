@@ -14,4 +14,10 @@ class DatabaseMethod {
         .doc(id)
         .get();
   }
+  Future addAnnouncementsDetails(Map<String, dynamic> userInfoMap, String id) async {
+    return await FirebaseFirestore.instance
+        .collection("Announcement")
+        .doc(id)
+        .set(userInfoMap);
+  }
 }

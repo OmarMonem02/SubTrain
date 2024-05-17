@@ -370,7 +370,7 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
       'El-Matareyya',
       'Ain Shams',
       'Ezbet El-Nakhl',
-      'El-Marg'
+      'El-Marg',
     ];
     super.initState();
     calculatePath();

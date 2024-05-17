@@ -9,7 +9,6 @@ class Favorite extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.green,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

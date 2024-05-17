@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:subtraingrad/Page/Screens/BookingProcess/Train/module/dashboard/view/dashboard_view.dart';
 import 'package:subtraingrad/Style/app_layout.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
 import 'package:subtraingrad/widgets/recent_trip_card.dart';
@@ -24,7 +25,7 @@ class TrainHome extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Navigator.pushNamed(context, "trainBook");
+              Navigator.push(context,MaterialPageRoute(builder: (context) => const DashboardView(),));
             },
             child: Ink(
               decoration: BoxDecoration(

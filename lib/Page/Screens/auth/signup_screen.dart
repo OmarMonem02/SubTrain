@@ -122,14 +122,13 @@ class _SignUpState extends State<SignUp> {
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
         elevation: 0,
         title: Row(
           children: [
             BackButton(
               color: const Color.fromRGBO(26, 96, 122, 1),
               onPressed: () {
-                Navigator.pop(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const Welcome()),
                 );

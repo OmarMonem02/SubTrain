@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:subtraingrad/Page/Screens/auth/auth_service.dart';
 import 'package:subtraingrad/Page/Screens/auth/main_page.dart';
 import 'package:subtraingrad/Page/Screens/auth/welcome_screen.dart';
@@ -41,22 +40,16 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
         elevation: 0,
+        automaticallyImplyLeading: false,
         title: Row(
           children: [
             BackButton(
               color: const Color.fromRGBO(26, 96, 122, 1),
               onPressed: () {
-                Navigator.pop(
+                Navigator.push(
                   context,
-                  PageTransition(
-                    type: PageTransitionType.rightToLeft,
-                    duration: const Duration(milliseconds: 500),
-                    isIos: true,
-                    child: const Welcome(),
-                  ),
+                  MaterialPageRoute(builder: (context) => const Welcome()),
                 );
               },
             ),
@@ -82,7 +75,7 @@ class _SignInState extends State<SignIn> {
                 const SizedBox(height: 8),
                 Center(
                   child: Image.asset(
-                    'assets/Logo.png',
+                    'assets/logo3.png',
                     alignment: Alignment.center,
                     height: 250,
                     width: 250,
