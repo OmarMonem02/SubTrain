@@ -187,7 +187,10 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
     'Gamet El-Dowal': {'Wadi El-Nile': 1, 'Boulak El-Dakrour': 1},
     'Boulak El-Dakrour': {'Gamet El-Dowal': 1, 'Cairo University': 1},
     ////
-    /////////////////////////////////////Third Line/////////////////////////////////////////////
+    ///
+    /////////////////////////////////Third Line/////////////////////////////////
+    ///
+    ///
     'Nasser': {'Maspiro': 1, 'Sadat': 1, 'Orabi': 1, 'Attaba': 1},
     'Sadat': {'Opera': 1, 'Saad Zaghloul': 1, 'Nasser': 1, 'Nageib': 1},
     'Attaba': {
@@ -204,7 +207,6 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
   final focus2 = FocusNode();
 
   showPathFinder(context) {
-    // calculatePath();
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
