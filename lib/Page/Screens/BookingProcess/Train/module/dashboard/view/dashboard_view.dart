@@ -60,26 +60,30 @@ class DashboardView extends StatefulWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      QDropdownField(
+                      Row(
+                        children: [
+                          Expanded(child: QDropdownField(
                         label: "From",
                         value: "", // validator: Validator.required,
                         items: TrainData.trainData,
                         onChanged: (value, label) {},
-                      ),
-                      QDropdownField(
+                      ),),
+                          Expanded(child: QDropdownField(
                         label: "To",
                         value: "", // validator: Validator.required,
                         items: TrainData.trainData,
                         onChanged: (value, label) {},
+                      ),),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5.0,
                       ),
                       Row(
                         children: [
                           Expanded(
                             child: QDatePicker(
-                              label: "Depart",
+                              label: "Date",
                               value: DateTime.now(),
                               // validator: Validator.required,
                               onChanged: (value) {},
@@ -96,145 +100,33 @@ class DashboardView extends StatefulWidget {
                           const SizedBox(
                             width: 20.0,
                           ),
+
                           Expanded(
-                            child: QDatePicker(
-                              label: "Return",
-                              value: DateTime.now(),
+                            child: QDropdownField(
+                              label: "Train Classes",
+                              value: "",
                               // validator: Validator.required,
-                              onChanged: (value) {},
+                              items: const [
+                                {
+                                  "label": "Executive",
+                                  "value": "Executive",
+                                },
+                                {
+                                  "label": "Business",
+                                  "value": "Business",
+                                },
+                                {
+                                  "label": "Economy",
+                                  "value": "Economy",
+                                }
+                              ],
+                              onChanged: (value, label) {},
                             ),
-                          ),
-                        ],
-                      ),
-                      const Text(
-                        "Passengers",
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Color(0xff393e48),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      Row(
-                        children: [
-                          Row(
-                            children: [
-                              InkWell(
-                                onTap: () => controller.decrementAdult(),
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                    right: 20.0,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: (controller.qtyAdult == 0)
-                                        ? const Color(0xffdedede)
-                                        : const Color(0xfffdc620),
-                                  ),
-                                  child: const Icon(
-                                    Icons.remove,
-                                    size: 20.0,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                "${controller.qtyAdult} Adult",
-                                style: const TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xff393e48),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () => controller.incrementAdult(),
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                    left: 20.0,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: (controller.qtyAdult == 6)
-                                        ? const Color(0xffdedede)
-                                        : const Color(0xfffdc620),
-                                  ),
-                                  child: const Icon(
-                                    Icons.add,
-                                    size: 20.0,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const Spacer(),
-                          Row(
-                            children: [
-                              InkWell(
-                                onTap: () => controller.decrementChild(),
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                    right: 20.0,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: (controller.qtyChild == 0)
-                                        ? const Color(0xffdedede)
-                                        : const Color(0xfffdc620),
-                                  ),
-                                  child: const Icon(
-                                    Icons.remove,
-                                    size: 20.0,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                "${controller.qtyChild} Child",
-                                style: const TextStyle(
-                                  fontSize: 16.0,
-                                  color: Color(0xff393e48),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () => controller.incrementChild(),
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                    left: 20.0,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: (controller.qtyChild == 3)
-                                        ? const Color(0xffdedede)
-                                        : const Color(0xfffdc620),
-                                  ),
-                                  child: const Icon(
-                                    Icons.add,
-                                    size: 20.0,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                          )                          
                         ],
                       ),
                       const SizedBox(
                         height: 5.0,
-                      ),
-                      QDropdownField(
-                        label: "Train Classes",
-                        value: "",
-                        // validator: Validator.required,
-                        items: const [
-                          {
-                            "label": "Executive",
-                            "value": "Executive",
-                          },
-                          {
-                            "label": "Business",
-                            "value": "Business",
-                          },
-                          {
-                            "label": "Economy",
-                            "value": "Economy",
-                          }
-                        ],
-                        onChanged: (value, label) {},
                       ),
                       const SizedBox(
                         height: 5.0,
@@ -255,7 +147,7 @@ class DashboardView extends StatefulWidget {
                                   builder: (context) =>
                                       const SeatPickerView())),
                           child: const Text(
-                            "Continue",
+                            "Search",
                             style: TextStyle(
                               color: Color(0xff383d47),
                               fontSize: 16,
