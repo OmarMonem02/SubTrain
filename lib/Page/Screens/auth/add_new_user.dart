@@ -7,17 +7,16 @@ class DatabaseMethod {
         .doc(id)
         .set(userInfoMap);
   }
-  
+
   Future getUserDetails(Map<String, dynamic> userInfoMap, String id) async {
-    return await FirebaseFirestore.instance
-        .collection("users")
-        .doc(id)
-        .get();
+    return await FirebaseFirestore.instance.collection("users").doc(id).get();
   }
-  Future addAnnouncementsDetails(Map<String, dynamic> userInfoMap, String id) async {
+
+  Future addAnnouncementsDetails(
+      Map<String, dynamic> announcementInfoMap, String id) async {
     return await FirebaseFirestore.instance
         .collection("Announcement")
         .doc(id)
-        .set(userInfoMap);
+        .set(announcementInfoMap);
   }
 }

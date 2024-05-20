@@ -21,9 +21,7 @@ class SeatPickerController extends State<SeatPickerView>
   Widget build(BuildContext context) => widget.build(context, this);
 
   List<int> usedSeats = [];
-  List<int> selectedSeats = [
-
-  ];
+  List<int> selectedSeats = [];
 
   updateSeat(int index) {
     if (selectedSeats.contains(index)) return;

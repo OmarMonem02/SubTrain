@@ -87,6 +87,7 @@ class _SignInState extends State<SignIn> {
                   hint: 'Email',
                   textInputType: TextInputType.emailAddress,
                   textLabel: 'Email',
+                  
                 ),
                 const SizedBox(height: 20),
                 SubPassField(

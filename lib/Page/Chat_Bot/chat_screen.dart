@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -69,8 +70,19 @@ class _ChatScreenState extends State<ChatScreen> {
                     style: const TextStyle(color: Colors.black),
                     controller: _userInput,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(
+                      enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                          color: Color(0xFF1a5f7a),
+                          width: 2,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                          color: Color(0xFFECBA00),
+                          width: 2,
+                        ),
                       ),
                       label: const Text('Enter Your Message'),
                     ),
@@ -81,7 +93,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   padding: const EdgeInsets.all(12),
                   iconSize: 30,
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.black),
+                    backgroundColor:
+                        MaterialStateProperty.all(Styles.mainColor),
                     foregroundColor: MaterialStateProperty.all(Colors.white),
                     shape: MaterialStateProperty.all(const CircleBorder()),
                   ),
@@ -127,7 +140,7 @@ class Messages extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 15)
           .copyWith(left: isUser ? 100 : 10, right: isUser ? 10 : 100),
       decoration: BoxDecoration(
-          color: isUser ? Colors.blueAccent : Colors.grey.shade400,
+          color: isUser ? Color(0xFF1a5f7a) : Color(0xFFECBA00),
           borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(10),
               bottomLeft: isUser ? const Radius.circular(10) : Radius.zero,

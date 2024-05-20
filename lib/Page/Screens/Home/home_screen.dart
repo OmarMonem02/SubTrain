@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print, unnecessary_string_interpolations
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -70,12 +69,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Good Morning',
+                          'Hello $username,',
                           style: Styles.headLineStyle3,
                         ),
                         Text(
-                          'Book Your Ticket',
-                          style: Styles.headLineStyle1,
+                          'Select Ticket Mode',
+                          style: Styles.headLineStyle2,
                         ),
                       ],
                     ),
@@ -119,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Welcome, $username',
+              'SubTrain',
               style: const TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,

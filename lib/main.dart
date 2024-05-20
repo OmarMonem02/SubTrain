@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:subtraingrad/Page/Screens/Profile/announce_screen.dart';
 import 'package:subtraingrad/Page/Screens/auth/firebase_notification.dart';
 import 'package:subtraingrad/Page/Screens/auth/main_page.dart';
 import 'package:subtraingrad/Theme/dark_theme.dart';
@@ -34,7 +33,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,
-      routes: {'/announce_screen': (context) => const Announcements()},
+      routes: {'/ViewAnnouncement': (context) => ViewAnnouncement()},
       home: AnimatedSplashScreen(
         duration: 2500,
         backgroundColor: Theme.of(context).colorScheme.background,

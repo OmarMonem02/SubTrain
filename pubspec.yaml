@@ -47,7 +47,7 @@ dependencies:
   fluentui_icons: ^1.0.0
   gap: ^3.0.1
 
-  intl: any
+  intl: ^0.18.1
   url_launcher: ^6.2.5
   dio: ^5.4.1
   geolocator: ^11.0.0
