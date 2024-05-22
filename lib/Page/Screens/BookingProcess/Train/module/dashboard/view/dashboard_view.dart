@@ -62,18 +62,22 @@ class DashboardView extends StatefulWidget {
                     children: [
                       Row(
                         children: [
-                          Expanded(child: QDropdownField(
-                        label: "From",
-                        value: "", // validator: Validator.required,
-                        items: TrainData.trainData,
-                        onChanged: (value, label) {},
-                      ),),
-                          Expanded(child: QDropdownField(
-                        label: "To",
-                        value: "", // validator: Validator.required,
-                        items: TrainData.trainData,
-                        onChanged: (value, label) {},
-                      ),),
+                          Expanded(
+                            child: QDropdownField(
+                              label: "From",
+                              value: "", // validator: Validator.required,
+                              items: TrainData.trainData,
+                              onChanged: (value, label) {},
+                            ),
+                          ),
+                          Expanded(
+                            child: QDropdownField(
+                              label: "To",
+                              value: "", // validator: Validator.required,
+                              items: TrainData.trainData,
+                              onChanged: (value, label) {},
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(
@@ -100,7 +104,6 @@ class DashboardView extends StatefulWidget {
                           const SizedBox(
                             width: 20.0,
                           ),
-
                           Expanded(
                             child: QDropdownField(
                               label: "Train Classes",
@@ -122,7 +125,7 @@ class DashboardView extends StatefulWidget {
                               ],
                               onChanged: (value, label) {},
                             ),
-                          )                          
+                          )
                         ],
                       ),
                       const SizedBox(

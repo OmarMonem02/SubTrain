@@ -104,13 +104,13 @@ class SubTextField extends StatelessWidget {
             controller: controller,
             style: TextStyle(
                 color: Theme.of(context).colorScheme.onPrimary,
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.w600),
             decoration: InputDecoration(
               hintText: hint,
               labelText: textLabel,
               labelStyle: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
+                  color: Theme.of(context).colorScheme.onPrimary, fontSize: 14),
               hintStyle: TextStyle(
                 color: Colors.grey.shade600,
                 fontSize: 15,

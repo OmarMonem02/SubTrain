@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:subtraingrad/%D9%90Admin_Pages/admin_home_screen.dart';
+import 'package:subtraingrad/%D9%90Admin_Pages/add_train_schedule.dart';
 import 'package:subtraingrad/Page/Screens/auth/welcome_screen.dart';
 import 'package:subtraingrad/widgets/bottom_nav_bar.dart';
 
@@ -18,7 +18,7 @@ class MainPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (user?.email == "admin@gmail.com") {
-              return const AdminHomeScreen();
+              return const AddTrainSchedule();
             } else {
               return const BottomNavBar();
             }

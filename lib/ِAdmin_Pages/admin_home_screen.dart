@@ -1,17 +1,15 @@
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:subtraingrad/Page/Screens/auth/auth_page.dart';
 
-class AdminHomeScreen extends StatefulWidget {
-  const AdminHomeScreen({super.key});
+class TicketValidator extends StatefulWidget {
+  const TicketValidator({super.key});
 
   @override
-  State<AdminHomeScreen> createState() => _AdminHomeScreenState();
+  State<TicketValidator> createState() => _TicketValidatorState();
 }
 
-class _AdminHomeScreenState extends State<AdminHomeScreen> {
+class _TicketValidatorState extends State<TicketValidator> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;
@@ -64,24 +62,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text(
-              "Settings",
-            ),
-            IconButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                // ignore: use_build_context_synchronously
-                Navigator.push(
-                    // ignore: use_build_context_synchronously
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AuthPage(),
-                    ));
-              },
-              icon: Icon(
-                Icons.logout_rounded,
-                color: Colors.red.shade700,
-              ),
-              iconSize: 35,
+              "Ticket Validate",
             ),
           ],
         ),
@@ -104,9 +85,3 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     super.dispose();
   }
 }
-
-
-/*
-Barcode Type: ${describeEnum(result!.format)}
-
-*/
