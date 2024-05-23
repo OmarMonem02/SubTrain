@@ -1,7 +1,12 @@
 // ignore_for_file: avoid_print
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:random_string/random_string.dart';
 import 'package:searchfield/searchfield.dart';
-import 'package:subtraingrad/Page/Screens/BookingProcess/Subway/subway_confirmation_screen.dart';
+import 'package:subtraingrad/Page/Payments/Paymob_Manager/paymob_manager.dart';
+import 'package:subtraingrad/Page/Payments/withdraw_payment_getway.dart';
+import 'package:subtraingrad/Page/Screens/auth/add_new_user.dart';
 import 'package:subtraingrad/widgets/path_finder.dart';
 
 class SubwayBookingScreen extends StatefulWidget {
@@ -11,9 +16,33 @@ class SubwayBookingScreen extends StatefulWidget {
   State<SubwayBookingScreen> createState() => _SubwayBookingScreenState();
 }
 
-class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
+class _SubwayBookingScreenState extends State<SubwayBookingScreen>
+//animation
+    with
+        SingleTickerProviderStateMixin {
+  late final AnimationController _animationController;
+
+  int _counter = 1;
+  int _value = 1;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      _counter--;
+    });
+  }
+
   String? start;
   String? end;
+  int price = 0;
+  int? balance;
+  int totalPrice = 0;
+
   List<String> path = [];
   int pathLength = 0;
   var suggestions = <String>[
@@ -187,10 +216,7 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
     'Gamet El-Dowal': {'Wadi El-Nile': 1, 'Boulak El-Dakrour': 1},
     'Boulak El-Dakrour': {'Gamet El-Dowal': 1, 'Cairo University': 1},
     ////
-    ///
-    /////////////////////////////////Third Line/////////////////////////////////
-    ///
-    ///
+    /////////////////////////////////////Third Line/////////////////////////////////////////////
     'Nasser': {'Maspiro': 1, 'Sadat': 1, 'Orabi': 1, 'Attaba': 1},
     'Sadat': {'Opera': 1, 'Saad Zaghloul': 1, 'Nasser': 1, 'Nageib': 1},
     'Attaba': {
@@ -237,31 +263,76 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
       end = endSearchController.text;
       path = findShortestPath(graph, start!, end!);
       pathLength = path.length; // Calculate path length (stations - 1)
+      if (pathLength <= 9) {
+        price = 6;
+      } else if (pathLength <= 16) {
+        price = 8;
+      } else if (pathLength <= 23) {
+        price = 12;
+      } else if (pathLength > 23) {
+        price = 15;
+      }
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    calculatePath();
+  final User? _user = FirebaseAuth.instance.currentUser;
+
+  Future<void> _fetchData() async {
+    if (_user != null) {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(_user.uid)
+          .get();
+      final userData = snapshot.data();
+      if (userData != null) {
+        setState(() {
+          balance = userData['balance'];
+        });
+      }
+    }
   }
 
+//animation
+  @override
+  void initState() {
+    _fetchData();
+    _animationController = AnimationController.unbounded(vsync: this)
+      ..repeat(min: -0.5, max: 1.5, period: Duration(seconds: 1));
+    super.initState();
+  }
+
+  Widget searchChild(x) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 12),
+        child:
+            Text(x, style: const TextStyle(fontSize: 18, color: Colors.black)),
+      );
   @override
   void dispose() {
     startSearchController.dispose();
     focus.dispose();
     endSearchController.dispose();
     focus2.dispose();
+
+    _animationController.dispose();
     super.dispose();
+  }
+
+  Future<void> addTicket(useriD) async {
+    String ticketId = randomAlphaNumeric(10);
+    Map<String, dynamic> ticketInfoMap = {
+      'subwayTicketID': ticketId,
+      "userID": useriD,
+      "bookingDate": DateTime.now(),
+      "startPoint": startSearchController.text,
+      "endPoint": endSearchController.text,
+      "fare": price,
+      "status": "",
+    };
+    await DatabaseMethod().addSubwayTicket(ticketInfoMap, ticketId);
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget searchChild(x) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 12),
-          child: Text(x,
-              style: const TextStyle(fontSize: 18, color: Colors.black)),
-        );
     return Scaffold(
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -292,7 +363,7 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                 onSubmit: (x) {},
                 autofocus: false,
                 key: const Key('searchfield'),
-                hint: 'Search by Station Name',
+                hint: 'Start Station',
                 itemHeight: 50,
                 onTapOutside: (x) {},
                 suggestionStyle:
@@ -354,9 +425,11 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                     .toList(),
                 focusNode: focus,
                 suggestionState: Suggestion.expand,
-                onSuggestionTap: (SearchFieldListItem<String> x) {},
+                onSuggestionTap: (SearchFieldListItem<String> x) {
+                  calculatePath();
+                },
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
               //Search Feild 2
               SearchField(
                 suggestionDirection: SuggestionDirection.flex,
@@ -381,7 +454,7 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                 onSubmit: (x) {},
                 autofocus: false,
                 key: const Key('searchfield2'),
-                hint: 'Search your desired drop destination',
+                hint: 'End Station',
                 itemHeight: 50,
                 onTapOutside: (x) {},
                 suggestionStyle:
@@ -443,34 +516,477 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                     .toList(),
                 focusNode: focus2,
                 suggestionState: Suggestion.expand,
-                onSuggestionTap: (SearchFieldListItem<String> x) {},
-              ),
-              //AutoLocate Button
-              const SizedBox(
-                height: 16,
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('Auto Locate'),
-              ),
-              ElevatedButton(
-                onPressed: () {
+                onSuggestionTap: (SearchFieldListItem<String> x) {
                   calculatePath();
-                  showPathFinder(context);
                 },
-                child: const Text('Find Shortest Path'),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 16,
+              ),
+
+              //Auto locate and path buttons
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Color.fromRGBO(26, 96, 122, 1)),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          color: Colors.red,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'Auto Locate',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      showPathFinder(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Color.fromRGBO(26, 96, 122, 1)),
+                    child: const Text(
+                      'Show My Path',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(
+                height: 16,
+              ),
+
+              //Ticket Counter
+              Row(
+                children: [
+                  Text(
+                    'Total Amount: ${_counter * price}LE',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        OutlinedButton(
+                          onPressed: _counter == 1 ? null : _decrementCounter,
+                          style: ButtonStyle(
+                            side: MaterialStateProperty.resolveWith<BorderSide>(
+                              (Set<MaterialState> states) {
+                                Color borderColor = Colors.black;
+                                if (states.contains(MaterialState.pressed)) {
+                                  borderColor =
+                                      Color.fromARGB(255, 56, 88, 103);
+                                }
+                                return BorderSide(color: borderColor);
+                              },
+                            ),
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.white),
+                            overlayColor: MaterialStateProperty.all<Color>(
+                                Color.fromARGB(255, 56, 88, 103)
+                                    .withOpacity(0.5)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0),
+                              ),
+                            ),
+                            elevation: MaterialStateProperty.all<double>(0),
+                          ),
+                          child: Text(
+                            '-',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 16),
+                        Text(
+                          '$_counter',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(width: 16),
+                        OutlinedButton(
+                          onPressed: _incrementCounter,
+                          style: ButtonStyle(
+                            side: MaterialStateProperty.resolveWith<BorderSide>(
+                              (Set<MaterialState> states) {
+                                Color borderColor = Colors.black;
+                                if (states.contains(MaterialState.pressed)) {
+                                  borderColor =
+                                      Color.fromARGB(255, 56, 88, 103);
+                                }
+                                return BorderSide(color: borderColor);
+                              },
+                            ),
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.white),
+                            overlayColor: MaterialStateProperty.all<Color>(
+                                Color.fromARGB(255, 56, 88, 103)
+                                    .withOpacity(0.5)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0),
+                              ),
+                            ),
+                            elevation: MaterialStateProperty.all<double>(0),
+                          ),
+                          child: Text(
+                            '+',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              //Payment Options
+
+              Column(
+                children: [
+                  SizedBox(height: 16),
+
+                  //Paymob
+
+                  Container(
+                    width: double.infinity,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30.0),
+                      border: Border.all(
+                        color: Color.fromRGBO(26, 96, 122, 1),
+                        width: 2.5,
+                      ),
+                      color: Colors.white,
+                    ),
+                    padding: EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Radio(
+                          value: 1,
+                          groupValue: _value,
+                          onChanged: (value) {
+                            setState(() {
+                              _value = value!;
+                              print(_value);
+                            });
+                          },
+                          activeColor: Color.fromRGBO(26, 96, 122, 1),
+                        ),
+                        Icon(Icons.credit_card, color: Colors.yellow),
+                        SizedBox(width: 16.0),
+                        Text(
+                          'Pay with PayMob',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 16.0),
+
+                  //App Wallet
+
+                  Container(
+                    width: double.infinity,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30.0),
+                      border: Border.all(
+                        color: Color.fromRGBO(26, 96, 122, 1),
+                        width: 2.5,
+                      ),
+                      color: Colors.white,
+                    ),
+                    padding: EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Radio(
+                          value: 2,
+                          groupValue: _value,
+                          onChanged: (value) {
+                            setState(() {
+                              _value = value!;
+                              print(_value);
+                            });
+                          },
+                          activeColor: Color.fromRGBO(26, 96, 122, 1),
+                        ),
+                        Icon(Icons.account_balance_wallet,
+                            color: Colors.yellow),
+                        SizedBox(width: 16.0),
+                        Text(
+                          'Pay with App Wallet',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          balance.toString(),
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              // animation test
+              AnimatedBuilder(
+                animation: _animationController,
+                builder: (_, child) {
+                  return ShaderMask(
+                    shaderCallback: (bounds) => LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      transform: _Slide(percent: -_animationController.value),
+                      colors: [Colors.white10, Colors.white, Colors.white10],
+                    ).createShader(bounds),
+                    child: Column(
+                      children: [
+                        Align(
+                          heightFactor: 0.5,
+                          child: Icon(Icons.arrow_drop_down),
+                        ),
+                        Align(
+                          heightFactor: 0.5,
+                          child: Icon(Icons.arrow_drop_down),
+                        ),
+                        Align(
+                          heightFactor: 0.5,
+                          child: Icon(Icons.arrow_drop_down),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
+
+              //Confirm Button
+              SizedBox(
+                height: 8,
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SubwayConfirmationScreen()));
+                  if (_value == 1) {
+                    _pay();
+                  } else if (_value == 2) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          contentPadding: EdgeInsets.all(20.0),
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.sentiment_satisfied_rounded,
+                                color: Colors.green,
+                                size: 48.0,
+                              ),
+                            ],
+                          ),
+                          content: Text(
+                            'Are you sure you want buy it by Wallet',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                          actions: [
+                            TextButton(
+                              child: Text(
+                                'No',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  Colors.red,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: Text(
+                                'Yes',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  Colors.green,
+                                ),
+                              ),
+                              onPressed: () {
+                                if (balance! < (price * _counter)) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        contentPadding: EdgeInsets.all(24.0),
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.error_outline_outlined,
+                                              color: Colors.red,
+                                              size: 48.0,
+                                            ),
+                                          ],
+                                        ),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              'Your balance in wallet is not enough!',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            SizedBox(height: 16.0),
+                                            ElevatedButton(
+                                              child: Text(
+                                                'Ok',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                              style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all<
+                                                        Color>(
+                                                  Color.fromRGBO(
+                                                      152, 152, 152, 1),
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                } else if (balance! >= (price * _counter)) {
+                                  int count = _counter;
+                                  for (count; 0 < count; count--) {
+                                    addTicket(_user!.uid);
+                                  }
+
+                                  _updateData();
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        contentPadding: EdgeInsets.all(24.0),
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.check_circle,
+                                              color: Colors.green,
+                                              size: 48.0,
+                                            ),
+                                          ],
+                                        ),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              'Your ticket has been successfully Purchased!',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            SizedBox(height: 16.0),
+                                            ElevatedButton(
+                                              child: Text(
+                                                'Ok',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                              style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all<
+                                                        Color>(
+                                                  Color.fromRGBO(
+                                                      152, 152, 152, 1),
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                  print(_value);
                 },
-                child: const Text('Confirm'),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  backgroundColor: Color.fromRGBO(238, 238, 238, 1),
+                ),
+                child: const Text(
+                  'Confirm',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
             ],
           ),
@@ -480,6 +996,35 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
         elevation: 0,
         title: const Text('Subway Booking'),
       ),
+    );
+  }
+
+  Future<void> _updateData() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(_user!.uid)
+        .update({
+      'balance': FieldValue.increment(-(price * _counter)),
+    });
+  }
+
+  void _pay() async {
+    int amount = price;
+
+    PaymobManager().getPaymentKey(amount, "EGP").then(
+      (String paymentKey) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WithdrawPaymentGetway(
+              paymentToken: paymentKey,
+              amount: amount,
+            ),
+          ),
+        );
+      },
+    ).whenComplete(
+      () {},
     );
   }
 
@@ -529,5 +1074,16 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
       }
     }
     return [];
+  }
+}
+
+//animation
+class _Slide extends GradientTransform {
+  final double percent;
+
+  _Slide({required this.percent});
+  @override
+  Matrix4? transform(Rect bounds, {TextDirection? textDirection}) {
+    return Matrix4.translationValues(0, -bounds.height * percent, 0);
   }
 }

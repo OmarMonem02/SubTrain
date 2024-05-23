@@ -32,7 +32,7 @@ class Ticket extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              QrImageView(                
+              QrImageView(
                 data: 'Ana Bmoooooooooot',
                 size: 200,
               ),
@@ -77,7 +77,115 @@ class Ticket extends StatelessWidget {
                   'Cancel',
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        contentPadding: EdgeInsets.all(20.0),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.sentiment_dissatisfied,
+                              color: Color.fromARGB(255, 214, 196, 39),
+                              size: 48.0,
+                            ),
+                          ],
+                        ),
+                        content: Text(
+                          'Are you sure you want to cancel?',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                        actions: [
+                          TextButton(
+                            child: Text(
+                              'No',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                Color.fromRGBO(26, 96, 122, 1),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: Text(
+                              'Yes',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                Color.fromRGBO(152, 152, 152, 1),
+                              ),
+                            ),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    contentPadding: EdgeInsets.all(24.0),
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.check_circle,
+                                          color: Colors.green,
+                                          size: 48.0,
+                                        ),
+                                      ],
+                                    ),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          'Your ticket has been successfully canceled!',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        SizedBox(height: 16.0),
+                                        ElevatedButton(
+                                          child: Text(
+                                            'Ok',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(
+                                              Color.fromRGBO(152, 152, 152, 1),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
               ),
             ],
           ),

@@ -20,10 +20,18 @@ class DatabaseMethod {
         .set(announcementInfoMap);
   }
 
-  Future addTrainSchedule(Map<String, dynamic> scheduleInfoMap,String id) async {
+  Future addTrainSchedule(
+      Map<String, dynamic> scheduleInfoMap, String id) async {
     return await FirebaseFirestore.instance
         .collection("Train_Schedule")
         .doc(id)
         .set(scheduleInfoMap);
+  }
+
+  Future addSubwayTicket(Map<String, dynamic> ticketInfoMap, String id) async {
+    return await FirebaseFirestore.instance
+        .collection("Subway_tickets")
+        .doc(id)
+        .set(ticketInfoMap);
   }
 }
