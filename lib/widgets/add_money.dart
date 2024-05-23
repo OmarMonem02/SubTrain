@@ -152,8 +152,7 @@ class AddMoneyState extends State<AddMoney> {
       () {
         setState(
           () {
-            isLoading =
-                false; // Set loading state to false when operation completes
+            isLoading = false;
           },
         );
       },

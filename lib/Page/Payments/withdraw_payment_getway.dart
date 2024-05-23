@@ -16,6 +16,7 @@ class WithdrawPaymentGetway extends StatefulWidget {
 
 class _WithdrawPaymentGetwayState extends State<WithdrawPaymentGetway> {
   bool isLoading = false;
+  bool? status;
   InAppWebViewController? _webViewController;
 
   void startPayment() {
@@ -45,8 +46,11 @@ class _WithdrawPaymentGetwayState extends State<WithdrawPaymentGetway> {
             QuickAlert.show(
                 context: context,
                 type: QuickAlertType.success,
-                text: "Your Balance Increased",
+                text: "Your Ticket is Purchased!",
                 onConfirmBtnTap: () async {
+                  setState(() {
+                    status = true;
+                  });
                   Navigator.pop(context);
                 });
             log('payment success');
@@ -54,6 +58,16 @@ class _WithdrawPaymentGetwayState extends State<WithdrawPaymentGetway> {
               url.queryParameters.containsKey('success') &&
               url.queryParameters['success'] == 'false') {
             log('payment not success');
+            QuickAlert.show(
+                context: context,
+                type: QuickAlertType.error,
+                text: "Your Ticket Can Not Purchased!",
+                onConfirmBtnTap: () async {
+                  setState(() {
+                    status = false;
+                  });
+                  Navigator.pop(context);
+                });
           }
         },
       ),

@@ -152,17 +152,6 @@ class _SignInState extends State<SignIn> {
                 const SizedBox(
                   height: 16,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SquareButton(
-                      imagePath: "assets/search.png",
-                      onTap: () async {
-                        await AuthService().signInWithGoogle();
-                      },
-                    ),
-                  ],
-                ),
                 const SizedBox(height: 16),
                 Center(
                   child: SizedBox(

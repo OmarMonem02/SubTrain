@@ -7,7 +7,7 @@ import 'package:random_string/random_string.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:subtraingrad/Page/Payments/Paymob_Manager/paymob_manager.dart';
 import 'package:subtraingrad/Page/Payments/withdraw_payment_getway.dart';
-import 'package:subtraingrad/Page/Screens/auth/add_new_user.dart';
+import 'package:subtraingrad/Page/Screens/auth/add_new_data.dart';
 import 'package:subtraingrad/widgets/path_finder.dart';
 
 class SubwayBookingScreen extends StatefulWidget {
@@ -331,7 +331,7 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen>
       "fare": price,
       "status": "New",
     };
-    await DatabaseMethod().addSubwayTicket(ticketInfoMap, ticketId);
+    await DatabaseMethod().addSubwayTicket(ticketInfoMap, ticketId,useriD);
   }
 
   @override
@@ -808,6 +808,7 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen>
                 onPressed: () {
                   if (_value == 1) {
                     _pay();
+                    _updateData();
                   } else if (_value == 2) {
                     showDialog(
                       context: context,

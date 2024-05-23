@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:subtraingrad/Page/Screens/auth/add_new_user.dart';
+import 'package:subtraingrad/Page/Screens/auth/add_new_data.dart';
 import 'package:subtraingrad/Page/Screens/auth/main_page.dart';
 import 'package:subtraingrad/Page/Screens/auth/welcome_screen.dart';
 import 'package:subtraingrad/Style/app_layout.dart';

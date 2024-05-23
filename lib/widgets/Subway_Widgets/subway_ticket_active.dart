@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:subtraingrad/widgets/thick_container.dart';
 import 'package:ticket_widget/ticket_widget.dart';

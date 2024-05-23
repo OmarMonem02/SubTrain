@@ -28,9 +28,22 @@ class DatabaseMethod {
         .set(scheduleInfoMap);
   }
 
-  Future addSubwayTicket(Map<String, dynamic> ticketInfoMap, String id) async {
+  Future addSubwayTicket(
+      Map<String, dynamic> ticketInfoMap, String id, String UserID) async {
     return await FirebaseFirestore.instance
+        .collection("users")
+        .doc(UserID)
         .collection("Subway_tickets")
+        .doc(id)
+        .set(ticketInfoMap);
+  }
+
+  Future addTrainTicket(
+      Map<String, dynamic> ticketInfoMap, String id, String UserID) async {
+    return await FirebaseFirestore.instance
+        .collection("users")
+        .doc(UserID)
+        .collection("Train_tickets")
         .doc(id)
         .set(ticketInfoMap);
   }

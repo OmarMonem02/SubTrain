@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:random_string/random_string.dart';
-import 'package:subtraingrad/Page/Screens/auth/add_new_user.dart';
+import 'package:subtraingrad/Page/Screens/auth/add_new_data.dart';
 import 'package:subtraingrad/main.dart';
 import 'package:subtraingrad/widgets/bottom_nav_bar.dart';
 

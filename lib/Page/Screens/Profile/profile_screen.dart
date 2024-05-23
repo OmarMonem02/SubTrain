@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:subtraingrad/Page/Screens/Profile/settings_screen.dart';
+import 'package:subtraingrad/Page/Screens/auth/auth_page.dart';
 import 'package:subtraingrad/Style/app_layout.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
 import 'package:subtraingrad/widgets/setting_button.dart';
@@ -95,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     const Gap(20),
                     Text(
-                      "Balance",
+                      "Wallet",
                       style: Styles.headLineStyle1.copyWith(
                           color: Theme.of(context).colorScheme.onPrimary,
                           fontSize: 38),
@@ -192,8 +191,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ]),
       ),
       appBar: AppBar(
-        elevation: 0,
-        toolbarHeight: 65,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -206,18 +203,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: Color.fromRGBO(26, 96, 122, 1),
               ),
             ),
-            IconButton(
-              onPressed: () {
+            TextButton(
+              child: Text(
+                "Logout",
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600),
+              ),
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SettingPage(),
-                  ),
-                );
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AuthPage(),
+                    ));
               },
-              icon: const Icon(FluentSystemIcons.ic_fluent_settings_filled),
-              iconSize: 40,
-              color: Styles.mainColor,
             ),
           ],
         ),

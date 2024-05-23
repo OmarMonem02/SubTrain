@@ -7,7 +7,7 @@ import 'package:random_string/random_string.dart';
 import 'package:subtraingrad/%D9%90Admin_Pages/admin_home_screen.dart';
 import 'package:subtraingrad/Page/Screens/BookingProcess/Train/data/train_stations.dart';
 import 'package:subtraingrad/Page/Screens/BookingProcess/Train/shared/widgets/dropdown.dart';
-import 'package:subtraingrad/Page/Screens/auth/add_new_user.dart';
+import 'package:subtraingrad/Page/Screens/auth/add_new_data.dart';
 import 'package:subtraingrad/Page/Screens/auth/auth_page.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';

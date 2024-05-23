@@ -3,11 +3,11 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:subtraingrad/Style/app_layout.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
 
-class Ticket extends StatelessWidget {
+class TrainQrTicket extends StatelessWidget {
   final String data;
   final String startPoint;
   final String endPoint;
-  const Ticket(
+  const TrainQrTicket(
       {super.key,
       required this.data,
       required this.startPoint,
@@ -151,7 +151,7 @@ class Ticket extends StatelessWidget {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
-                                          'Your ticket has been successfully canceled!',
+                                          'Your Train ticket has been successfully canceled!',
                                           style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),
