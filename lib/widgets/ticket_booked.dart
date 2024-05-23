@@ -4,7 +4,14 @@ import 'package:subtraingrad/Style/app_layout.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
 
 class Ticket extends StatelessWidget {
-  const Ticket({super.key});
+  final String data;
+  final String startPoint;
+  final String endPoint;
+  const Ticket(
+      {super.key,
+      required this.data,
+      required this.startPoint,
+      required this.endPoint});
 
   @override
   Widget build(BuildContext context) {
@@ -33,29 +40,24 @@ class Ticket extends StatelessWidget {
                 height: 30,
               ),
               QrImageView(
-                data: 'Ana Bmoooooooooot',
+                data: data,
                 size: 200,
               ),
               const SizedBox(
                 height: 30,
               ),
-              const Text(
-                'Name: Omar Abdelmonem',
-                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                'Time: 09:00',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                'Gate: 3',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'From: ${startPoint}',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  Text(
+                    'to: ${endPoint}',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 50,

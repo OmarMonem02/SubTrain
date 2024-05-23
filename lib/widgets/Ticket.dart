@@ -1,37 +1,43 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:subtraingrad/widgets/thick_container.dart';
 import 'package:ticket_widget/ticket_widget.dart';
 
-class TicketActive extends StatelessWidget {
-  const TicketActive({super.key});
+class SubwayTicketActive extends StatelessWidget {
+  final String bookingDate;
+  final String endPoint;
+  final int fare;
+  final String startPoint;
+  final String status;
+  const SubwayTicketActive({
+    super.key,
+    required this.bookingDate,
+    required this.endPoint,
+    required this.fare,
+    required this.startPoint,
+    required this.status,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(4),
+        padding: EdgeInsets.only(bottom: 8, top: 8, left: 16, right: 16),
         child: TicketWidget(
-          width: 350,
+          width: double.infinity,
           height: 150,
           isCornerRounded: true,
-          color: Color.fromARGB(255, 56, 88, 103).withOpacity(0.5),
+          color: Color.fromARGB(255, 212, 212, 212),
           child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.all(28.0),
+                padding: const EdgeInsets.only(
+                    bottom: 16, top: 20, left: 30, right: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
-                        Text(
-                          'EGP',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Expanded(child: Container()),
                         ThickContainer(color: Colors.black),
                         Expanded(
                           child: Stack(children: [
@@ -69,49 +75,81 @@ class TicketActive extends StatelessWidget {
                           ]),
                         ),
                         ThickContainer(color: Colors.black),
-                        Expanded(child: Container()),
-                        Text(
-                          'NYC',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        )
                       ],
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SizedBox(
-                          height: 40,
+                        Text(
+                          startPoint,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Text(
-                            '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
+                          endPoint,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: LayoutBuilder(
+                              builder: (BuildContext context,
+                                  BoxConstraints constraints) {
+                                return Flex(
+                                  direction: Axis.horizontal,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: List.generate(
+                                      (constraints.constrainWidth() / 15)
+                                          .floor(),
+                                      (index) => const SizedBox(
+                                            width: 8,
+                                            height: 1,
+                                            child: DecoratedBox(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.black),
+                                            ),
+                                          )),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         SizedBox(
                           height: 8,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              'Date: 7/9/24',
+                              'Date: ${bookingDate}',
                               style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold),
+                                  fontSize: 12, fontWeight: FontWeight.normal),
                             ),
                             Text(
-                              'Price: 20.0LE ',
+                              'Price: ${fare}LE ',
                               style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold),
+                                  fontSize: 12, fontWeight: FontWeight.normal),
                             ),
                             Text(
-                              'Tickets: 1',
+                              'Status: ${status}',
                               style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold),
+                                  fontSize: 12, fontWeight: FontWeight.normal),
                             ),
                           ],
                         ),

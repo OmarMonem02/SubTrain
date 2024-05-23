@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:random_string/random_string.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:subtraingrad/Page/Payments/Paymob_Manager/paymob_manager.dart';
@@ -318,15 +319,17 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen>
   }
 
   Future<void> addTicket(useriD) async {
-    String ticketId = randomAlphaNumeric(10);
+    final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+    final String date = dateFormat.format(DateTime.now());
+    String ticketId = randomAlphaNumeric(20);
     Map<String, dynamic> ticketInfoMap = {
       'subwayTicketID': ticketId,
       "userID": useriD,
-      "bookingDate": DateTime.now(),
+      "bookingDate": date,
       "startPoint": startSearchController.text,
       "endPoint": endSearchController.text,
       "fare": price,
-      "status": "",
+      "status": "New",
     };
     await DatabaseMethod().addSubwayTicket(ticketInfoMap, ticketId);
   }
@@ -766,36 +769,36 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen>
               SizedBox(
                 height: 8,
               ),
-              // animation test
-              AnimatedBuilder(
-                animation: _animationController,
-                builder: (_, child) {
-                  return ShaderMask(
-                    shaderCallback: (bounds) => LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      transform: _Slide(percent: -_animationController.value),
-                      colors: [Colors.white10, Colors.white, Colors.white10],
-                    ).createShader(bounds),
-                    child: Column(
-                      children: [
-                        Align(
-                          heightFactor: 0.5,
-                          child: Icon(Icons.arrow_drop_down),
-                        ),
-                        Align(
-                          heightFactor: 0.5,
-                          child: Icon(Icons.arrow_drop_down),
-                        ),
-                        Align(
-                          heightFactor: 0.5,
-                          child: Icon(Icons.arrow_drop_down),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
+              // // animation test
+              // AnimatedBuilder(
+              //   animation: _animationController,
+              //   builder: (_, child) {
+              //     return ShaderMask(
+              //       shaderCallback: (bounds) => LinearGradient(
+              //         begin: Alignment.topCenter,
+              //         end: Alignment.bottomCenter,
+              //         transform: _Slide(percent: -_animationController.value),
+              //         colors: [Colors.white10, Colors.white, Colors.white10],
+              //       ).createShader(bounds),
+              //       child: Column(
+              //         children: [
+              //           Align(
+              //             heightFactor: 0.5,
+              //             child: Icon(Icons.arrow_drop_down),
+              //           ),
+              //           Align(
+              //             heightFactor: 0.5,
+              //             child: Icon(Icons.arrow_drop_down),
+              //           ),
+              //           Align(
+              //             heightFactor: 0.5,
+              //             child: Icon(Icons.arrow_drop_down),
+              //           )
+              //         ],
+              //       ),
+              //     );
+              //   },
+              // ),
 
               //Confirm Button
               SizedBox(
@@ -1077,13 +1080,13 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen>
   }
 }
 
-//animation
-class _Slide extends GradientTransform {
-  final double percent;
+// //animation
+// class _Slide extends GradientTransform {
+//   final double percent;
 
-  _Slide({required this.percent});
-  @override
-  Matrix4? transform(Rect bounds, {TextDirection? textDirection}) {
-    return Matrix4.translationValues(0, -bounds.height * percent, 0);
-  }
-}
+//   _Slide({required this.percent});
+//   @override
+//   Matrix4? transform(Rect bounds, {TextDirection? textDirection}) {
+//     return Matrix4.translationValues(0, -bounds.height * percent, 0);
+//   }
+// }

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:subtraingrad/Page/Screens/Tickets/subway_tickets_screen.dart';
 import 'package:subtraingrad/Page/Screens/Tickets/train_tickets_screen.dart';
 
-class TickerScreen extends StatefulWidget {
-  const TickerScreen({super.key});
+class TicketsScreen extends StatefulWidget {
+  const TicketsScreen({super.key});
 
   @override
-  State<TickerScreen> createState() => _TickerScreenState();
+  State<TicketsScreen> createState() => _TicketsScreenState();
 }
 
-class _TickerScreenState extends State<TickerScreen> {
+class _TicketsScreenState extends State<TicketsScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
