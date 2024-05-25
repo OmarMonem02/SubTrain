@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:subtraingrad/Page/Payments/Paymob_Manager/paymob_manager.dart';
-import 'package:subtraingrad/Page/Payments/payment_getway.dart';
-import 'package:subtraingrad/Page/Screens/Profile/profile_screen.dart';
+import 'package:subtraingrad/Payments/Paymob_Manager/paymob_manager.dart';
+import 'package:subtraingrad/Payments/payment_getway.dart';
+import 'package:subtraingrad/Screens/Profile/profile_screen.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
 
 final User? _user = FirebaseAuth.instance.currentUser;

@@ -16,9 +16,14 @@ class SubwayTicketActive extends StatelessWidget {
     required this.startPoint,
     required this.status,
   });
-
   @override
   Widget build(BuildContext context) {
+    Color color = Color.fromARGB(255, 212, 212, 212);
+    if (status == "New") {
+      color = Color.fromARGB(255, 220, 220, 220);
+    } else if (status == "Checked") {
+      color = Color.fromARGB(255, 255, 100, 100);
+    }
     return Center(
       child: Padding(
         padding: EdgeInsets.only(bottom: 8, top: 8, left: 16, right: 16),
@@ -26,7 +31,7 @@ class SubwayTicketActive extends StatelessWidget {
           width: double.infinity,
           height: 150,
           isCornerRounded: true,
-          color: Color.fromARGB(255, 212, 212, 212),
+          color: color,
           child: Stack(
             children: [
               Padding(
@@ -133,7 +138,7 @@ class SubwayTicketActive extends StatelessWidget {
                           height: 8,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               'Date: ${bookingDate}',
@@ -164,3 +169,8 @@ class SubwayTicketActive extends StatelessWidget {
     );
   }
 }
+
+
+
+
+// Color.fromARGB(255, 212, 212, 212)

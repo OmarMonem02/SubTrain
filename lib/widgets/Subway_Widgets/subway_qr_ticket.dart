@@ -7,6 +7,7 @@ import 'package:subtraingrad/Style/app_styles.dart';
 
 class SubwayQrTicket extends StatelessWidget {
   final String data;
+  final String userID;
   final String startPoint;
   final String endPoint;
   final int price;
@@ -15,7 +16,8 @@ class SubwayQrTicket extends StatelessWidget {
       required this.data,
       required this.startPoint,
       required this.endPoint,
-      required this.price});
+      required this.price,
+      required this.userID});
   final User? _user = FirebaseAuth.instance.currentUser;
   Future<void> _updateData() async {
     await FirebaseFirestore.instance
@@ -53,7 +55,7 @@ class SubwayQrTicket extends StatelessWidget {
                 height: 30,
               ),
               QrImageView(
-                data: data,
+                data: data + "/" + userID,
                 size: 200,
               ),
               const SizedBox(

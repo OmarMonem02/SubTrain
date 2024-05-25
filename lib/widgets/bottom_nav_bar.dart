@@ -1,9 +1,9 @@
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:subtraingrad/Page/Screens/Tickets/tickets_screen.dart';
-import 'package:subtraingrad/Page/Screens/Home/home_screen.dart';
-import 'package:subtraingrad/Page/Screens/Profile/profile_screen.dart';
+import 'package:subtraingrad/Screens/Tickets/tickets_screen.dart';
+import 'package:subtraingrad/Screens/Home/home_screen.dart';
+import 'package:subtraingrad/Screens/Profile/profile_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({
