@@ -47,7 +47,7 @@ dependencies:
   fluentui_icons: ^1.0.0
   gap: ^3.0.1
 
-  intl: any
+  intl: ^0.18.1
   url_launcher: ^6.2.5
   dio: ^5.4.1
   geolocator: ^11.0.0
@@ -77,6 +77,12 @@ dependencies:
   flutter_dotenv: ^5.1.0
   searchfield: ^1.0.1
   firebase_messaging: ^14.9.2
+  omni_datetime_picker: ^1.1.0
+  dropdown_search: ^5.0.6
+  ticket_widget: ^1.0.2
+  flashy_tab_bar2: ^0.0.10
+  google_maps_flutter: ^2.6.1
+  geo_sort: ^0.1.0
 
 dev_dependencies:
   flutter_test:

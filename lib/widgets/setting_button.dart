@@ -1,10 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:subtraingrad/Page/Screens/Profile/announce_screen.dart';
-import 'package:subtraingrad/Page/Screens/Profile/favorite_screen.dart';
-import 'package:subtraingrad/Page/Screens/Profile/personalinfo_screen.dart';
-import 'package:subtraingrad/Page/Screens/Profile/previoustrips_screen.dart';
+import 'package:subtraingrad/Screens/Profile/announce_screen.dart';
+import 'package:subtraingrad/Screens/Profile/favorite_screen.dart';
+import 'package:subtraingrad/Screens/Profile/personalinfo_screen.dart';
+import 'package:subtraingrad/Screens/Profile/previoustrips_screen.dart';
 import 'package:subtraingrad/Style/app_layout.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
 
