@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:subtraingrad/Admin_Pages/seats.dart';
 import 'package:subtraingrad/Screens/BookingProcess/Train/data/train_stations.dart';
 import 'package:subtraingrad/Screens/BookingProcess/Train/module/seat_picker/view/seat_picker_view.dart';
 import 'package:subtraingrad/widgets/Train_Booking_Widgets/datepicker.dart';
@@ -8,7 +9,7 @@ import 'package:subtraingrad/widgets/Train_Booking_Widgets/dropdown.dart';
 import 'package:subtraingrad/widgets/Train_Booking_Widgets/trip_widget.dart';
 
 class DashboardView extends StatefulWidget {
-  const DashboardView({super.key});
+  const DashboardView({Key? key});
 
   @override
   State<DashboardView> createState() => _DashboardViewState();
@@ -21,6 +22,9 @@ class _DashboardViewState extends State<DashboardView> {
   String from = "";
   String to = "";
   int trueCount = 0;
+  int falseCount = 0;
+
+  Map<String, Map<String, bool>> seats = {};
 
   @override
   Widget build(BuildContext context) {
@@ -151,13 +155,15 @@ class _DashboardViewState extends State<DashboardView> {
                       ),
                     ),
                     onPressed: () {
+                      _searchStream = FirebaseFirestore.instance
+                          .collection("Train_Schedule")
+                          .where("startPoint", isEqualTo: from)
+                          .where("endPoint", isEqualTo: to)
+                          .where("trainClass", isEqualTo: trainClass)
+                          .snapshots();
                       setState(() {
-                        _searchStream = FirebaseFirestore.instance
-                            .collection("Train_Schedule")
-                            .where("startPoint", isEqualTo: from)
-                            .where("endPoint", isEqualTo: to)
-                            .where("trainClass", isEqualTo: trainClass)
-                            .snapshots();
+                        trueCount = 0;
+                        falseCount = 0;
                       });
                     },
                     child: const Text(
@@ -180,6 +186,36 @@ class _DashboardViewState extends State<DashboardView> {
                   if (streamSnapshot.data!.docs.isEmpty) {
                     return Center(child: Text("No results found"));
                   }
+
+                  // Clear seats before updating
+                  seats.clear();
+                  trueCount = 0;
+                  falseCount = 0;
+                  // Iterate over documents and add availableSeats
+                  streamSnapshot.data!.docs.forEach((doc) {
+                    Map<String, dynamic>? availableSeats =
+                        doc['availableSeats'];
+                    if (availableSeats != null) {
+                      availableSeats.forEach((key, value) {
+                        if (value is Map<String, dynamic>) {
+                          Map<String, bool> innerSeats = {};
+                          value.forEach((innerKey, innerValue) {
+                            if (innerValue is bool) {
+                              innerSeats[innerKey] = innerValue;
+                              if (innerValue) {
+                                trueCount++;
+                              } else {
+                                falseCount++;
+                              }
+                            }
+                          });
+                          seats[key] = innerSeats;
+                        }
+                      });
+                    }
+                  });
+
+                  // Now your seats map is populated, you can build the UI
                   return ListView.builder(
                     itemCount: streamSnapshot.data!.docs.length,
                     itemBuilder: (context, index) {
@@ -190,7 +226,9 @@ class _DashboardViewState extends State<DashboardView> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SeatPickerView(),
+                              builder: (context) => SeatPickerView(
+                                seats: seats,
+                              ),
                             ),
                           );
                         },
@@ -202,7 +240,8 @@ class _DashboardViewState extends State<DashboardView> {
                             departureTime: documentSnapshot['departureTime'],
                             arrivalTime: documentSnapshot['arrivalTime'],
                             trainID: documentSnapshot['trainID'],
-                            availableSeats: 600,
+                            availableSeats: trueCount,
+                            // availableSeats: 600,
                           ),
                         ),
                       );

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:subtraingrad/Admin_Pages/seats.dart';
 import 'package:subtraingrad/Screens/Home/home_screen.dart';
-import 'package:subtraingrad/Style/app_layout.dart';
-
 import '../../booking_detail/view/booking_detail_view.dart';
 import '../controller/seat_picker_controller.dart';
 
 class SeatPickerView extends StatefulWidget {
-  const SeatPickerView({super.key});
+  final Map<String, Map<String, bool>> seats;
+  const SeatPickerView({super.key, required this.seats});
 
   @override
   SeatPickerController createState() => SeatPickerController();
@@ -15,15 +15,12 @@ class SeatPickerView extends StatefulWidget {
 
 class SeatPickerViewBody extends StatelessWidget {
   final SeatPickerController controller;
-  
 
   const SeatPickerViewBody({Key? key, required this.controller})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final size = AppLayout.getSize(context);
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -48,9 +45,6 @@ class SeatPickerViewBody extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
-          width: size.width,
-          decoration:
-              BoxDecoration(color: Theme.of(context).colorScheme.background),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +56,7 @@ class SeatPickerViewBody extends StatelessWidget {
                   Icon(
                     Icons.square,
                     size: 24.0,
-                    color: Color(0xff1aa84b),
+                    color: Color.fromARGB(255, 50, 200, 50),
                   ),
                   SizedBox(
                     width: 5.0,
@@ -79,7 +73,7 @@ class SeatPickerViewBody extends StatelessWidget {
                   Icon(
                     Icons.square,
                     size: 24.0,
-                    color: Color(0xfff8c321),
+                    color: Color.fromARGB(255, 255, 191, 0),
                   ),
                   SizedBox(
                     width: 5.0,
@@ -96,7 +90,7 @@ class SeatPickerViewBody extends StatelessWidget {
                   Icon(
                     Icons.square,
                     size: 24.0,
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 142, 142, 142),
                   ),
                   SizedBox(
                     width: 5.0,
@@ -123,7 +117,7 @@ class SeatPickerViewBody extends StatelessWidget {
                         height: 120,
                         width: MediaQuery.of(context).size.width * 0.6,
                         decoration: const BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.black,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.elliptical(150.0, 300.0),
                             topRight: Radius.elliptical(150.0, 300.0),
@@ -199,15 +193,19 @@ class SeatPickerViewBody extends StatelessWidget {
                                           .selectedSeats
                                           .contains(index);
 
-                                      var color = const Color(0xff1ba44a);
+                                      var color =
+                                          Color.fromARGB(255, 50, 200, 50);
                                       if (selectedSeatByOther) {
-                                        color = const Color(0xffe4e4e4);
+                                        color =
+                                            Color.fromARGB(255, 142, 142, 142);
                                       } else if (selected) {
-                                        color = const Color(0xfffdc620);
+                                        color =
+                                            Color.fromARGB(255, 255, 191, 0);
                                       }
 
                                       return InkWell(
                                         onTap: () {
+                                          print(Seats());
                                           controller.updateSeat(index);
                                         },
                                         child: Container(
@@ -282,7 +280,6 @@ class SeatPickerViewBody extends StatelessWidget {
                       "Type",
                       style: TextStyle(
                         fontSize: 14.0,
-                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
                     Text(
@@ -304,7 +301,6 @@ class SeatPickerViewBody extends StatelessWidget {
                       "Selected Seat",
                       style: TextStyle(
                         fontSize: 14.0,
-                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
                     Text(
@@ -326,7 +322,6 @@ class SeatPickerViewBody extends StatelessWidget {
                       "Price",
                       style: TextStyle(
                         fontSize: 14.0,
-                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
                     Text(
