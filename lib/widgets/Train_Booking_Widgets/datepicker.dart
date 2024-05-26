@@ -36,14 +36,14 @@ class _QDatePickerState extends State<QDatePicker> {
 
   getInitialValue() {
     if (widget.value != null) {
-      return DateFormat("d MMM y").format(widget.value!);
+      return DateFormat("dd/MM/yyyy").format(widget.value!);
     }
     return "-";
   }
 
   getFormattedValue() {
     if (selectedValue != null) {
-      return DateFormat("d MMM y").format(selectedValue!);
+      return DateFormat("dd/MM/yyyy").format(selectedValue!);
     }
     return "-";
   }
@@ -55,8 +55,8 @@ class _QDatePickerState extends State<QDatePicker> {
         DateTime? pickedDate = await showDatePicker(
           context: context,
           initialDate: DateTime.now(),
-          firstDate: DateTime(2000),
-          lastDate: DateTime(2100),
+          firstDate: DateTime(2024),
+          lastDate: DateTime(2030),
         );
         selectedValue = pickedDate;
         controller.text = getFormattedValue();

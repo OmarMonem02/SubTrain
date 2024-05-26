@@ -5,7 +5,6 @@ import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:subtraingrad/Screens/auth/firebase_notification.dart';
 import 'package:subtraingrad/Screens/auth/main_page.dart';
-import 'package:subtraingrad/Theme/light_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      theme: lightTheme,
+      // theme: lightTheme,
       routes: {'/ViewAnnouncement': (context) => ViewAnnouncement()},
       home: AnimatedSplashScreen(
         duration: 2500,

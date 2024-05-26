@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:subtraingrad/widgets/bottom_nav_bar.dart';
-import '../../../shared/widgets/separator.dart';
+import '../../../../../../widgets/Train_Booking_Widgets/separator.dart';
 import '../../../state_util.dart';
 import '../../dashboard/view/dashboard_view.dart';
 import '../controller/booking_detail_controller.dart';

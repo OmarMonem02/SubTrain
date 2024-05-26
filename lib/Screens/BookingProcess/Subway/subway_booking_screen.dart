@@ -10,6 +10,7 @@ import 'package:random_string/random_string.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:subtraingrad/Payments/Paymob_Manager/paymob_manager.dart';
 import 'package:subtraingrad/Payments/withdraw_payment_getway.dart';
+import 'package:subtraingrad/Screens/BookingProcess/Subway/data/station_location.dart';
 import 'package:subtraingrad/Screens/BookingProcess/Subway/data/subway_stations.dart';
 import 'package:subtraingrad/Screens/auth/add_new_data.dart';
 import 'package:subtraingrad/test.dart';
@@ -860,7 +861,7 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen>
     );
   }
 
-  List<String> findShortestPath(  
+  List<String> findShortestPath(
       Map<String, Map<String, int>> graph, String start, String end) {
     // Store distances to each node (initially infinite except for the start node)
     Map<String, double> distances = {};
@@ -946,33 +947,14 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen>
         address =
             '${result[0].name},${result[0].locality},${result[0].administrativeArea}';
       }
-      final List<TestLocation> locations = [
-        TestLocation(
-            id: 1,
-            city: 'Sadat',
-            latitude: 30.044167,
-            longitude: 31.234425), //61.278592
-        TestLocation(
-            id: 2,
-            city: 'Helwan',
-            latitude: 29.848977,
-            longitude: 31.334373), //61.18335
-        TestLocation(
-            id: 3,
-            city: 'Cairo',
-            latitude: 30.025205,
-            longitude: 31.201295), //61.2265
-      ];
+      final List<TestLocation> locations = StationLocation.locations;
 
-      // Device coordinates
-      double deviceLat = 29.910471;
-      double deviceLong = 31.498681;
 
       // Get the nearest station
       final nearestStation = getNearestStation(
         locations: locations,
-        deviceLatitude: deviceLat,
-        deviceLongitude: deviceLong,
+        deviceLatitude: position.latitude,
+        deviceLongitude: position.longitude,
       );
       print(position);
       print(address);

@@ -2,7 +2,7 @@ import 'package:geo_sort/geo_sort.dart';
 
 class TestLocation implements HasLocation {
   final int id;
-  final String city;
+  final String stationName;
   @override
   final double latitude;
   @override
@@ -10,7 +10,7 @@ class TestLocation implements HasLocation {
 
   TestLocation({
     required this.id,
-    required this.city,
+    required this.stationName,
     required this.latitude,
     required this.longitude,
   });
