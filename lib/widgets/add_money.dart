@@ -82,8 +82,7 @@ class AddMoneyState extends State<AddMoney> {
                       const Gap(25),
                       Text(
                         "Add Money To Your Balance",
-                        style: Styles.headLineStyle1.copyWith(
-                            color: Theme.of(context).colorScheme.onPrimary),
+                        style: Styles.headLineStyle1.copyWith(),
                       ),
                       const Gap(25),
                       SubTextField(

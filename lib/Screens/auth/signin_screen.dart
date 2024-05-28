@@ -149,7 +149,6 @@ class _SignInState extends State<SignIn> {
                         Text(
                           'Don\'t have an account? ',
                           style: Styles.headLineStyle4.copyWith(
-                            color: Theme.of(context).colorScheme.onSecondary,
                             fontWeight: FontWeight.w400,
                           ),
                         ),

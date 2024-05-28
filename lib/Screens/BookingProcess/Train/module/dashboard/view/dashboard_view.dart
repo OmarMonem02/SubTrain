@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:subtraingrad/Admin_Pages/seats.dart';
 import 'package:subtraingrad/Screens/BookingProcess/Train/data/train_stations.dart';
 import 'package:subtraingrad/Screens/BookingProcess/Train/module/seat_picker/view/seat_picker_view.dart';
 import 'package:subtraingrad/widgets/Train_Booking_Widgets/datepicker.dart';
@@ -21,10 +20,6 @@ class _DashboardViewState extends State<DashboardView> {
   String trainClass = "";
   String from = "";
   String to = "";
-  int trueCount = 0;
-  int falseCount = 0;
-
-  Map<String, Map<String, bool>> seats = {};
 
   @override
   Widget build(BuildContext context) {
@@ -161,10 +156,7 @@ class _DashboardViewState extends State<DashboardView> {
                           .where("endPoint", isEqualTo: to)
                           .where("trainClass", isEqualTo: trainClass)
                           .snapshots();
-                      setState(() {
-                        trueCount = 0;
-                        falseCount = 0;
-                      });
+                      setState(() {});
                     },
                     child: const Text(
                       "Search",
@@ -184,43 +176,37 @@ class _DashboardViewState extends State<DashboardView> {
               builder: (context, streamSnapshot) {
                 if (streamSnapshot.hasData) {
                   if (streamSnapshot.data!.docs.isEmpty) {
-                    return Center(child: Text("No results found"));
+                    return const Center(child: Text("No results found"));
                   }
 
-                  // Clear seats before updating
-                  seats.clear();
-                  trueCount = 0;
-                  falseCount = 0;
-                  // Iterate over documents and add availableSeats
-                  streamSnapshot.data!.docs.forEach((doc) {
-                    Map<String, dynamic>? availableSeats =
-                        doc['availableSeats'];
-                    if (availableSeats != null) {
-                      availableSeats.forEach((key, value) {
-                        if (value is Map<String, dynamic>) {
-                          Map<String, bool> innerSeats = {};
-                          value.forEach((innerKey, innerValue) {
-                            if (innerValue is bool) {
-                              innerSeats[innerKey] = innerValue;
-                              if (innerValue) {
-                                trueCount++;
-                              } else {
-                                falseCount++;
-                              }
-                            }
-                          });
-                          seats[key] = innerSeats;
-                        }
-                      });
-                    }
-                  });
-
-                  // Now your seats map is populated, you can build the UI
                   return ListView.builder(
                     itemCount: streamSnapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       final DocumentSnapshot documentSnapshot =
                           streamSnapshot.data!.docs[index];
+
+                      // Calculate trueCount for this document
+                      int documentTrueCount = 0;
+                      Map<String, dynamic>? availableSeats =
+                          documentSnapshot['availableSeats'];
+                      Map<String, Map<String, bool>> seats = {};
+                      if (availableSeats != null) {
+                        availableSeats.forEach((key, value) {
+                          if (value is Map<String, dynamic>) {
+                            Map<String, bool> innerSeats = {};
+                            value.forEach((innerKey, innerValue) {
+                              if (innerValue is bool) {
+                                innerSeats[innerKey] = innerValue;
+                                if (innerValue) {
+                                  documentTrueCount++;
+                                }
+                              }
+                            });
+                            seats[key] = innerSeats;
+                          }
+                        });
+                      }
+
                       return InkWell(
                         onTap: () {
                           Navigator.push(
@@ -240,15 +226,13 @@ class _DashboardViewState extends State<DashboardView> {
                             departureTime: documentSnapshot['departureTime'],
                             arrivalTime: documentSnapshot['arrivalTime'],
                             trainID: documentSnapshot['trainID'],
-                            availableSeats: trueCount,
-                            // availableSeats: 600,
+                            availableSeats: documentTrueCount,
                           ),
                         ),
                       );
                     },
                   );
                 } else if (streamSnapshot.hasError) {
-                  // Handle errors
                   return Center(child: Text("Error: ${streamSnapshot.error}"));
                 } else {
                   return const Center(child: Text("Select Your Trip Option"));

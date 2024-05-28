@@ -7,10 +7,15 @@ import '../controller/seat_picker_controller.dart';
 
 class SeatPickerView extends StatefulWidget {
   final Map<String, Map<String, bool>> seats;
-  const SeatPickerView({super.key, required this.seats});
+  const SeatPickerView({
+    super.key,
+    required this.seats,
+  });
 
   @override
   SeatPickerController createState() => SeatPickerController();
+
+  build(BuildContext context, SeatPickerController seatPickerController) {}
 }
 
 class SeatPickerViewBody extends StatelessWidget {
@@ -108,8 +113,9 @@ class SeatPickerViewBody extends StatelessWidget {
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Gap(30),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -117,7 +123,7 @@ class SeatPickerViewBody extends StatelessWidget {
                         height: 120,
                         width: MediaQuery.of(context).size.width * 0.6,
                         decoration: const BoxDecoration(
-                          color: Colors.black,
+                          color: Color.fromARGB(255, 240, 240, 240),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.elliptical(150.0, 300.0),
                             topRight: Radius.elliptical(150.0, 300.0),
@@ -146,30 +152,11 @@ class SeatPickerViewBody extends StatelessWidget {
                       Container(
                         width: MediaQuery.of(context).size.width * 0.6,
                         decoration: const BoxDecoration(
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 240, 240, 240),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SizedBox(
-                              height: 30,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xfffdc620),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                onPressed: () => {},
-                                child: const Text(
-                                  "Executive",
-                                  style: TextStyle(
-                                    color: Color(0xff383d47),
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ),
                             const SizedBox(
                               height: 15.0,
                             ),
@@ -192,6 +179,9 @@ class SeatPickerViewBody extends StatelessWidget {
                                       bool selectedSeatByOther = controller
                                           .selectedSeats
                                           .contains(index);
+                                      bool unclickable = controller
+                                          .unclickableSeats
+                                          .contains(index);
 
                                       var color =
                                           Color.fromARGB(255, 50, 200, 50);
@@ -201,13 +191,19 @@ class SeatPickerViewBody extends StatelessWidget {
                                       } else if (selected) {
                                         color =
                                             Color.fromARGB(255, 255, 191, 0);
+                                      } else if (unclickable) {
+                                        color =
+                                            Color.fromARGB(255, 142, 142, 142);
                                       }
 
                                       return InkWell(
-                                        onTap: () {
-                                          print(Seats());
-                                          controller.updateSeat(index);
-                                        },
+                                        onTap: unclickable
+                                            ? null
+                                            : () {
+                                                print(Seats());
+                                                controller.updateSeat(
+                                                    context, index);
+                                              },
                                         child: Container(
                                           height: size,
                                           width: size,
@@ -220,16 +216,14 @@ class SeatPickerViewBody extends StatelessWidget {
                                             color: color,
                                             borderRadius:
                                                 const BorderRadius.all(
-                                              Radius.circular(
-                                                8.0,
-                                              ),
+                                              Radius.circular(8.0),
                                             ),
                                           ),
                                           child: Center(
                                             child: Text(
                                               number,
                                               style: TextStyle(
-                                                  color: selectedSeatByOther
+                                                  color: unclickable
                                                       ? Colors.grey[500]
                                                       : selected
                                                           ? const Color(
@@ -250,6 +244,56 @@ class SeatPickerViewBody extends StatelessWidget {
                       ),
                     ],
                   ),
+                  Gap(50),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Gap(50),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "A",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                      ), //1
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "B",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                      ), //2
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "C",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                      ), //3
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "D",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                      ), //4
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "E",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                      ), //5
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "F",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                      ), //6
+                    ],
+                  )
                 ],
               ),
             ],
@@ -261,14 +305,12 @@ class SeatPickerViewBody extends StatelessWidget {
         spacing: 10,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  color: Color(0xfff8c321),
-                  width: 4.0,
-                ),
+              color: Color(0xfffdc620),
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(12.0),
+                topLeft: Radius.circular(12.0),
               ),
             ),
             child: Column(
@@ -276,86 +318,53 @@ class SeatPickerViewBody extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Type",
-                      style: TextStyle(
-                        fontSize: 14.0,
-                      ),
-                    ),
-                    Text(
-                      "${controller.category}",
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 8.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Selected Seat",
-                      style: TextStyle(
-                        fontSize: 14.0,
-                      ),
-                    ),
-                    Text(
-                      "Seat No. ${controller.counter}", // Use the controller's counter
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Total: \$${controller.counter * 200}",
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                            color: Color(0xff383d47),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          "Selected Seats: ${controller.usedSeats.join(', ')}",
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                            color: Color(0xff383d47),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
-                ),
-                const SizedBox(
-                  height: 8.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Price",
-                      style: TextStyle(
-                        fontSize: 14.0,
-                      ),
-                    ),
-                    Text(
-                      "${controller.totalAmount} LE", // Adjusted to use controller's state
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 15.0,
                 ),
                 SizedBox(
-                  height: 48,
-                  width: MediaQuery.of(context).size.width,
+                  height: 10,
+                ),
+                SizedBox(
+                  height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xfffdc620),
+                      backgroundColor: const Color(0xff383d47),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const BookingDetailView()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const BookingDetailView(),
+                        ),
+                      );
                     },
                     child: const Text(
-                      "Confirm Seat",
+                      "Proceed to Pay",
                       style: TextStyle(
-                        color: Color(0xff383d47),
+                        color: Color(0xfffdc620),
                         fontSize: 16,
                       ),
                     ),
@@ -363,7 +372,7 @@ class SeatPickerViewBody extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

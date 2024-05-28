@@ -305,7 +305,6 @@ class _SignUpState extends State<SignUp> {
                         Text(
                           'Already have an account? ',
                           style: Styles.headLineStyle3.copyWith(
-                            color: Theme.of(context).colorScheme.onSecondary,
                             fontWeight: FontWeight.w400,
                           ),
                         ),

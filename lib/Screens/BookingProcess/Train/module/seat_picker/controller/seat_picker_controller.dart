@@ -12,11 +12,25 @@ class SeatPickerController extends State<SeatPickerView> implements MvcControlle
   String category = "";
   List<int> usedSeats = [];
   List<int> selectedSeats = [];
+  List<int> unclickableSeats = [];
+  static const int maxSeats = 4;
+
+  String selectedRow = "";
 
   @override
   void initState() {
     instance = this;
     super.initState();
+
+    // Initialize usedSeats and unclickableSeats based on the seats map
+    widget.seats.forEach((rowKey, rowValue) {
+      rowValue.forEach((seatKey, seatValue) {
+        int seatIndex = int.parse(seatKey) - 1; // Adjust index to start from 0
+        if (!seatValue) {
+          unclickableSeats.add(seatIndex);
+        }
+      });
+    });
   }
 
   @override
@@ -27,17 +41,44 @@ class SeatPickerController extends State<SeatPickerView> implements MvcControlle
     return SeatPickerViewBody(controller: this);
   }
 
-  void updateSeat(int index) {
-    if (selectedSeats.contains(index)) return;
+  void updateSeat(BuildContext context, int index) {
+    if (selectedSeats.contains(index) || unclickableSeats.contains(index)) return;
 
     setState(() {
       if (!usedSeats.contains(index)) {
-        usedSeats.add(index);
-        counter++;
+        if (usedSeats.length < maxSeats) {
+          usedSeats.add(index);
+          counter++;
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('You can select a maximum of $maxSeats seats.'),
+            ),
+          );
+        }
       } else {
         usedSeats.remove(index);
         counter--;
       }
     });
+  }
+
+  void selectRow(String row) {
+    setState(() {
+      selectedRow = row;
+    });
+  }
+
+  List<int> getAvailableSeatsForRow(String row) {
+    List<int> availableSeats = [];
+    if (widget.seats.containsKey(row)) {
+      widget.seats[row]!.forEach((seatKey, seatValue) {
+        int seatIndex = int.parse(seatKey) - 1; // Adjust index to start from 0
+        if (seatValue) {
+          availableSeats.add(seatIndex);
+        }
+      });
+    }
+    return availableSeats;
   }
 }

@@ -95,9 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const Gap(20),
                     Text(
                       "Wallet",
-                      style: Styles.headLineStyle1.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary,
-                          fontSize: 38),
+                      style: Styles.headLineStyle1.copyWith(fontSize: 38),
                     ),
                     const Gap(20),
                     SizedBox(

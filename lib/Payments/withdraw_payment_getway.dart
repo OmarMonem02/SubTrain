@@ -7,8 +7,11 @@ class WithdrawPaymentGetway extends StatefulWidget {
   final String paymentToken;
   final int amount;
 
-  const WithdrawPaymentGetway(
-      {super.key, required this.paymentToken, required this.amount});
+  const WithdrawPaymentGetway({
+    super.key,
+    required this.paymentToken,
+    required this.amount,
+  });
 
   @override
   State<WithdrawPaymentGetway> createState() => _WithdrawPaymentGetwayState();
@@ -18,7 +21,6 @@ class _WithdrawPaymentGetwayState extends State<WithdrawPaymentGetway> {
   bool isLoading = false;
   bool? status;
   InAppWebViewController? _webViewController;
-
   void startPayment() {
     _webViewController?.loadUrl(
       urlRequest: URLRequest(
@@ -43,29 +45,32 @@ class _WithdrawPaymentGetwayState extends State<WithdrawPaymentGetway> {
           if (url != null &&
               url.queryParameters.containsKey('success') &&
               url.queryParameters['success'] == 'true') {
+            setState(() {
+              status = true;
+            });
+            Navigator.pop(context, true);
+
             QuickAlert.show(
                 context: context,
                 type: QuickAlertType.success,
                 text: "Your Ticket is Purchased!",
                 onConfirmBtnTap: () async {
-                  setState(() {
-                    status = true;
-                  });
                   Navigator.pop(context);
                 });
             log('payment success');
           } else if (url != null &&
               url.queryParameters.containsKey('success') &&
               url.queryParameters['success'] == 'false') {
+            setState(() {
+              status = true;
+            });
+            Navigator.pop(context, true);
             log('payment not success');
             QuickAlert.show(
                 context: context,
                 type: QuickAlertType.error,
                 text: "Your Ticket Can Not Purchased!",
                 onConfirmBtnTap: () async {
-                  setState(() {
-                    status = false;
-                  });
                   Navigator.pop(context);
                 });
           }

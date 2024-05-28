@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:subtraingrad/Screens/Profile/announce_screen.dart';
@@ -52,8 +51,7 @@ class SettingButton extends StatelessWidget {
                 children: [
                   Text(
                     text,
-                    style: Styles.headLineStyle2.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary),
+                    style: Styles.headLineStyle2,
                   ),
                 ],
               ),

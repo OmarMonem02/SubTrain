@@ -102,15 +102,11 @@ class SubTextField extends StatelessWidget {
             enabled: enable,
             keyboardType: textInputType,
             controller: controller,
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary,
-                fontSize: 15,
-                fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
             decoration: InputDecoration(
               hintText: hint,
               labelText: textLabel,
-              labelStyle: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary, fontSize: 15),
+              labelStyle: TextStyle(fontSize: 15),
               hintStyle: TextStyle(
                 color: Colors.grey.shade600,
                 fontSize: 15,
@@ -172,15 +168,13 @@ class SubPassField extends StatelessWidget {
         child: TextField(
           controller: controller,
           style: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimary,
             fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
           obscureText: obscureText,
           decoration: InputDecoration(
             labelText: textLabel,
-            labelStyle: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary, fontSize: 15),
+            labelStyle: TextStyle(fontSize: 15),
             suffixIcon: IconButton(
               onPressed: onPressed,
               icon: Icon(
