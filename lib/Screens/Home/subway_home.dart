@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:subtraingrad/Screens/BookingProcess/Subway/subway_booking_screen.dart';
-import 'package:subtraingrad/Screens/BookingProcess/Train/module/booking_detail/view/booking_detail_view.dart';
 import 'package:subtraingrad/Style/app_layout.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
 import 'package:subtraingrad/widgets/recent_trip_card.dart';
@@ -68,12 +67,7 @@ class SubwayHome extends StatelessWidget {
             children: [
               Text("Recent Trips", style: Styles.headLineStyle2),
               InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const BookingDetailView()));
-                },
+                onTap: () {},
                 child: Text(
                   "View all",
                   style: Styles.textStyle.copyWith(color: Styles.mainColor),

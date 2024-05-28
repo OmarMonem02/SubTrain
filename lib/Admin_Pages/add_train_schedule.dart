@@ -143,7 +143,7 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
 
     if (dateTime != null) {
       setState(() {
-        _departureTime = DateFormat('dd-MM-yyyy hh:mm a').format(dateTime);
+        _departureTime = DateFormat('dd-MM-yyyy hh:mm:a').format(dateTime);
       });
     }
   }
@@ -184,7 +184,7 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
 
     if (dateTime != null) {
       setState(() {
-        _arrivalTime = DateFormat('dd-MM-yyyy hh:mm a').format(dateTime);
+        _arrivalTime = DateFormat('dd-MM-yyyy hh:mm:a').format(dateTime);
       });
     }
   }

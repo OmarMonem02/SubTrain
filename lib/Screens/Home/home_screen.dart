@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:subtraingrad/Chat_Bot/chat_screen.dart';
@@ -173,29 +172,6 @@ class _HomeScreenState extends State<HomeScreen> {
     if (permission == LocationPermission.deniedForever) {
       Fluttertoast.showToast(msg: "Request Denied Forever !");
       return;
-    }
-    getLocation();
-  }
-
-  getLocation() async {
-    setState(() {
-      scanning = true;
-    });
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-      coordinates =
-          'Latitude : ${position.latitude}\nLongitude : ${position.longitude}';
-      List<Placemark> result =
-          await placemarkFromCoordinates(position.latitude, position.longitude);
-      if (result.isEmpty) {
-        address =
-            '${result[0].name},${result[0].locality},${result[0].administrativeArea}';
-      }
-      print(position);
-      print(address);
-    } catch (e) {
-      Fluttertoast.showToast(msg: "${e.toString()}");
     }
   }
 }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../state_util.dart';
 import '../view/seat_picker_view.dart';
 
-class SeatPickerController extends State<SeatPickerView> implements MvcController {
+class SeatPickerController extends State<SeatPickerView>
+    implements MvcController {
   static late SeatPickerController instance;
   late SeatPickerView view;
 
@@ -38,11 +39,13 @@ class SeatPickerController extends State<SeatPickerView> implements MvcControlle
 
   @override
   Widget build(BuildContext context) {
+    view = widget;
     return SeatPickerViewBody(controller: this);
   }
 
   void updateSeat(BuildContext context, int index) {
-    if (selectedSeats.contains(index) || unclickableSeats.contains(index)) return;
+    if (selectedSeats.contains(index) || unclickableSeats.contains(index))
+      return;
 
     setState(() {
       if (!usedSeats.contains(index)) {

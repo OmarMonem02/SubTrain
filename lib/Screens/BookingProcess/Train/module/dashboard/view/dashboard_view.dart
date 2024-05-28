@@ -20,6 +20,11 @@ class _DashboardViewState extends State<DashboardView> {
   String trainClass = "";
   String from = "";
   String to = "";
+  String departureStation = "";
+  String arrivalStation = "";
+  String departureTime = "";
+  String arrivalTime = "";
+  String tripID = "";
 
   @override
   Widget build(BuildContext context) {
@@ -209,11 +214,15 @@ class _DashboardViewState extends State<DashboardView> {
 
                       return InkWell(
                         onTap: () {
+                          setState(() {
+                            tripID = documentSnapshot['trainScheduleID'];
+                          });
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => SeatPickerView(
                                 seats: seats,
+                                tripID: tripID,
                               ),
                             ),
                           );
