@@ -15,6 +15,7 @@ import 'package:subtraingrad/test.dart';
 import 'package:subtraingrad/widgets/bottom_nav_bar.dart';
 import 'package:subtraingrad/widgets/path_finder.dart';
 import 'package:subtraingrad/widgets/search.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class SubwayBookingScreen extends StatefulWidget {
   const SubwayBookingScreen({super.key});
@@ -25,7 +26,7 @@ class SubwayBookingScreen extends StatefulWidget {
 
 class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
   int _counter = 1;
-  int _value = 1;
+  int _value = 0;
   bool scanning = true;
   String? address, coordinates;
 
@@ -82,21 +83,19 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
   }
 
   void calculatePath() {
-    setState(() {
-      start = startSearchController.text;
-      end = endSearchController.text;
-      path = findShortestPath(graph, start!, end!);
-      pathLength = path.length;
-      if (pathLength <= 9) {
-        price = 6;
-      } else if (pathLength <= 16) {
-        price = 8;
-      } else if (pathLength <= 23) {
-        price = 12;
-      } else if (pathLength > 23) {
-        price = 15;
-      }
-    });
+    start = startSearchController.text;
+    end = endSearchController.text;
+    path = findShortestPath(graph, start!, end!);
+    pathLength = path.length;
+    if (pathLength <= 9) {
+      price = 6;
+    } else if (pathLength <= 16) {
+      price = 8;
+    } else if (pathLength <= 23) {
+      price = 12;
+    } else if (pathLength > 23) {
+      price = 15;
+    }
   }
 
   final User? _user = FirebaseAuth.instance.currentUser;
@@ -115,8 +114,6 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
       }
     }
   }
-
-  bool _suggestionTapped = false;
 
   @override
   void initState() {
@@ -162,351 +159,282 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
+        physics: PageScrollPhysics(),
+        child: Container(
           padding: const EdgeInsets.all(14),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CustomSearchField(
-                hint: 'Start Station',
-                suggestions: suggestions,
-                controller: startSearchController,
-                onSearchTextChanged: (query) {
-                  if (_suggestionTapped) {
-                    _suggestionTapped = false;
-                    return [];
-                  }
-                  final filter = suggestions
-                      .where((element) =>
-                          element.toLowerCase().contains(query.toLowerCase()))
-                      .toList();
-                  return filter
-                      .map((e) =>
-                          SearchFieldListItem<String>(e, child: searchChild(e)))
-                      .toList();
-                },
-                onSuggestionTap: (SearchFieldListItem<String> x) {
-                  setState(() {
-                    _suggestionTapped = true;
-                  });
-                  calculatePath();
-                },
-              ),
-              const SizedBox(height: 16),
-              CustomSearchField(
-                hint: 'End Station',
-                suggestions: suggestions,
-                controller: endSearchController,
-                onSearchTextChanged: (query) {
-                  final filter = suggestions
-                      .where((element) =>
-                          element.toLowerCase().contains(query.toLowerCase()))
-                      .toList();
-                  return filter
-                      .map((e) =>
-                          SearchFieldListItem<String>(e, child: searchChild(e)))
-                      .toList();
-                },
-                onSuggestionTap: (SearchFieldListItem<String> x) {
-                  calculatePath();
-                },
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Column(
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      getLocationAndNearestStation();
-                      setState(() {
-                        startSearchController.text = nearestStationName;
-                      });
+                  CustomSearchField(
+                    hint: 'Start Station',
+                    suggestions: suggestions,
+                    controller: startSearchController,
+                    onSearchTextChanged: (query) {
+                      final filter = suggestions
+                          .where((element) => element
+                              .toLowerCase()
+                              .contains(query.toLowerCase()))
+                          .toList();
+                      return filter
+                          .map((e) => SearchFieldListItem<String>(e,
+                              child: searchChild(e)))
+                          .toList();
                     },
-                    style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Color.fromRGBO(26, 96, 122, 1)),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.location_on,
-                          color: Colors.red,
+                    onSuggestionTap: (SearchFieldListItem<String> x) {},
+                  ),
+                  const SizedBox(height: 16),
+                  CustomSearchField(
+                    hint: 'End Station',
+                    suggestions: suggestions,
+                    controller: endSearchController,
+                    onSearchTextChanged: (query) {
+                      final filter = suggestions
+                          .where((element) => element
+                              .toLowerCase()
+                              .contains(query.toLowerCase()))
+                          .toList();
+                      return filter
+                          .map((e) => SearchFieldListItem<String>(e,
+                              child: searchChild(e)))
+                          .toList();
+                    },
+                    onSuggestionTap: (SearchFieldListItem<String> x) {
+                      calculatePath();
+                    },
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () {
+                          getLocationAndNearestStation();
+                          setState(() {
+                            startSearchController.text = nearestStationName;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Color.fromRGBO(26, 96, 122, 1)),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              color: Colors.red,
+                            ),
+                            Text(
+                              'Auto Locate',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            )
+                          ],
                         ),
-                        SizedBox(width: 8),
-                        Text(
-                          'Auto Locate',
+                      ),
+                      SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () {
+                          showPathFinder(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Color.fromRGBO(26, 96, 122, 1)),
+                        child: const Text(
+                          'Show Path',
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      showPathFinder(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Color.fromRGBO(26, 96, 122, 1)),
-                    child: const Text(
-                      'Show My Path',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Row(
-                children: [
-                  Text(
-                    'Total Amount: ${_counter * price}LE',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        OutlinedButton(
-                          onPressed: _counter == 1 ? null : _decrementCounter,
-                          style: ButtonStyle(
-                            side: MaterialStateProperty.resolveWith<BorderSide>(
-                              (Set<MaterialState> states) {
-                                Color borderColor = Colors.black;
-                                if (states.contains(MaterialState.pressed)) {
-                                  borderColor =
-                                      Color.fromARGB(255, 56, 88, 103);
-                                }
-                                return BorderSide(color: borderColor);
-                              },
-                            ),
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.white),
-                            overlayColor: MaterialStateProperty.all<Color>(
-                                Color.fromARGB(255, 56, 88, 103)
-                                    .withOpacity(0.5)),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50.0),
-                              ),
-                            ),
-                            elevation: MaterialStateProperty.all<double>(0),
-                          ),
-                          child: Text(
-                            '-',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                              color: Colors.black,
-                            ),
-                          ),
+                              fontSize: 14, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(width: 16),
-                        Text(
-                          '$_counter',
+                      ),
+                      SizedBox(height: 8),
+                      IconButton(
+                        onPressed: () {
+                          _openMap();
+                        },
+                        style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Color.fromRGBO(26, 96, 122, 1)),
+                        icon: const Icon(Icons.map_outlined),
+                      ),
+                      SizedBox(height: 8),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Total Amount: ${_counter * price}LE',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(width: 16),
-                        OutlinedButton(
-                          onPressed: _incrementCounter,
-                          style: ButtonStyle(
-                            side: MaterialStateProperty.resolveWith<BorderSide>(
-                              (Set<MaterialState> states) {
-                                Color borderColor = Colors.black;
-                                if (states.contains(MaterialState.pressed)) {
-                                  borderColor =
-                                      Color.fromARGB(255, 56, 88, 103);
-                                }
-                                return BorderSide(color: borderColor);
-                              },
-                            ),
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.white),
-                            overlayColor: MaterialStateProperty.all<Color>(
-                                Color.fromARGB(255, 56, 88, 103)
-                                    .withOpacity(0.5)),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50.0),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: _counter == 0 ? null : _decrementCounter,
+                            child: Container(
+                              margin: const EdgeInsets.only(
+                                right: 20.0,
+                              ),
+                              decoration: BoxDecoration(
+                                color: (_counter == 0)
+                                    ? const Color(0xffdedede)
+                                    : const Color(0xfffdc620),
+                              ),
+                              child: const Icon(
+                                Icons.remove,
+                                size: 25.0,
                               ),
                             ),
-                            elevation: MaterialStateProperty.all<double>(0),
                           ),
-                          child: Text(
-                            '+',
-                            style: TextStyle(
+                          Text(
+                            "${_counter}",
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              color: Color(0xff393e48),
                               fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.black,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                          InkWell(
+                            onTap: () => _incrementCounter(),
+                            child: Container(
+                              margin: const EdgeInsets.only(
+                                left: 20.0,
+                              ),
+                              decoration: const BoxDecoration(
+                                color: Color(0xfffdc620),
+                              ),
+                              child: const Icon(
+                                Icons.add,
+                                size: 25.0,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          )
+                        ],
+                      )
+                    ],
                   ),
-                ],
-              ),
-              Column(
-                children: [
-                  SizedBox(height: 16),
-                  Container(
-                    width: double.infinity,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30.0),
-                      border: Border.all(
-                        color: Color.fromRGBO(26, 96, 122, 1),
-                        width: 2.5,
+                  Column(
+                    children: [
+                      SizedBox(height: 16.0),
+                      RadioListTile<int>(
+                        activeColor: Color.fromRGBO(26, 96, 122, 1),
+                        title: Row(
+                          children: [
+                            Icon(
+                              Icons.credit_card,
+                              color: Color.fromRGBO(26, 96, 122, 1),
+                            ),
+                            SizedBox(width: 8.0),
+                            const Text("Pay With Paymob"),
+                          ],
+                        ),
+                        value: 1,
+                        groupValue: _value,
+                        onChanged: (value) {
+                          setState(() {
+                            _value = value!;
+                          });
+                        },
                       ),
-                      color: Colors.white,
-                    ),
-                    padding: EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        Radio(
-                          value: 1,
-                          groupValue: _value,
-                          onChanged: (value) {
-                            setState(() {
-                              _value = value!;
-                              print(_value);
-                            });
-                          },
-                          activeColor: Color.fromRGBO(26, 96, 122, 1),
+                      RadioListTile<int>(
+                        activeColor: Color.fromRGBO(26, 96, 122, 1),
+                        title: Row(
+                          children: [
+                            Icon(
+                              Icons.wallet,
+                              color: Color.fromRGBO(26, 96, 122, 1),
+                            ),
+                            SizedBox(width: 8.0),
+                            const Text("Pay By Your Wallet"),
+                          ],
                         ),
-                        Icon(Icons.credit_card, color: Colors.yellow),
-                        SizedBox(width: 16.0),
-                        Text(
-                          'Pay with PayMob',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 16.0),
-                  Container(
-                    width: double.infinity,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30.0),
-                      border: Border.all(
-                        color: Color.fromRGBO(26, 96, 122, 1),
-                        width: 2.5,
+                        value: 2,
+                        groupValue: _value,
+                        onChanged: (value) {
+                          setState(() {
+                            _value = value!;
+                          });
+                        },
                       ),
-                      color: Colors.white,
-                    ),
-                    padding: EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        Radio(
-                          value: 2,
-                          groupValue: _value,
-                          onChanged: (value) {
-                            setState(() {
-                              _value = value!;
-                              print(_value);
-                            });
-                          },
-                          activeColor: Color.fromRGBO(26, 96, 122, 1),
-                        ),
-                        Icon(Icons.account_balance_wallet,
-                            color: Colors.yellow),
-                        SizedBox(width: 16.0),
-                        Text(
-                          'Pay with App Wallet',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Spacer(),
-                        Text(
-                          balance.toString(),
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
+                  SizedBox(height: 330),
                 ],
               ),
               SizedBox(
-                height: 8,
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_value == 1) {
-                    _pay();
-                  } else if (_value == 2) {
-                    if (balance! < (price * _counter)) {
-                      QuickAlert.show(
-                          context: context,
-                          type: QuickAlertType.error,
-                          text: "You don't have balance!",
-                          onConfirmBtnTap: () async {
-                            Navigator.pop(context);
-                          });
-                    } else if (balance! >= (price * _counter)) {
-                      QuickAlert.show(
-                          context: context,
-                          type: QuickAlertType.confirm,
-                          text: 'Are you sure you want buy it by Wallet!',
-                          confirmBtnText: 'Yes',
-                          cancelBtnText: 'No',
-                          confirmBtnColor: Colors.lightGreen,
-                          animType: QuickAlertAnimType.slideInUp,
-                          onCancelBtnTap: () async {
-                            Navigator.pop(context);
-                          },
-                          onConfirmBtnTap: () async {
-                            Navigator.pop(context);
-                            int count = _counter;
-                            for (count; 0 < count; count--) {
-                              addTicket(_user!.uid);
-                            }
-                            _updateData();
-                            QuickAlert.show(
-                                context: context,
-                                type: QuickAlertType.success,
-                                text: "Your Ticket is Purchased!",
-                                onConfirmBtnTap: () async {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => BottomNavBar(),
-                                      ));
-                                });
-                          });
+                height: 48,
+                width: MediaQuery.of(context).size.width,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xfffdc620),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: () {
+                    if (_value == 1) {
+                      _pay();
+                    } else if (_value == 2) {
+                      if (balance! < (price * _counter)) {
+                        QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.error,
+                            text: "You don't have balance!",
+                            onConfirmBtnTap: () async {
+                              Navigator.pop(context);
+                            });
+                      } else if (balance! >= (price * _counter)) {
+                        QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.confirm,
+                            text: 'Are you sure you want buy it by Wallet!',
+                            confirmBtnText: 'Yes',
+                            cancelBtnText: 'No',
+                            confirmBtnColor: Colors.lightGreen,
+                            animType: QuickAlertAnimType.slideInUp,
+                            onCancelBtnTap: () async {
+                              Navigator.pop(context);
+                            },
+                            onConfirmBtnTap: () async {
+                              Navigator.pop(context);
+                              int count = _counter;
+                              for (count; 0 < count; count--) {
+                                addTicket(_user!.uid);
+                              }
+                              _updateData();
+                              QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.success,
+                                  text: "Your Ticket is Purchased!",
+                                  onConfirmBtnTap: () async {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => BottomNavBar(),
+                                        ));
+                                  });
+                            });
+                      }
                     }
-                  }
-                  print(_value);
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor: Color.fromRGBO(238, 238, 238, 1),
+                    print(_value);
+                  },
+                  child: const Text(
+                    "Done",
+                    style: TextStyle(
+                      color: Color(0xff383d47),
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
-                child: const Text(
-                  'Confirm',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
+              )
             ],
           ),
         ),
@@ -648,5 +576,14 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
     } catch (e) {
       print('Error: $e');
     }
+  }
+
+  Future<void> _openMap() async {
+    String url = "https://maps.app.goo.gl/xn8s1wtPG34KSWNW8";
+    await canLaunchUrlString(url)
+        ? await launchUrlString(url)
+        : Center(
+            child: CircularProgressIndicator(),
+          );
   }
 }

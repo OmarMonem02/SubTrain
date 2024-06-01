@@ -11,6 +11,7 @@ import 'package:subtraingrad/Chat_Bot/chat_screen.dart';
 import 'package:subtraingrad/Screens/Home/subway_home.dart';
 import 'package:subtraingrad/Screens/Home/train_home.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -74,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: Styles.headLineStyle3,
                         ),
                         Text(
-                          'Select Ticket Mode',
+                          'Switch To Select Mode',
                           style: Styles.headLineStyle2,
                         ),
                       ],

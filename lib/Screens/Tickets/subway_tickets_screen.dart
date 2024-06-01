@@ -18,6 +18,7 @@ class _SubwayTicketsScreenState extends State<SubwayTicketsScreen> {
   String status = "";
   int price = 0;
   final User? _user = FirebaseAuth.instance.currentUser;
+  bool loading = false;
 
   void showTicketBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -71,7 +72,12 @@ class _SubwayTicketsScreenState extends State<SubwayTicketsScreen> {
       body: StreamBuilder<QuerySnapshot>(
         stream: _ticketsStream,
         builder: (context, streamSnapshot) {
-          if (streamSnapshot.hasData) {
+          if (streamSnapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (streamSnapshot.hasError) {
+            return Center(child: Text("Error: ${streamSnapshot.error}"));
+          } else if (streamSnapshot.hasData &&
+              streamSnapshot.data!.docs.isNotEmpty) {
             return ListView.builder(
               itemCount: streamSnapshot.data!.docs.length,
               itemBuilder: (context, index) {
@@ -79,11 +85,13 @@ class _SubwayTicketsScreenState extends State<SubwayTicketsScreen> {
                     streamSnapshot.data!.docs[index];
                 return InkWell(
                   onTap: () {
+                    setState(() {
+                      ticketID = documentSnapshot['subwayTicketID'];
+                      startPoint = documentSnapshot['startPoint'];
+                      endPoint = documentSnapshot['endPoint'];
+                      price = documentSnapshot['fare'];
+                    });
                     showTicketBottomSheet(context);
-                    ticketID = documentSnapshot['subwayTicketID'];
-                    startPoint = documentSnapshot['startPoint'];
-                    endPoint = documentSnapshot['endPoint'];
-                    price = documentSnapshot['fare'];
                   },
                   child: SubwayTicketActive(
                     bookingDate: documentSnapshot['bookingDate'],
@@ -91,16 +99,12 @@ class _SubwayTicketsScreenState extends State<SubwayTicketsScreen> {
                     endPoint: documentSnapshot['endPoint'],
                     fare: documentSnapshot['fare'],
                     status: documentSnapshot['status'],
-
                   ),
                 );
               },
             );
-          } else if (streamSnapshot.hasError) {
-            // Handle errors
-            return Center(child: Text("Error: ${streamSnapshot.error}"));
           } else {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: Text("You do not have subway tickets"));
           }
         },
       ),

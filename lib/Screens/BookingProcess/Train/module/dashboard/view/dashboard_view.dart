@@ -25,6 +25,7 @@ class _DashboardViewState extends State<DashboardView> {
   String departureTime = "";
   String arrivalTime = "";
   String tripID = "";
+  int tripPrice = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -216,6 +217,7 @@ class _DashboardViewState extends State<DashboardView> {
                         onTap: () {
                           setState(() {
                             tripID = documentSnapshot['trainScheduleID'];
+                            tripPrice = documentSnapshot['price'];
                           });
                           Navigator.push(
                             context,

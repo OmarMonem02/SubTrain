@@ -8,6 +8,9 @@ class TrainTicketActive extends StatelessWidget {
   final int fare;
   final String startPoint;
   final String status;
+  final String arrivalStation;
+  final String departureStation;
+  final int seat;
   const TrainTicketActive({
     super.key,
     required this.bookingDate,
@@ -15,10 +18,19 @@ class TrainTicketActive extends StatelessWidget {
     required this.fare,
     required this.startPoint,
     required this.status,
+    required this.arrivalStation,
+    required this.departureStation,
+    required this.seat,
   });
 
   @override
   Widget build(BuildContext context) {
+    Color color = Color.fromARGB(255, 212, 212, 212);
+    if (status == "New") {
+      color = Color.fromARGB(255, 220, 220, 220);
+    } else if (status == "Checked") {
+      color = Color.fromARGB(255, 255, 100, 100);
+    }
     return Center(
       child: Padding(
         padding: EdgeInsets.only(bottom: 8, top: 8, left: 16, right: 16),
@@ -26,7 +38,7 @@ class TrainTicketActive extends StatelessWidget {
           width: double.infinity,
           height: 150,
           isCornerRounded: true,
-          color: Color.fromARGB(255, 212, 212, 212),
+          color: color,
           child: Stack(
             children: [
               Padding(
@@ -79,19 +91,41 @@ class TrainTicketActive extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          startPoint,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Column(
+                          children: [
+                            Text(
+                              startPoint,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              departureStation,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          endPoint,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Column(
+                          children: [
+                            Text(
+                              endPoint,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              arrivalStation,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -147,6 +181,11 @@ class TrainTicketActive extends StatelessWidget {
                             ),
                             Text(
                               'Status: ${status}',
+                              style: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.normal),
+                            ),
+                            Text(
+                              'Seat: ${seat}',
                               style: TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.normal),
                             ),

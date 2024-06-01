@@ -83,6 +83,7 @@ dependencies:
   flashy_tab_bar2: ^0.0.10
   google_maps_flutter: ^2.6.1
   geo_sort: ^0.1.0
+  animated_toggle_switch: ^0.8.2
 
 dev_dependencies:
   flutter_test:

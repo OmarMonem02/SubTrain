@@ -15,6 +15,24 @@ class _TrainTicketsScreenState extends State<TrainTicketsScreen> {
   String ticketID = "";
   String startPoint = "";
   String endPoint = "";
+  String bookingDate = "";
+  int seat = 0;
+  int price = 0;
+  final User? _user = FirebaseAuth.instance.currentUser;
+  late final Stream<QuerySnapshot> _ticketsStream;
+
+  @override
+  void initState() {
+    super.initState();
+    if (_user != null) {
+      _ticketsStream = FirebaseFirestore.instance
+          .collection("users")
+          .doc(_user.uid)
+          .collection("Train_tickets")
+          .snapshots();
+    }
+  }
+
   void showTicketBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -32,32 +50,17 @@ class _TrainTicketsScreenState extends State<TrainTicketsScreen> {
         builder: (context, scrollController) => SingleChildScrollView(
           controller: scrollController,
           child: TrainQrTicket(
+            userID: _user!.uid,
+            price: price,
             endPoint: endPoint,
             startPoint: startPoint,
             data: ticketID,
+            seat: seat,
+            bookingDate: bookingDate,
           ),
         ),
       ),
     );
-  }
-
-  Stream<QuerySnapshot>? _ticketsStream;
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeStream(); // Get the stream when the widget initializes
-  }
-
-  void _initializeStream() {
-    final User? _user = FirebaseAuth.instance.currentUser;
-    if (_user != null) {
-      _ticketsStream = FirebaseFirestore.instance
-          .collection("users")
-          .doc(_user.uid)
-          .collection("TrainTickets")
-          .snapshots();
-    }
   }
 
   @override
@@ -66,7 +69,12 @@ class _TrainTicketsScreenState extends State<TrainTicketsScreen> {
       body: StreamBuilder<QuerySnapshot>(
         stream: _ticketsStream,
         builder: (context, streamSnapshot) {
-          if (streamSnapshot.hasData) {
+          if (streamSnapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (streamSnapshot.hasError) {
+            return Center(child: Text("Error: ${streamSnapshot.error}"));
+          } else if (streamSnapshot.hasData &&
+              streamSnapshot.data!.docs.isNotEmpty) {
             return ListView.builder(
               itemCount: streamSnapshot.data!.docs.length,
               itemBuilder: (context, index) {
@@ -74,10 +82,15 @@ class _TrainTicketsScreenState extends State<TrainTicketsScreen> {
                     streamSnapshot.data!.docs[index];
                 return InkWell(
                   onTap: () {
+                    setState(() {
+                      ticketID = documentSnapshot['trainTicketID'];
+                      startPoint = documentSnapshot['startPoint'];
+                      endPoint = documentSnapshot['endPoint'];
+                      bookingDate = documentSnapshot['bookingDate'];
+                      seat = documentSnapshot['Seat'];
+                      price = documentSnapshot['fare'];
+                    });
                     showTicketBottomSheet(context);
-                    ticketID = documentSnapshot['subwayTicketID'];
-                    startPoint = documentSnapshot['startPoint'];
-                    endPoint = documentSnapshot['endPoint'];
                   },
                   child: TrainTicketActive(
                     bookingDate: documentSnapshot['bookingDate'],
@@ -85,15 +98,15 @@ class _TrainTicketsScreenState extends State<TrainTicketsScreen> {
                     endPoint: documentSnapshot['endPoint'],
                     fare: documentSnapshot['fare'],
                     status: documentSnapshot['status'],
+                    departureStation: documentSnapshot['departureStation'],
+                    arrivalStation: documentSnapshot['arrivalStation'],
+                    seat: documentSnapshot['Seat'],
                   ),
                 );
               },
             );
-          } else if (streamSnapshot.hasError) {
-            // Handle errors
-            return Center(child: Text("Error: ${streamSnapshot.error}"));
           } else {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: Text("You do not have train tickets"));
           }
         },
       ),

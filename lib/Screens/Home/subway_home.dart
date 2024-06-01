@@ -8,6 +8,7 @@ import 'package:subtraingrad/widgets/recent_trip_card.dart';
 class SubwayHome extends StatelessWidget {
   const SubwayHome({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     final size = AppLayout.getSize(context);

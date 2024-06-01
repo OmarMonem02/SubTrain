@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:random_string/random_string.dart';
-import 'package:subtraingrad/Admin_Pages/admin_home_screen.dart';
+import 'package:subtraingrad/Admin_Pages/ticket_validator.dart';
 import 'package:subtraingrad/Admin_Pages/seats.dart';
 import 'package:subtraingrad/Screens/BookingProcess/Train/data/train_stations.dart';
 import 'package:subtraingrad/widgets/Train_Booking_Widgets/datepicker.dart';
@@ -26,6 +26,7 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
   final TextEditingController arrivalStation = TextEditingController();
   final TextEditingController departureStation = TextEditingController();
   final TextEditingController trainID = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
   String tripDate = "";
   String _startPoint = 'Select Start Point';
   String _endPoint = 'Select End Point';
@@ -74,7 +75,8 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
       "endPoint": _endPoint,
       "arrivalTime": _arrivalTime,
       "departureTime": _departureTime,
-      "availableSeats": availableSeats
+      "availableSeats": availableSeats,
+      "price": priceController,
     };
 
     try {
@@ -90,6 +92,7 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
         arrivalStation.clear();
         departureStation.clear();
         trainID.clear();
+        priceController.clear();
         tripDate = "";
         _startPoint = 'Select Start Point';
         _endPoint = 'Select End Point';
@@ -247,16 +250,16 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
               children: [
                 Expanded(
                     child: SubTextField(
-                        controller: arrivalStation,
+                        controller: departureStation,
                         hint: "Misr",
-                        textLabel: "Arrival Station",
+                        textLabel: "Departure Station",
                         textInputType: TextInputType.text,
                         enable: true)),
                 Expanded(
                     child: SubTextField(
-                        controller: departureStation,
+                        controller: arrivalStation,
                         hint: "Luxor",
-                        textLabel: "Departure Station",
+                        textLabel: "Arrival Station",
                         textInputType: TextInputType.text,
                         enable: true)),
               ],
@@ -264,6 +267,53 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
             Gap(16),
             Row(
               children: [
+                Expanded(
+                    child: SubTextField(
+                        controller: priceController,
+                        hint: "Trip Price",
+                        textLabel: "Trip Price",
+                        textInputType: TextInputType.number,
+                        enable: true)),
+                Expanded(
+                    child: SubTextField(
+                        controller: trainID,
+                        hint: "6",
+                        textLabel: "Train ID",
+                        textInputType: TextInputType.text,
+                        enable: true)),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    child: QDropdownField(
+                      label: "Train Classes",
+                      value: "",
+                      // validator: Validator.required,
+                      items: const [
+                        {
+                          "label": "PLD Special",
+                          "value": "PLD Special",
+                        },
+                        {
+                          "label": "PLD Speed",
+                          "value": "PLD Speed",
+                        },
+                        {
+                          "label": "PLD TALGO",
+                          "value": "PLD TALGO",
+                        },
+                      ],
+                      onChanged: (value, label) {
+                        setState(() {
+                          trainClass = value;
+                        });
+                      },
+                    ),
+                  ),
+                ),
                 Expanded(
                   child: Container(
                     padding: EdgeInsets.only(left: 16),
@@ -278,41 +328,7 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
                     ),
                   ),
                 ),
-                Expanded(
-                    child: SubTextField(
-                        controller: trainID,
-                        hint: "6",
-                        textLabel: "Train ID",
-                        textInputType: TextInputType.text,
-                        enable: true)),
               ],
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 16),
-              child: QDropdownField(
-                label: "Train Classes",
-                value: "",
-                // validator: Validator.required,
-                items: const [
-                  {
-                    "label": "PLD Special",
-                    "value": "PLD Special",
-                  },
-                  {
-                    "label": "PLD Speed",
-                    "value": "PLD Speed",
-                  },
-                  {
-                    "label": "PLD TALGO",
-                    "value": "PLD TALGO",
-                  },
-                ],
-                onChanged: (value, label) {
-                  setState(() {
-                    trainClass = value;
-                  });
-                },
-              ),
             ),
             Container(
               padding: EdgeInsets.all(8),

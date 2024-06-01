@@ -38,8 +38,6 @@ class _BookingDetailViewState extends State<BookingDetailView> {
   String trainClass = "";
   String trainNum = "";
   String tripDate = "";
-  List<String> words = [];
-  List<String> words2 = [];
   int price = 0;
   final User? _user = FirebaseAuth.instance.currentUser;
 
@@ -71,8 +69,6 @@ class _BookingDetailViewState extends State<BookingDetailView> {
           trainNum = tripData['trainID'];
           tripDate = tripData['tripDate'];
           price = tripData['price'];
-          words = departureTime.split(' ');
-          words2 = arrivalTime.split(' ');
         });
       } else {
         _showError('Failed to fetch trip data');
@@ -99,10 +95,11 @@ class _BookingDetailViewState extends State<BookingDetailView> {
     }
   }
 
-  Future<void> addTicket(String userId) async {
+  Future<void> addTicket(String userId, int seatNumber) async {
     final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
     final String date = dateFormat.format(DateTime.now());
     String ticketId = randomAlphaNumeric(20);
+
     Map<String, dynamic> ticketInfoMap = {
       'trainTicketID': ticketId,
       'userId': userId,
@@ -117,6 +114,7 @@ class _BookingDetailViewState extends State<BookingDetailView> {
       "tripDate": tripDate,
       "trainID": trainNum,
       "trainClass": trainClass,
+      "Seat": seatNumber,
       "status": "New",
     };
 
@@ -143,18 +141,18 @@ class _BookingDetailViewState extends State<BookingDetailView> {
       );
 
       if (paymentResult != null && paymentResult) {
-        for (int i = 0; i < widget.seatCount; i++) {
-          addTicket(_user!.uid);
+        for (int seat in widget.selectedSeats) {
+          await addTicket(_user!.uid, seat);
         }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Payment Successful.'),
             backgroundColor: Colors.green,
           ),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Payment failed! Please try again.'),
             backgroundColor: Colors.red,
           ),
@@ -229,16 +227,16 @@ class _BookingDetailViewState extends State<BookingDetailView> {
           const SizedBox(height: 20.0),
           _TicketDetailSection(
             label1: "From",
-            value1: arrivalStation,
+            value1: departureStation,
             label2: "To",
-            value2: departureStation,
+            value2: arrivalStation,
           ),
           const SizedBox(height: 20.0),
           _TicketDetailSection(
-            label1: "Depature",
-            value1: words.join('\n'),
+            label1: "Departure",
+            value1: departureTime,
             label2: "Arrival",
-            value2: words2.join('\n'),
+            value2: arrivalTime,
           ),
           const SizedBox(height: 20.0),
           _TicketDetailSection(
@@ -250,7 +248,7 @@ class _BookingDetailViewState extends State<BookingDetailView> {
           const SizedBox(height: 20.0),
           _TicketDetailSection(
             label1: "Price Per seat",
-            value1: "${price} LE",
+            value1: "$price LE",
             label2: "Selected Seats",
             value2: widget.selectedSeats.join(', '),
           ),
@@ -300,8 +298,8 @@ class _BookingDetailViewState extends State<BookingDetailView> {
         onPressed: () async {
           if (_selectedPaymentMethod == 0) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Pleas Select Payment Method'),
+              const SnackBar(
+                content: Text('Please Select Payment Method'),
                 backgroundColor: Colors.red,
               ),
             );
@@ -323,8 +321,8 @@ class _BookingDetailViewState extends State<BookingDetailView> {
                 onCancelBtnTap: () => Navigator.pop(context),
                 onConfirmBtnTap: () async {
                   Navigator.pop(context);
-                  for (int i = 0; i < widget.seatCount; i++) {
-                    await addTicket(_user!.uid);
+                  for (int seat in widget.selectedSeats) {
+                    await addTicket(_user!.uid, seat);
                   }
                   await _updateData();
                   QuickAlert.show(
@@ -383,9 +381,7 @@ class _BookingDetailViewState extends State<BookingDetailView> {
         centerTitle: true,
       ),
       body: loading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+          ? const Center(child: CircularProgressIndicator())
           : Container(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -412,10 +408,10 @@ class _TicketInfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: const [
         Text(
           "Confirm Your Ticket",
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.bold,
             color: Color(0xff393e48),
@@ -478,6 +474,7 @@ class _TicketDetailSection extends StatelessWidget {
               ),
               Text(
                 value2,
+                textAlign: TextAlign.end,
                 style: const TextStyle(
                   fontSize: 16.0,
                   color: Color(0xff393e48),
