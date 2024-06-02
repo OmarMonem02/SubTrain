@@ -53,9 +53,9 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
   List<String> suggestions = SubwayData.suggestions;
   Map<String, Map<String, int>> graph = SubwayData.graph;
   TextEditingController startSearchController = TextEditingController();
-  final focus = FocusNode();
+  final startFocus = FocusNode();
   final TextEditingController endSearchController = TextEditingController();
-  final focus2 = FocusNode();
+  final endFocus = FocusNode();
 
   showPathFinder(context) {
     showModalBottomSheet(
@@ -130,9 +130,9 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
   @override
   void dispose() {
     startSearchController.dispose();
-    focus.dispose();
+    startFocus.dispose();
     endSearchController.dispose();
-    focus2.dispose();
+    endFocus.dispose();
 
     super.dispose();
   }
@@ -168,6 +168,7 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
               Column(
                 children: [
                   CustomSearchField(
+                    focusNode: startFocus,
                     hint: 'Start Station',
                     suggestions: suggestions,
                     controller: startSearchController,
@@ -186,6 +187,7 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                   ),
                   const SizedBox(height: 16),
                   CustomSearchField(
+                    focusNode: endFocus,
                     hint: 'End Station',
                     suggestions: suggestions,
                     controller: endSearchController,

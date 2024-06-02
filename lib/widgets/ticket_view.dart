@@ -42,7 +42,7 @@ class TicketView extends StatelessWidget {
             // Top Part Of The Card
             Container(
               decoration: BoxDecoration(
-                  color: Styles.mainColor,
+                  color: Styles.primaryColor,
                   borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(21),
                       topLeft: Radius.circular(21))),
@@ -139,8 +139,8 @@ class TicketView extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Styles.mainColor,
-                    Styles.secColor,
+                    Styles.primaryColor,
+                    Styles.secondaryColor,
                   ],
                 ),
               ),
@@ -203,7 +203,7 @@ class TicketView extends StatelessWidget {
             // Bottom Part Of The Card
             Container(
               decoration: BoxDecoration(
-                color: Styles.secColor,
+                color: Styles.secondaryColor,
                 borderRadius: const BorderRadius.only(
                   bottomRight: Radius.circular(21),
                   bottomLeft: Radius.circular(21),

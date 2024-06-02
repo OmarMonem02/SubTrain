@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:searchfield/searchfield.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 
 class CustomSearchField extends StatelessWidget {
   final List<String> suggestions;
   final TextEditingController controller;
   final Function(String) onSearchTextChanged;
+  final FocusNode focusNode;
   final Function(SearchFieldListItem<String>) onSuggestionTap;
   final String hint;
 
@@ -14,6 +16,7 @@ class CustomSearchField extends StatelessWidget {
     required this.onSearchTextChanged,
     required this.onSuggestionTap,
     required this.hint,
+    required this.focusNode,
   });
 
   @override
@@ -30,15 +33,16 @@ class CustomSearchField extends StatelessWidget {
       },
       hint: hint,
       itemHeight: 50,
+      focusNode: focusNode,
       suggestionStyle: const TextStyle(fontSize: 18, color: Colors.black),
       searchStyle: const TextStyle(fontSize: 18, color: Colors.black),
       searchInputDecoration: InputDecoration(
         hintStyle: const TextStyle(fontSize: 18, color: Colors.grey),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
+          borderSide: BorderSide(
             width: 1,
-            color: Color.fromARGB(255, 56, 88, 103),
+            color: Styles.primaryColor,
           ),
         ),
         border: OutlineInputBorder(

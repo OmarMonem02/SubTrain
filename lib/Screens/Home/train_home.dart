@@ -25,7 +25,11 @@ class TrainHome extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Navigator.push(context,MaterialPageRoute(builder: (context) => const DashboardView(),));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const DashboardView(),
+                  ));
             },
             child: Ink(
               decoration: BoxDecoration(
@@ -34,8 +38,8 @@ class TrainHome extends StatelessWidget {
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
                   colors: [
-                    Styles.mainColor,
-                    Styles.main2Color,
+                    Styles.primaryColor,
+                    Styles.primary2Color,
                   ],
                 ),
               ),
@@ -67,7 +71,7 @@ class TrainHome extends StatelessWidget {
                 onTap: () {},
                 child: Text(
                   "View all",
-                  style: Styles.textStyle.copyWith(color: Styles.mainColor),
+                  style: Styles.textStyle.copyWith(color: Styles.primaryColor),
                 ),
               ),
             ],
@@ -103,7 +107,7 @@ class TrainHome extends StatelessWidget {
                 onTap: () {},
                 child: Text(
                   "View all",
-                  style: Styles.textStyle.copyWith(color: Styles.mainColor),
+                  style: Styles.textStyle.copyWith(color: Styles.primaryColor),
                 ),
               ),
             ],

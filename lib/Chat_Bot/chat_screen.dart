@@ -14,9 +14,10 @@ class _ChatScreenState extends State<ChatScreen> {
   final _userInput = TextEditingController();
 
   static const apiKey =
-      "AIzaSyAyrjJ9c_qJSoT0GLctgJottUVNz7_rcSk"; // Replace with your actual API key
+      "AIzaSyDlNlFivhlOAWywp_ci4wldzghh4RrEQhM"; // Replace with your actual API key
 
-  final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
+  final model =
+      GenerativeModel(model: 'gemini-1.5-flash-latest', apiKey: apiKey);
 
   final List<Message> _messages = [];
 
@@ -72,15 +73,15 @@ class _ChatScreenState extends State<ChatScreen> {
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF1a5f7a),
+                        borderSide: BorderSide(
+                          color: Styles.primaryColor,
                           width: 2,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
-                        borderSide: const BorderSide(
-                          color: Color(0xFFECBA00),
+                        borderSide: BorderSide(
+                          color: Styles.secondaryColor,
                           width: 2,
                         ),
                       ),
@@ -93,9 +94,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   padding: const EdgeInsets.all(12),
                   iconSize: 30,
                   style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Styles.mainColor),
-                    foregroundColor: MaterialStateProperty.all(Colors.white),
+                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                    foregroundColor:
+                        MaterialStateProperty.all(Styles.primaryColor),
                     shape: MaterialStateProperty.all(const CircleBorder()),
                   ),
                   onPressed: sendMessage,
@@ -140,7 +141,7 @@ class Messages extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 15)
           .copyWith(left: isUser ? 100 : 10, right: isUser ? 10 : 100),
       decoration: BoxDecoration(
-          color: isUser ? Color(0xFF1a5f7a) : Color(0xFFECBA00),
+          color: isUser ? Styles.primaryColor : Styles.secondaryColor,
           borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(10),
               bottomLeft: isUser ? const Radius.circular(10) : Radius.zero,

@@ -98,8 +98,8 @@ class AddMoneyState extends State<AddMoney> {
                         onPressed: isTextFieldEmpty || isLoading ? null : _pay,
                         child: isLoading
                             ? CircularProgressIndicator(
-                                color: Styles.mainColor,
-                                backgroundColor: Styles.secColor,
+                                color: Styles.primaryColor,
+                                backgroundColor: Styles.secondaryColor,
                               )
                             : const Text(
                                 'Add Money',

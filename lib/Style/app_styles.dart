@@ -1,35 +1,12 @@
 import 'package:flutter/material.dart';
-
-Color primary = const Color(0xFFEEEdf2);
-
-class DarkStyle {
-  static Color primaryColor = primary;
-  static Color textColor = const Color(0xFF3B3B3B);
-  static Color bdColor = const Color.fromARGB(255, 249, 249, 249);
-  static Color mainColor = const Color(0xFF1a5f7a);
-  static Color main2Color = const Color(0xff1e8bb4);
-  static Color secColor = const Color(0xFFECBA00);
-  static Color sec2Color = const Color(0xFFECBA55);
-  static TextStyle textStyle =
-      TextStyle(fontSize: 16, color: textColor, fontWeight: FontWeight.w500);
-  static TextStyle headLineStyle1 =
-      TextStyle(fontSize: 26, color: textColor, fontWeight: FontWeight.bold);
-  static TextStyle headLineStyle2 =
-      TextStyle(fontSize: 21, color: textColor, fontWeight: FontWeight.bold);
-  static TextStyle headLineStyle3 = TextStyle(
-      fontSize: 17, color: Colors.grey.shade500, fontWeight: FontWeight.w500);
-  static TextStyle headLineStyle4 = TextStyle(
-      fontSize: 14, color: Colors.grey.shade500, fontWeight: FontWeight.w500);
-}
-
 class Styles {
-  static Color primaryColor = primary;
+  static Color backGroundColor = const Color(0xFFF6F6F6);
+  static Color primaryColor = const Color(0xFF287094);
+  static Color secondaryColor = const Color(0xFFD4D4CE);
+  static Color primary2Color = const Color(0xFF287094);
+  static Color secondary2Color = const Color(0xFFD4D4CE);
+  static Color thirdColor = const Color(0xFF023246);
   static Color textColor = const Color(0xFF3B3B3B);
-  static Color bdColor = const Color.fromARGB(255, 249, 249, 249);
-  static Color mainColor = const Color(0xFF1a5f7a);
-  static Color main2Color = const Color(0xff1e8bb4);
-  static Color secColor = const Color(0xFFECBA00);
-  static Color sec2Color = const Color(0xFFECBA55);
 
   static TextStyle textStyle =
       TextStyle(fontSize: 16, color: textColor, fontWeight: FontWeight.w500);
@@ -45,7 +22,7 @@ class Styles {
 
 final ButtonStyle buttonPrimary = ElevatedButton.styleFrom(
   minimumSize: const Size(230, 55),
-  backgroundColor: Styles.mainColor,
+  backgroundColor: Styles.primaryColor,
   elevation: 0,
   shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(
@@ -54,16 +31,6 @@ final ButtonStyle buttonPrimary = ElevatedButton.styleFrom(
   ),
 );
 
-final ButtonStyle buttonSecondary = ElevatedButton.styleFrom(
-  minimumSize: const Size(230, 55),
-  backgroundColor: const Color.fromRGBO(71, 126, 148, 1.0),
-  elevation: 0,
-  shape: const RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(
-      Radius.circular(50),
-    ),
-  ),
-);
 
 final ButtonStyle buttonRed = ElevatedButton.styleFrom(
   minimumSize: const Size(230, 55),
@@ -117,7 +84,7 @@ class SubTextField extends StatelessWidget {
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
-                  color: Styles.mainColor,
+                  color: Styles.primaryColor,
                   width: 2,
                 ),
               ),
@@ -125,7 +92,7 @@ class SubTextField extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
                   width: 2,
-                  color: Styles.secColor,
+                  color: Styles.secondaryColor,
                 ),
               ),
               disabledBorder: OutlineInputBorder(

@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         nextScreen: MainPage(),
         splashTransition: SplashTransition.fadeTransition,
         pageTransitionType: PageTransitionType.fade,
+        
       ),
     );
   }

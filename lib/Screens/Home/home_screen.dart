@@ -11,7 +11,6 @@ import 'package:subtraingrad/Chat_Bot/chat_screen.dart';
 import 'package:subtraingrad/Screens/Home/subway_home.dart';
 import 'package:subtraingrad/Screens/Home/train_home.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
-import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,7 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final User? _user = FirebaseAuth.instance.currentUser;
   bool scanning = true;
   String? address, coordinates;
-
   // Fetch data on initialization
   @override
   void initState() {
@@ -52,11 +50,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  bool _isTypeSelected = false;
+  bool _isTypeSelected = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Styles.backGroundColor,
       body: ListView(
         children: [
           Padding(
@@ -65,54 +64,135 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 const Gap(20),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Hello $username,',
-                          style: Styles.headLineStyle3,
-                        ),
-                        Text(
-                          'Switch To Select Mode',
-                          style: Styles.headLineStyle2,
-                        ),
+                        Center(
+                            child: Text('Hello $username',
+                                style: Styles.headLineStyle2)),
                       ],
                     ),
-                    LiteRollingSwitch(
-                      onSwipe: () {},
-                      onDoubleTap: () {},
-                      onTap: () {},
-                      width: 120,
-                      textSize: 16,
-                      value: _isTypeSelected,
-                      textOn: 'Train',
-                      textOnColor: Colors.white,
-                      iconOn: Icons.train_outlined,
-                      colorOn: Styles.mainColor,
-                      textOff: 'Subway',
-                      textOffColor: Colors.black,
-                      colorOff: Styles.secColor,
-                      animationDuration: const Duration(milliseconds: 400),
-                      iconOff: Icons.subway_outlined,
-                      onChanged: (isSelected) {
-                        setState(() {
-                          _isTypeSelected = isSelected;
-                        });
-                      },
-                    ),
+                    // LiteRollingSwitch(
+                    //   onSwipe: () {},
+                    //   onDoubleTap: () {},
+                    //   onTap: () {},
+                    //   width: 120,
+                    //   textSize: 16,
+                    //   value: _isTypeSelected,
+                    //   textOn: 'Train',
+                    //   textOnColor: Colors.white,
+                    //   iconOn: Icons.train_outlined,
+                    //   colorOn: Styles.primaryColor,
+                    //   textOff: 'Subway',
+                    //   textOffColor: Colors.black,
+                    //   colorOff: Styles.secondaryColor,
+                    //   animationDuration: const Duration(milliseconds: 400),
+                    //   iconOff: Icons.subway_outlined,
+                    //   onChanged: (isSelected) {
+                    //     setState(() {
+                    //       _isTypeSelected = isSelected;
+                    //     });
+                    //   },
+                    // ),
                   ],
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isTypeSelected = true;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: _isTypeSelected
+                                    ? Styles.primaryColor
+                                    : Colors.white,
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(16),
+                                    topLeft: Radius.circular(16))),
+                            padding: EdgeInsets.all(12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.train,
+                                  color: _isTypeSelected
+                                      ? Colors.white
+                                      : Colors.grey,
+                                ),
+                                SizedBox(
+                                  width: 8.0,
+                                ),
+                                Text(
+                                  'Subway',
+                                  style: TextStyle(
+                                      color: _isTypeSelected
+                                          ? Colors.white
+                                          : Colors.grey,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                          child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isTypeSelected = false;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: !_isTypeSelected
+                                  ? Styles.primaryColor
+                                  : Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(10),
+                                  topRight: Radius.circular(10))),
+                          padding: EdgeInsets.all(12.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.subway,
+                                color: !_isTypeSelected
+                                    ? Colors.white
+                                    : Colors.grey,
+                              ),
+                              SizedBox(width: 8.0),
+                              Text(
+                                'Train',
+                                style: TextStyle(
+                                    color: !_isTypeSelected
+                                        ? Colors.white
+                                        : Colors.grey,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ),
+                      ))
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
           const Gap(15),
-          _isTypeSelected ? const TrainHome() : const SubwayHome(),
+          _isTypeSelected ? const SubwayHome() : const TrainHome(),
         ],
       ),
       appBar: AppBar(
-        toolbarHeight: 60,
+        backgroundColor: Styles.backGroundColor,
         automaticallyImplyLeading: false,
         elevation: 0,
         title: Row(
@@ -121,20 +201,12 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Text(
               'SubTrain',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(26, 96, 122, 1),
+                color: Styles.primaryColor,
               ),
             ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.notifications,
-                color: Styles.secColor,
-                size: 35,
-              ),
-            )
           ],
         ),
       ),
@@ -146,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           elevation: 10,
           backgroundColor: Colors.white,
-          tooltip: "Chat with Broxi",
+          tooltip: "Chat with SubBot",
           child: Image.asset(
             "assets/logo3.png",
             height: double.infinity,

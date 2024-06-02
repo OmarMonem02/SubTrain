@@ -83,8 +83,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         animSpeedFactor: 10,
         showChildOpacityTransition: false,
         height: 90,
-        backgroundColor: Styles.mainColor,
-        color: Styles.secColor,
+        backgroundColor: Styles.primaryColor,
+        color: Styles.secondaryColor,
         child: ListView(scrollDirection: Axis.vertical, children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,8 +107,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             begin: Alignment.bottomLeft,
                             end: Alignment.topRight,
                             colors: [
-                              Styles.secColor,
-                              Styles.sec2Color,
+                              Styles.secondaryColor,
+                              Styles.secondary2Color,
                             ],
                           ),
                           borderRadius: BorderRadius.circular(20),

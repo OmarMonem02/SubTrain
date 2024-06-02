@@ -18,7 +18,7 @@ class SubwayBooking extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Styles.bdColor,
+      backgroundColor: Styles.backGroundColor,
       body: SafeArea(
           child: ListView(
         children: const [

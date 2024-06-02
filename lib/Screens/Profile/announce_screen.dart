@@ -26,8 +26,8 @@ class _AnnouncementsState extends State<Announcements> {
         animSpeedFactor: 10,
         showChildOpacityTransition: false,
         height: 90,
-        backgroundColor: Styles.mainColor,
-        color: Styles.secColor,
+        backgroundColor: Styles.primaryColor,
+        color: Styles.secondaryColor,
         child: StreamBuilder(
             stream: fetchData.snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {

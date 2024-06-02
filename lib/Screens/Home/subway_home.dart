@@ -38,8 +38,8 @@ class SubwayHome extends StatelessWidget {
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
                   colors: [
-                    Styles.sec2Color,
-                    Styles.secColor,
+                    Styles.secondary2Color,
+                    Styles.secondaryColor,
                   ],
                 ),
               ),
@@ -71,7 +71,7 @@ class SubwayHome extends StatelessWidget {
                 onTap: () {},
                 child: Text(
                   "View all",
-                  style: Styles.textStyle.copyWith(color: Styles.mainColor),
+                  style: Styles.textStyle.copyWith(color: Styles.primaryColor),
                 ),
               ),
             ],

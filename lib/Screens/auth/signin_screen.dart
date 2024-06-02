@@ -126,7 +126,7 @@ class _SignInState extends State<SignIn> {
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Styles.mainColor,
+                        color: Styles.primaryColor,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Center(
@@ -158,7 +158,7 @@ class _SignInState extends State<SignIn> {
                           child: Text(
                             "Sign Up",
                             style: Styles.textStyle.copyWith(
-                              color: Styles.secColor,
+                              color: Styles.secondaryColor,
                             ),
                           ),
                         ),
