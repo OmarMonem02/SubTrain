@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 class Styles {
   static Color backGroundColor = const Color(0xFFF6F6F6);
   static Color primaryColor = const Color(0xFF287094);
@@ -6,7 +8,7 @@ class Styles {
   static Color primary2Color = const Color(0xFF287094);
   static Color secondary2Color = const Color(0xFFD4D4CE);
   static Color thirdColor = const Color(0xFF023246);
-  static Color textColor = const Color(0xFF3B3B3B);
+  static Color textColor = const Color(0xFF2B2B2B);
 
   static TextStyle textStyle =
       TextStyle(fontSize: 16, color: textColor, fontWeight: FontWeight.w500);
@@ -20,6 +22,21 @@ class Styles {
       const TextStyle(fontSize: 14, fontWeight: FontWeight.w500);
 }
 
+class MyFonts {
+  static TextStyle get font22White =>
+      GoogleFonts.fredoka(color: Colors.white, fontSize: 22);
+  static TextStyle get font22Black =>
+      GoogleFonts.fredoka(color: Color(0xFF2B2B2B), fontSize: 22);
+  static TextStyle get font18White =>
+      GoogleFonts.fredoka(color: Colors.white, fontSize: 18);
+  static TextStyle get font18Black =>
+      GoogleFonts.fredoka(color: Color(0xFF2B2B2B), fontSize: 18);
+  static TextStyle get font16WhiteFaded =>
+      GoogleFonts.fredoka(color: Colors.white, fontSize: 16);
+  static TextStyle get font22GrayFaded =>
+      GoogleFonts.fredoka(color: Colors.grey.withOpacity(0.6), fontSize: 16);
+}
+
 final ButtonStyle buttonPrimary = ElevatedButton.styleFrom(
   minimumSize: const Size(230, 55),
   backgroundColor: Styles.primaryColor,
@@ -30,7 +47,6 @@ final ButtonStyle buttonPrimary = ElevatedButton.styleFrom(
     ),
   ),
 );
-
 
 final ButtonStyle buttonRed = ElevatedButton.styleFrom(
   minimumSize: const Size(230, 55),

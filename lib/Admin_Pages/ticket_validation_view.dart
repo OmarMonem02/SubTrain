@@ -99,7 +99,8 @@ class _TicketValidationViewState extends State<TicketValidationView> {
       "fare": fare,
       "status": status,
     };
-    await DatabaseMethod().addPrivouseTrip(previousTripInfoMap, ticketId, userID);
+    await DatabaseMethod()
+        .addPrivouseTrip(previousTripInfoMap, ticketId, userID);
   }
 
   @override
@@ -129,22 +130,26 @@ class _TicketValidationViewState extends State<TicketValidationView> {
                   children: [
                     Text(
                       "Start Point: $startPoint",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),
                     Text(
                       "End Point: $endPoint",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),
                     Text(
                       "Price: $fare",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),
                     Text(
                       "Status: $status",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -159,6 +164,9 @@ class _TicketValidationViewState extends State<TicketValidationView> {
                   });
                   await _updateData();
                 } else if (status == "Checked") {
+                  setState(() {
+                    status == "Expired";
+                  });
                   await addTicketPreviousTrip(widget.userID);
                   await FirebaseFirestore.instance
                       .collection("users")

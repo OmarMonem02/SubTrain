@@ -55,8 +55,8 @@ class _QDatePickerState extends State<QDatePicker> {
         DateTime? pickedDate = await showDatePicker(
           context: context,
           initialDate: DateTime.now(),
-          firstDate: DateTime(2024),
-          lastDate: DateTime(2030),
+          firstDate: DateTime.now(),
+          lastDate: DateTime.now().add(const Duration(days: 365)),
         );
         selectedValue = pickedDate;
         controller.text = getFormattedValue();

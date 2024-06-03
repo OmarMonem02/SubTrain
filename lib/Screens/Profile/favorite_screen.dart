@@ -1,180 +1,109 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
-import 'package:subtraingrad/widgets/thick_container.dart';
-import 'package:ticket_widget/ticket_widget.dart';
+import 'package:subtraingrad/widgets/favorite_trips_ticket.dart';
 
-class Favorite extends StatelessWidget {
+class Favorite extends StatefulWidget {
   const Favorite({super.key});
+
+  @override
+  State<Favorite> createState() => _FavoriteState();
+}
+
+class _FavoriteState extends State<Favorite> {
+  final User? _user = FirebaseAuth.instance.currentUser;
+  Stream<QuerySnapshot>? _ticketsStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeStream();
+  }
+
+  void _initializeStream() {
+    if (_user != null) {
+      setState(() {
+        _ticketsStream = FirebaseFirestore.instance
+            .collection("users")
+            .doc(_user.uid)
+            .collection("Favorite_Trips")
+            .snapshots();
+      });
+    }
+  }
+
+  Future<void> _handleFavoriteChange(
+      bool isFavorite, DocumentSnapshot documentSnapshot) async {
+    if (isFavorite) {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(_user!.uid)
+          .collection("Favorite_Trips")
+          .doc(documentSnapshot.id)
+          .delete();
+    } else {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(_user!.uid)
+          .collection("Favorite_Trips")
+          .doc(documentSnapshot.id)
+          .set(documentSnapshot.data() as Map<String, dynamic>);
+    }
+  }
+
+  bool _isFavorite(
+      DocumentSnapshot documentSnapshot, List<DocumentSnapshot> favoriteTrips) {
+    return favoriteTrips
+        .any((favoriteTrip) => favoriteTrip.id == documentSnapshot.id);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Styles.backGroundColor,
       appBar: AppBar(
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Fevorites",
-              style: Styles.headLineStyle2.copyWith(color: Colors.black),
-            ),
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.favorite_border_rounded))
-          ],
+        backgroundColor: Styles.backGroundColor,
+        title: Text(
+          "Previous Trips",
+          style: MyFonts.font22White.copyWith(color: Colors.black),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(14),
-              child: TicketWidget(
-                width: double.infinity,
-                height: 180,
-                isCornerRounded: true,
-                color: Color.fromARGB(255, 56, 88, 103).withOpacity(0.5),
-                child: Stack(
-                  children: [
-                    Column(
-                      children: [
-                        Expanded(
-                            child:
-                                Container()), // Add expanded container to push the heart icon to the bottom
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.refresh),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                              ),
-                              onPressed: () {},
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(28.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'EGP',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Expanded(child: Container()),
-                              ThickContainer(color: Colors.black),
-                              Expanded(
-                                child: Stack(children: [
-                                  SizedBox(
-                                    height: 24,
-                                    child: LayoutBuilder(
-                                      builder: (BuildContext context,
-                                          BoxConstraints constraints) {
-                                        return Flex(
-                                          direction: Axis.horizontal,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: List.generate(
-                                              (constraints.constrainWidth() /
-                                                      6) // Adjusts the dots acording to the phone
-                                                  .floor(),
-                                              (index) => SizedBox(
-                                                    width: 3,
-                                                    height: 1,
-                                                    child: DecoratedBox(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                color: Colors
-                                                                    .black)),
-                                                  )),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  Center(
-                                    child: Icon(
-                                      Icons.train,
-                                      color: Colors.black,
-                                    ),
-                                  )
-                                ]),
-                              ),
-                              ThickContainer(color: Colors.black),
-                              Expanded(child: Container()),
-                              Text(
-                                'NYC',
-                                style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                              )
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 40,
-                              ),
-                              Text(
-                                  '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -')
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                height: 8,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Date: 7/9/24',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    'Price: 20.0LE ',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    'Tickets: 1',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _ticketsStream,
+        builder: (context, streamSnapshot) {
+          if (streamSnapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (streamSnapshot.hasError) {
+            return Center(child: Text("Error: ${streamSnapshot.error}"));
+          } else if (streamSnapshot.hasData &&
+              streamSnapshot.data!.docs.isNotEmpty) {
+            final favoriteTrips = streamSnapshot.data!.docs;
+
+            return ListView.builder(
+              itemCount: favoriteTrips.length,
+              itemBuilder: (context, index) {
+                final DocumentSnapshot documentSnapshot = favoriteTrips[index];
+                bool isFavorite = _isFavorite(documentSnapshot, favoriteTrips);
+
+                return FavoriteTripsTicket(
+                  bookingDate: documentSnapshot['bookingDate'],
+                  startPoint: documentSnapshot['startPoint'],
+                  endPoint: documentSnapshot['endPoint'],
+                  fare: documentSnapshot['fare'],
+                  status: documentSnapshot['status'],
+                  favBtn: isFavorite,
+                  onFavChanged: (isFavorite) {
+                    // This is where we handle the favorite change
+                    _handleFavoriteChange(!isFavorite, documentSnapshot);
+                  },
+                );
+              },
+            );
+          } else {
+            return const Center(child: Text("You do not have Favorites"));
+          }
+        },
       ),
     );
   }

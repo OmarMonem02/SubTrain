@@ -51,7 +51,8 @@ class SettingButton extends StatelessWidget {
                 children: [
                   Text(
                     text,
-                    style: Styles.headLineStyle2,
+                    style: MyFonts.font18Black
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

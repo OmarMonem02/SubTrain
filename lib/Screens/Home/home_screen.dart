@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:subtraingrad/Chat_Bot/chat_screen.dart';
 import 'package:subtraingrad/Screens/Home/subway_home.dart';
 import 'package:subtraingrad/Screens/Home/train_home.dart';
@@ -20,9 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Print the nearest station
-  // print('Nearest station: ${nearestStation.city}');
-  String username = ""; // Initialize an empty username
+  String username = "";
   final User? _user = FirebaseAuth.instance.currentUser;
   bool scanning = true;
   String? address, coordinates;
@@ -126,9 +123,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: _isTypeSelected
                                       ? Colors.white
                                       : Colors.grey,
-                                ),
-                                SizedBox(
-                                  width: 8.0,
                                 ),
                                 Text(
                                   'Subway',

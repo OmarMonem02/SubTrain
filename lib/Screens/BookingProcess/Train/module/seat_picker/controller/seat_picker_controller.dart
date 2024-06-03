@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:quickalert/quickalert.dart';
 import '../../../state_util.dart';
 import '../view/seat_picker_view.dart';
 
@@ -16,7 +18,7 @@ class SeatPickerController extends State<SeatPickerView>
   List<int> unclickableSeats = [];
   static const int maxSeats = 4;
 
-  String selectedRow = "";
+  String selectedRow = "A"; // Default row
 
   @override
   void initState() {
@@ -65,6 +67,7 @@ class SeatPickerController extends State<SeatPickerView>
       }
     });
   }
+
 
   void selectRow(String row) {
     setState(() {

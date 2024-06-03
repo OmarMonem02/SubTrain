@@ -120,8 +120,23 @@ class _BookingDetailViewState extends State<BookingDetailView> {
 
     try {
       await DatabaseMethod().addTrainTicket(ticketInfoMap, ticketId, userId);
+      await _updateSeatStatus(seatNumber, false); // Update seat status
     } catch (e) {
       _showError('An error occurred while adding the ticket');
+    }
+  }
+
+  Future<void> _updateSeatStatus(int seatNumber, bool isAvailable) async {
+    try {
+      String seatKey = (seatNumber + 1).toString();
+      await FirebaseFirestore.instance
+          .collection('Train_Schedule')
+          .doc(widget.tripID)
+          .update({
+        'availableSeats.A.$seatKey': isAvailable,
+      });
+    } catch (e) {
+      _showError('An error occurred while updating seat status');
     }
   }
 
@@ -144,6 +159,8 @@ class _BookingDetailViewState extends State<BookingDetailView> {
         for (int seat in widget.selectedSeats) {
           await addTicket(_user!.uid, seat);
         }
+        await _updateData(); // Update the user's balance here
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Payment Successful.'),
@@ -321,10 +338,11 @@ class _BookingDetailViewState extends State<BookingDetailView> {
                 onCancelBtnTap: () => Navigator.pop(context),
                 onConfirmBtnTap: () async {
                   Navigator.pop(context);
+                  _updateSeatStatus;
                   for (int seat in widget.selectedSeats) {
                     await addTicket(_user!.uid, seat);
                   }
-                  await _updateData();
+                  await _updateData(); // Update the user's balance here
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.success,
