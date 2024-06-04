@@ -139,7 +139,7 @@ class _AddMoneyState extends State<AddMoney> {
             const Gap(25),
             Text(
               "Add Money To Your Balance",
-              style: Styles.headLineStyle1.copyWith(),
+              style: MyFonts.font22Black,
             ),
             const Gap(25),
             SubTextField(
@@ -166,11 +166,11 @@ class _AddMoneyState extends State<AddMoney> {
             const Gap(90),
             Text(
               "Powered by",
-              style: Styles.headLineStyle4,
+              style: MyFonts.font16GrayFaded,
             ),
             const Gap(10),
             const Image(
-              image: AssetImage("assets/logoC.png"),
+              image: AssetImage("assets/paymob.png"),
               width: 180,
             ),
           ],

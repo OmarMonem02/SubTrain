@@ -8,7 +8,6 @@ import 'package:subtraingrad/widgets/recent_trip_card.dart';
 class SubwayHome extends StatelessWidget {
   const SubwayHome({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     final size = AppLayout.getSize(context);
@@ -47,14 +46,10 @@ class SubwayHome extends StatelessWidget {
                 width: size.width * 0.80,
                 height: 110,
                 alignment: Alignment.center,
-                child: const Text(
+                child: Text(
                   'Book Subway Ticket',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: MyFonts.font24Black,
                 ),
               ),
             ),
@@ -66,12 +61,12 @@ class SubwayHome extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Recent Trips", style: Styles.headLineStyle2),
+              Text("Recent Trips", style: MyFonts.font18Black),
               InkWell(
                 onTap: () {},
                 child: Text(
                   "View all",
-                  style: Styles.textStyle.copyWith(color: Styles.primaryColor),
+                  style: MyFonts.font18Black,
                 ),
               ),
             ],

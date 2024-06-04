@@ -158,23 +158,7 @@ class _TicketValidationViewState extends State<TicketValidationView> {
             Spacer(),
             ElevatedButton(
               onPressed: () async {
-                if (status == "New") {
-                  setState(() {
-                    status = "Checked";
-                  });
-                  await _updateData();
-                } else if (status == "Checked") {
-                  setState(() {
-                    status == "Expired";
-                  });
-                  await addTicketPreviousTrip(widget.userID);
-                  await FirebaseFirestore.instance
-                      .collection("users")
-                      .doc(widget.userID)
-                      .collection(collection)
-                      .doc(widget.data)
-                      .delete();
-                }
+                ValidateTicket();
                 Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
@@ -189,5 +173,25 @@ class _TicketValidationViewState extends State<TicketValidationView> {
         ),
       ),
     );
+  }
+
+  Future<void> ValidateTicket() async {
+    if (status == "New") {
+      setState(() {
+        status = "Checked";
+      });
+      await _updateData();
+    } else if (status == "Checked") {
+      setState(() {
+        status == "Expired";
+      });
+      await addTicketPreviousTrip(widget.userID);
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(widget.userID)
+          .collection(collection)
+          .doc(widget.data)
+          .delete();
+    }
   }
 }

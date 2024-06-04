@@ -13,22 +13,21 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final _userInput = TextEditingController();
 
-  static const apiKey =
-      "AIzaSyDlNlFivhlOAWywp_ci4wldzghh4RrEQhM"; // Replace with your actual API key
+  static const apiKey = "Your API";
 
   final model =
-      GenerativeModel(model: 'gemini-1.5-flash-latest', apiKey: apiKey);
+      GenerativeModel(model: 'ChatBot Version', apiKey: apiKey);
 
   final List<Message> _messages = [];
 
   Future<void> sendMessage() async {
     final message = _userInput.text;
-    if (message.isEmpty) return; // Don't send empty messages
+    if (message.isEmpty) return;
 
     setState(() {
       _messages
           .add(Message(isUser: true, message: message, date: DateTime.now()));
-      _userInput.clear(); // Clear the input field
+      _userInput.clear();
     });
 
     final content = [Content.text(message)];
@@ -48,11 +47,10 @@ class _ChatScreenState extends State<ChatScreen> {
         children: [
           Expanded(
             child: ListView.builder(
-              reverse: true, // Display messages in reverse order
+              reverse: true,
               itemCount: _messages.length,
               itemBuilder: (context, index) {
-                final message =
-                    _messages[_messages.length - 1 - index]; // Reverse index
+                final message = _messages[_messages.length - 1 - index];
                 return Messages(
                   isUser: message.isUser,
                   message: message.message,

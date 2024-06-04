@@ -53,8 +53,7 @@ class TicketView extends StatelessWidget {
                     children: [
                       Text(
                         sPoint,
-                        style:
-                            Styles.headLineStyle3.copyWith(color: Colors.white),
+                        style: MyFonts.font18White,
                       ),
                       Expanded(child: Container()),
                       const ThickContainer(color: Colors.white),
@@ -95,8 +94,7 @@ class TicketView extends StatelessWidget {
                       Expanded(child: Container()),
                       Text(
                         ePoint,
-                        style:
-                            Styles.headLineStyle3.copyWith(color: Colors.white),
+                        style: MyFonts.font18White,
                       ),
                     ],
                   ),
@@ -108,22 +106,19 @@ class TicketView extends StatelessWidget {
                         width: 100,
                         child: Text(
                           lsPoint,
-                          style: Styles.headLineStyle4
-                              .copyWith(color: Colors.white),
+                          style: MyFonts.font18White,
                         ),
                       ),
                       Text(
                         dur,
-                        style:
-                            Styles.headLineStyle4.copyWith(color: Colors.white),
+                        style: MyFonts.font18White,
                       ),
                       SizedBox(
                         width: 100,
                         child: Text(
                           lePoint,
                           textAlign: TextAlign.end,
-                          style: Styles.headLineStyle4
-                              .copyWith(color: Colors.white),
+                          style: MyFonts.font18White,
                         ),
                       ),
                     ],
@@ -221,14 +216,12 @@ class TicketView extends StatelessWidget {
                         children: [
                           Text(
                             date,
-                            style: Styles.headLineStyle3
-                                .copyWith(color: Colors.black),
+                            style: MyFonts.font18Black,
                           ),
                           const Gap(5),
                           Text(
                             "DATE",
-                            style: Styles.headLineStyle4
-                                .copyWith(color: Colors.black),
+                            style: MyFonts.font18Black,
                           ),
                         ],
                       ),
@@ -237,14 +230,12 @@ class TicketView extends StatelessWidget {
                         children: [
                           Text(
                             depTime,
-                            style: Styles.headLineStyle3
-                                .copyWith(color: Colors.black),
+                            style: MyFonts.font18Black,
                           ),
                           const Gap(5),
                           Text(
                             "Departure Time",
-                            style: Styles.headLineStyle4
-                                .copyWith(color: Colors.black),
+                            style: MyFonts.font18Black,
                           ),
                         ],
                       ),
@@ -253,14 +244,12 @@ class TicketView extends StatelessWidget {
                         children: [
                           Text(
                             tNum,
-                            style: Styles.headLineStyle3
-                                .copyWith(color: Colors.black),
+                            style: MyFonts.font18Black,
                           ),
                           const Gap(5),
                           Text(
                             "Number",
-                            style: Styles.headLineStyle4
-                                .copyWith(color: Colors.black),
+                            style: MyFonts.font18Black,
                           ),
                         ],
                       ),

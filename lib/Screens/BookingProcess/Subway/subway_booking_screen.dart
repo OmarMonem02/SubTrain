@@ -9,8 +9,10 @@ import 'package:searchfield/searchfield.dart';
 import 'package:subtraingrad/Payments/Paymob_Manager/paymob_manager.dart';
 import 'package:subtraingrad/Payments/withdraw_payment_getway.dart';
 import 'package:subtraingrad/Screens/BookingProcess/Subway/data/station_location.dart';
+import 'package:subtraingrad/Screens/BookingProcess/Subway/data/station_location_view.dart';
 import 'package:subtraingrad/Screens/BookingProcess/Subway/data/subway_stations.dart';
 import 'package:subtraingrad/Screens/auth/add_new_data.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 import 'package:subtraingrad/test.dart';
 import 'package:subtraingrad/widgets/bottom_nav_bar.dart';
 import 'package:subtraingrad/widgets/path_finder.dart';
@@ -167,44 +169,72 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
             children: [
               Column(
                 children: [
-                  CustomSearchField(
-                    focusNode: startFocus,
-                    hint: 'Start Station',
-                    suggestions: suggestions,
-                    controller: startSearchController,
-                    onSearchTextChanged: (query) {
-                      final filter = suggestions
-                          .where((element) => element
-                              .toLowerCase()
-                              .contains(query.toLowerCase()))
-                          .toList();
-                      return filter
-                          .map((e) => SearchFieldListItem<String>(e,
-                              child: searchChild(e)))
-                          .toList();
-                    },
-                    onSuggestionTap: (SearchFieldListItem<String> x) {},
+                  Stack(
+                    alignment: Alignment.centerRight,
+                    children: [
+                      CustomSearchField(
+                        focusNode: startFocus,
+                        hint: 'Start Station',
+                        suggestions: suggestions,
+                        controller: startSearchController,
+                        onSearchTextChanged: (query) {
+                          final filter = suggestions
+                              .where((element) => element
+                                  .toLowerCase()
+                                  .contains(query.toLowerCase()))
+                              .toList();
+                          return filter
+                              .map((e) => SearchFieldListItem<String>(e,
+                                  child: searchChild(e)))
+                              .toList();
+                        },
+                        onSuggestionTap: (SearchFieldListItem<String> x) {},
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          _startOpenMap();
+                        },
+                        style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Styles.primaryColor),
+                        icon: const Icon(Icons.map_outlined),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16),
-                  CustomSearchField(
-                    focusNode: endFocus,
-                    hint: 'End Station',
-                    suggestions: suggestions,
-                    controller: endSearchController,
-                    onSearchTextChanged: (query) {
-                      final filter = suggestions
-                          .where((element) => element
-                              .toLowerCase()
-                              .contains(query.toLowerCase()))
-                          .toList();
-                      return filter
-                          .map((e) => SearchFieldListItem<String>(e,
-                              child: searchChild(e)))
-                          .toList();
-                    },
-                    onSuggestionTap: (SearchFieldListItem<String> x) {
-                      calculatePath();
-                    },
+                  Stack(
+                    alignment: Alignment.centerRight,
+                    children: [
+                      CustomSearchField(
+                        focusNode: endFocus,
+                        hint: 'End Station',
+                        suggestions: suggestions,
+                        controller: endSearchController,
+                        onSearchTextChanged: (query) {
+                          final filter = suggestions
+                              .where((element) => element
+                                  .toLowerCase()
+                                  .contains(query.toLowerCase()))
+                              .toList();
+                          return filter
+                              .map((e) => SearchFieldListItem<String>(e,
+                                  child: searchChild(e)))
+                              .toList();
+                        },
+                        onSuggestionTap: (SearchFieldListItem<String> x) {
+                          calculatePath();
+                        },
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          _endOpenMap();
+                        },
+                        style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Styles.primaryColor),
+                        icon: const Icon(Icons.map_outlined),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 16),
                   Row(
@@ -250,15 +280,6 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                         ),
                       ),
                       SizedBox(height: 8),
-                      IconButton(
-                        onPressed: () {
-                          _openMap();
-                        },
-                        style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Color.fromRGBO(26, 96, 122, 1)),
-                        icon: const Icon(Icons.map_outlined),
-                      ),
                       SizedBox(height: 8),
                     ],
                   ),
@@ -376,7 +397,7 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                 width: MediaQuery.of(context).size.width,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xfffdc620),
+                    backgroundColor: Styles.primaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -428,12 +449,9 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                     }
                     print(_value);
                   },
-                  child: const Text(
+                  child: Text(
                     "Done",
-                    style: TextStyle(
-                      color: Color(0xff383d47),
-                      fontSize: 16,
-                    ),
+                    style: MyFonts.font18White,
                   ),
                 ),
               )
@@ -471,9 +489,7 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
             ),
           ),
         );
-
         if (paymentResult != null && paymentResult) {
-          // Handle successful payment
           int count = _counter;
           for (count; 0 < count; count--) {
             addTicket(_user!.uid);
@@ -484,25 +500,20 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
               backgroundColor: Colors.green,
             ),
           );
-          // You can add further actions like updating the UI or database
         } else {
-          // Handle failed payment
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Payment failed! Please try again.'),
               backgroundColor: Colors.red,
             ),
           );
-          // You can add further actions like showing an error message
         }
       },
-    ).whenComplete(() {
-      // Any cleanup code if necessary
-    });
+    ).whenComplete(() {});
   }
 
   List<String> findShortestPath(
-      Map<String, Map<String, int>> graph, String start, String end) {
+    Map<String, Map<String, int>> graph, String start, String end) {
     Map<String, double> distances = {};
 
     Map<String, String?> previous = {};
@@ -580,12 +591,21 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
     }
   }
 
-  Future<void> _openMap() async {
-    String url = "https://maps.app.goo.gl/xn8s1wtPG34KSWNW8";
-    await canLaunchUrlString(url)
-        ? await launchUrlString(url)
-        : Center(
-            child: CircularProgressIndicator(),
-          );
+  Future<void> _startOpenMap() async {
+    Map<String, String> locationData = LocationLink.locationLink;
+    String? selectedLocationKey = startSearchController.text;
+    String? url = locationData[selectedLocationKey];
+    if (url != null && await canLaunchUrlString(url)) {
+      await launchUrlString(url);
+    }
+  }
+
+  Future<void> _endOpenMap() async {
+    Map<String, String> locationData = LocationLink.locationLink;
+    String? selectedLocationKey = endSearchController.text;
+    String? url = locationData[selectedLocationKey];
+    if (url != null && await canLaunchUrlString(url)) {
+      await launchUrlString(url);
+    }
   }
 }

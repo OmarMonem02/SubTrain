@@ -9,32 +9,27 @@ class Styles {
   static Color secondary2Color = const Color(0xFFD4D4CE);
   static Color thirdColor = const Color(0xFF023246);
   static Color textColor = const Color(0xFF2B2B2B);
-
-  static TextStyle textStyle =
-      TextStyle(fontSize: 16, color: textColor, fontWeight: FontWeight.w500);
-  static TextStyle headLineStyle1 =
-      TextStyle(fontSize: 26, color: textColor, fontWeight: FontWeight.bold);
-  static TextStyle headLineStyle2 =
-      TextStyle(fontSize: 21, color: textColor, fontWeight: FontWeight.bold);
-  static TextStyle headLineStyle3 =
-      const TextStyle(fontSize: 17, fontWeight: FontWeight.w500);
-  static TextStyle headLineStyle4 =
-      const TextStyle(fontSize: 14, fontWeight: FontWeight.w500);
 }
 
 class MyFonts {
+  static TextStyle get font24White =>
+      GoogleFonts.fredoka(color: Colors.white, fontSize: 24);
   static TextStyle get font22White =>
       GoogleFonts.fredoka(color: Colors.white, fontSize: 22);
-  static TextStyle get font22Black =>
-      GoogleFonts.fredoka(color: Color(0xFF2B2B2B), fontSize: 22);
   static TextStyle get font18White =>
       GoogleFonts.fredoka(color: Colors.white, fontSize: 18);
+  static TextStyle get font24Black =>
+      GoogleFonts.fredoka(color: Color(0xFF2B2B2B), fontSize: 24);
+  static TextStyle get font22Black =>
+      GoogleFonts.fredoka(color: Color(0xFF2B2B2B), fontSize: 22);
   static TextStyle get font18Black =>
       GoogleFonts.fredoka(color: Color(0xFF2B2B2B), fontSize: 18);
   static TextStyle get font16WhiteFaded =>
       GoogleFonts.fredoka(color: Colors.white, fontSize: 16);
-  static TextStyle get font22GrayFaded =>
+  static TextStyle get font16GrayFaded =>
       GoogleFonts.fredoka(color: Colors.grey.withOpacity(0.6), fontSize: 16);
+  static TextStyle get font16BlackFaded =>
+      GoogleFonts.fredoka(color: Color(0xEE2B2B2B), fontSize: 16);
 }
 
 final ButtonStyle buttonPrimary = ElevatedButton.styleFrom(

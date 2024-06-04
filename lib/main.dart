@@ -29,7 +29,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      // theme: lightTheme,
       routes: {'/ViewAnnouncement': (context) => ViewAnnouncement()},
       home: AnimatedSplashScreen(
         duration: 2500,
@@ -39,7 +38,6 @@ class MyApp extends StatelessWidget {
         nextScreen: MainPage(),
         splashTransition: SplashTransition.fadeTransition,
         pageTransitionType: PageTransitionType.fade,
-        
       ),
     );
   }

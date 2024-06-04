@@ -31,7 +31,7 @@ class Welcome extends StatelessWidget {
                 ),
                 const Image(
                   alignment: Alignment.center,
-                  image: AssetImage('assets/logo3.png'),
+                  image: AssetImage('assets/logoblue.png'),
                   height: 350,
                 ),
                 const SizedBox(

@@ -53,7 +53,6 @@ class _SignUpState extends State<SignUp> {
       },
     );
     try {
-      // ignore: unused_local_variable
       final userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
@@ -128,7 +127,7 @@ class _SignUpState extends State<SignUp> {
             BackButton(
               color: const Color.fromRGBO(26, 96, 122, 1),
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const Welcome()),
                 );
@@ -137,14 +136,9 @@ class _SignUpState extends State<SignUp> {
             const SizedBox(
               width: 0,
             ),
-            const Text(
-              'SIGN UP',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(26, 96, 122, 1),
-              ),
-            ),
+            Text('Sing Up',
+                style: MyFonts.font24Black.copyWith(
+                    fontWeight: FontWeight.bold, color: Styles.primaryColor)),
           ],
         ),
       ),
@@ -157,14 +151,11 @@ class _SignUpState extends State<SignUp> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Gap(16),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 16),
                   child: Text(
                     'Enter Your Information',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: MyFonts.font18Black,
                   ),
                 ),
                 const Gap(18),
@@ -288,8 +279,7 @@ class _SignUpState extends State<SignUp> {
                       child: Center(
                         child: Text(
                           'Sign Up',
-                          style: Styles.headLineStyle2
-                              .copyWith(color: Colors.white),
+                          style: MyFonts.font18White,
                         ),
                       ),
                     ),
@@ -304,16 +294,13 @@ class _SignUpState extends State<SignUp> {
                       children: [
                         Text(
                           'Already have an account? ',
-                          style: Styles.headLineStyle3.copyWith(
-                            fontWeight: FontWeight.w400,
-                          ),
+                          style: MyFonts.font16GrayFaded,
                         ),
                         GestureDetector(
                           onTap: widget.showLoginPage,
                           child: Text(
                             "Sign In",
-                            style: Styles.headLineStyle3
-                                .copyWith(color: Styles.secondaryColor),
+                            style: MyFonts.font16BlackFaded,
                           ),
                         ),
                       ],

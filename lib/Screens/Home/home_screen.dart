@@ -59,42 +59,17 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
               children: [
-                const Gap(20),
+                const Gap(8),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Center(
-                            child: Text('Hello $username',
-                                style: Styles.headLineStyle2)),
+                        Text('Hello $username', style: MyFonts.font24Black),
                       ],
                     ),
-                    // LiteRollingSwitch(
-                    //   onSwipe: () {},
-                    //   onDoubleTap: () {},
-                    //   onTap: () {},
-                    //   width: 120,
-                    //   textSize: 16,
-                    //   value: _isTypeSelected,
-                    //   textOn: 'Train',
-                    //   textOnColor: Colors.white,
-                    //   iconOn: Icons.train_outlined,
-                    //   colorOn: Styles.primaryColor,
-                    //   textOff: 'Subway',
-                    //   textOffColor: Colors.black,
-                    //   colorOff: Styles.secondaryColor,
-                    //   animationDuration: const Duration(milliseconds: 400),
-                    //   iconOff: Icons.subway_outlined,
-                    //   onChanged: (isSelected) {
-                    //     setState(() {
-                    //       _isTypeSelected = isSelected;
-                    //     });
-                    //   },
-                    // ),
                   ],
                 ),
+                const Gap(16),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 24.0),
                   child: Row(
@@ -113,7 +88,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     : Colors.white,
                                 borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(16),
-                                    topLeft: Radius.circular(16))),
+                                    topLeft: Radius.circular(16),
+                                    bottomRight: Radius.circular(16),
+                                    topRight: Radius.circular(16))),
                             padding: EdgeInsets.all(12.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -137,6 +114,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
+                      const SizedBox(
+                        width: 10,
+                      ),
                       Expanded(
                           child: GestureDetector(
                         onTap: () {
@@ -150,8 +130,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ? Styles.primaryColor
                                   : Colors.white,
                               borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(10),
-                                  topRight: Radius.circular(10))),
+                                  bottomLeft: Radius.circular(16),
+                                  topLeft: Radius.circular(16),
+                                  bottomRight: Radius.circular(16),
+                                  topRight: Radius.circular(16))),
                           padding: EdgeInsets.all(12.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -214,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.white,
           tooltip: "Chat with SubBot",
           child: Image.asset(
-            "assets/logo3.png",
+            "assets/logoblue.png",
             height: double.infinity,
           )),
     );

@@ -66,12 +66,12 @@ class TrainHome extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Upcoming Trips", style: Styles.headLineStyle2),
+              Text("Upcoming Trips", style: MyFonts.font18Black),
               InkWell(
                 onTap: () {},
                 child: Text(
                   "View all",
-                  style: Styles.textStyle.copyWith(color: Styles.primaryColor),
+                  style: MyFonts.font18Black,
                 ),
               ),
             ],
@@ -102,12 +102,12 @@ class TrainHome extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Recent Trips", style: Styles.headLineStyle2),
+              Text("Recent Trips", style: MyFonts.font18Black),
               InkWell(
                 onTap: () {},
                 child: Text(
                   "View all",
-                  style: Styles.textStyle.copyWith(color: Styles.primaryColor),
+                  style: MyFonts.font18Black,
                 ),
               ),
             ],
