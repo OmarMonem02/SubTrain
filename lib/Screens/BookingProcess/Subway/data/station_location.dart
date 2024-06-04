@@ -1,4 +1,4 @@
-import 'package:subtraingrad/test.dart';
+import 'package:subtraingrad/nearestStation.dart';
 
 class StationLocation {
   static List<TestLocation> locations = [

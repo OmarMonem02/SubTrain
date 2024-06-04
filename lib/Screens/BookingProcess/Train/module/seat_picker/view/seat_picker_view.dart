@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:subtraingrad/Admin_Pages/seats.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 import '../../booking_detail/view/booking_detail_view.dart';
 import '../controller/seat_picker_controller.dart';
 
@@ -29,15 +30,10 @@ class SeatPickerViewBody extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Text(
+        title: Text(
           "Select Seat",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: MyFonts.font18Black,
         ),
-        actions: const [],
-        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -271,7 +267,7 @@ class SeatPickerViewBody extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff383d47),
+                      backgroundColor: Styles.primaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -288,12 +284,9 @@ class SeatPickerViewBody extends StatelessWidget {
                         ),
                       );
                     },
-                    child: const Text(
-                      "Proceed to Pay",
-                      style: TextStyle(
-                        color: Color(0xfffdc620),
-                        fontSize: 16,
-                      ),
+                    child: Text(
+                      "Confirm",
+                      style: MyFonts.font18White,
                     ),
                   ),
                 ),

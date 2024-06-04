@@ -5,7 +5,7 @@ class Styles {
   static Color backGroundColor = const Color(0xFFF6F6F6);
   static Color primaryColor = const Color(0xFF287094);
   static Color secondaryColor = const Color(0xFFD4D4CE);
-  static Color primary2Color = const Color(0xFF287094);
+  static Color primary2Color = const Color(0xFF388054);
   static Color secondary2Color = const Color(0xFFD4D4CE);
   static Color thirdColor = const Color(0xFF023246);
   static Color textColor = const Color(0xFF2B2B2B);
