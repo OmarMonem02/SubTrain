@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 import 'package:subtraingrad/widgets/Train_Widgets/train_qr_ticket.dart';
 import 'package:subtraingrad/widgets/Train_Widgets/train_ticket_active.dart';
 
@@ -106,7 +107,11 @@ class _TrainTicketsScreenState extends State<TrainTicketsScreen> {
               },
             );
           } else {
-            return Center(child: Text("You do not have train tickets"));
+            return Center(
+                child: Text(
+              "You do not have train tickets",
+              style: MyFonts.font18Black,
+            ));
           }
         },
       ),

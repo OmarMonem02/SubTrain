@@ -65,8 +65,8 @@ class _FavoriteState extends State<Favorite> {
       appBar: AppBar(
         backgroundColor: Styles.backGroundColor,
         title: Text(
-          "Previous Trips",
-          style: MyFonts.font22White.copyWith(color: Colors.black),
+          "Favorites",
+          style: MyFonts.appbar,
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -101,7 +101,11 @@ class _FavoriteState extends State<Favorite> {
               },
             );
           } else {
-            return const Center(child: Text("You do not have Favorites"));
+            return Center(
+                child: Text(
+              "You do not have Favorites",
+              style: MyFonts.font16Black,
+            ));
           }
         },
       ),

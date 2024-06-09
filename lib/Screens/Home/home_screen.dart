@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Column(
                       children: [
-                        Text('Hello $username', style: MyFonts.font24Black),
+                        Text('Hello $username!', style: MyFonts.font24Black),
                       ],
                     ),
                   ],
@@ -84,13 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Container(
                             decoration: BoxDecoration(
                                 color: _isTypeSelected
-                                    ? Styles.primaryColor
+                                    ? Styles.contrastColor
                                     : Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(16),
-                                    topLeft: Radius.circular(16),
-                                    bottomRight: Radius.circular(16),
-                                    topRight: Radius.circular(16))),
+                                borderRadius: BorderRadius.circular(30)),
                             padding: EdgeInsets.all(12.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -127,13 +123,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Container(
                           decoration: BoxDecoration(
                               color: !_isTypeSelected
-                                  ? Styles.primaryColor
+                                  ? Styles.contrastColor
                                   : Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(16),
-                                  topLeft: Radius.circular(16),
-                                  bottomRight: Radius.circular(16),
-                                  topRight: Radius.circular(16))),
+                              borderRadius: BorderRadius.circular(30)),
                           padding: EdgeInsets.all(12.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -175,14 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'SubTrain',
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Styles.primaryColor,
-              ),
-            ),
+            Text('SubTrain', style: MyFonts.appbar),
           ],
         ),
       ),

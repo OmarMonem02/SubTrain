@@ -317,20 +317,18 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
                 width: MediaQuery.of(context).size.width,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xfffdc620),
+                    backgroundColor: Styles.contrastColor,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                   ),
                   onPressed: () async {
                     await addTrainTrip();
                   },
-                  child: const Text(
+                  child: Text(
                     "Add",
-                    style: TextStyle(
-                      color: Color(0xff383d47),
-                      fontSize: 16,
-                    ),
+                    style: MyFonts.font18White
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

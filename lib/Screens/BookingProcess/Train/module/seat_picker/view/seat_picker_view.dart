@@ -32,7 +32,7 @@ class SeatPickerViewBody extends StatelessWidget {
         elevation: 0,
         title: Text(
           "Select Seat",
-          style: MyFonts.font18Black,
+          style: MyFonts.appbar,
         ),
       ),
       body: SingleChildScrollView(
@@ -42,7 +42,7 @@ class SeatPickerViewBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Gap(20),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
@@ -55,9 +55,7 @@ class SeatPickerViewBody extends StatelessWidget {
                   ),
                   Text(
                     "Available",
-                    style: TextStyle(
-                      fontSize: 14.0,
-                    ),
+                    style: MyFonts.font16Black,
                   ),
                   SizedBox(
                     width: 15.0,
@@ -72,9 +70,7 @@ class SeatPickerViewBody extends StatelessWidget {
                   ),
                   Text(
                     "Selected",
-                    style: TextStyle(
-                      fontSize: 14.0,
-                    ),
+                    style: MyFonts.font16Black,
                   ),
                   SizedBox(
                     width: 15.0,
@@ -89,9 +85,7 @@ class SeatPickerViewBody extends StatelessWidget {
                   ),
                   Text(
                     "Unavailable",
-                    style: TextStyle(
-                      fontSize: 14.0,
-                    ),
+                    style: MyFonts.font16Black,
                   ),
                 ],
               ),
@@ -155,7 +149,7 @@ class SeatPickerViewBody extends StatelessWidget {
                                 60,
                                 (index) {
                                   var number =
-                                      (index + 1).toString().padLeft(2, "0");
+                                      (index).toString().padLeft(2, "0");
                                   bool selected =
                                       controller.usedSeats.contains(index);
                                   bool selectedSeatByOther =
@@ -229,9 +223,11 @@ class SeatPickerViewBody extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.all(20),
-            decoration: const BoxDecoration(
-              color: Color(0xfffdc620),
-            ),
+            decoration: BoxDecoration(
+                color: Styles.primaryColor,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30))),
             child: Column(
               children: [
                 Row(
@@ -241,20 +237,9 @@ class SeatPickerViewBody extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Total: \$${controller.counter * 200}",
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                            color: Color(0xff383d47),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
                           "Selected Seats: ${controller.usedSeats.join(', ')}",
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                            color: Color(0xff383d47),
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: MyFonts.font16White
+                              .copyWith(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -264,12 +249,13 @@ class SeatPickerViewBody extends StatelessWidget {
                   height: 10,
                 ),
                 SizedBox(
+                  width: MediaQuery.of(context).size.width,
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Styles.primaryColor,
+                      backgroundColor: Styles.contrastColor,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(30),
                       ),
                     ),
                     onPressed: () {
@@ -286,7 +272,8 @@ class SeatPickerViewBody extends StatelessWidget {
                     },
                     child: Text(
                       "Confirm",
-                      style: MyFonts.font18White,
+                      style: MyFonts.font18White
+                          .copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

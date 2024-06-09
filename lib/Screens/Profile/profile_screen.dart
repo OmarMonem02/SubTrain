@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:subtraingrad/Chat_Pages/chat_screen.dart';
 import 'package:subtraingrad/Screens/auth/auth_page.dart';
 import 'package:subtraingrad/Style/app_layout.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
@@ -83,21 +84,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
+            Text(
               'Profile',
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(26, 96, 122, 1),
-              ),
+              style: MyFonts.appbar,
             ),
             TextButton(
               child: Text(
                 "Logout",
                 style: MyFonts.font18Black.copyWith(
-                    color: Colors.red,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
+                  color: Colors.red,
+                ),
               ),
               onPressed: () async {
                 QuickAlert.show(
@@ -155,15 +151,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: size.width * 0.75,
                         child: Container(
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.bottomLeft,
-                              end: Alignment.topRight,
-                              colors: [
-                                Styles.secondaryColor,
-                                Styles.secondary2Color,
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(20),
+                            color: Styles.contrastColor,
+                            borderRadius: BorderRadius.circular(30),
                           ),
                           child: Center(
                             child: Column(
@@ -241,6 +230,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return const CustomerSupportChatPage();
+            }));
+          },
+          elevation: 10,
+          backgroundColor: Colors.white,
+          tooltip: "Chat with SubBot",
+          child: Icon(Icons.help)),
     );
   }
 }

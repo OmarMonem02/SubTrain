@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:subtraingrad/Screens/BookingProcess/Train/data/train_stations.dart';
 import 'package:subtraingrad/Screens/BookingProcess/Train/module/seat_picker/view/seat_picker_view.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 import 'package:subtraingrad/widgets/Train_Booking_Widgets/datepicker.dart';
 import 'package:subtraingrad/widgets/Train_Booking_Widgets/dropdown.dart';
 import 'package:subtraingrad/widgets/Train_Booking_Widgets/trip_widget.dart';
@@ -31,14 +32,10 @@ class _DashboardViewState extends State<DashboardView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "Book Your Ticket",
-          style: TextStyle(
-            fontSize: 24.0,
-            fontWeight: FontWeight.bold,
-          ),
+          style: MyFonts.appbar,
         ),
-        centerTitle: true,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -150,9 +147,9 @@ class _DashboardViewState extends State<DashboardView> {
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xfffdc620),
+                      backgroundColor: Styles.contrastColor,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(30),
                       ),
                     ),
                     onPressed: () {
@@ -161,15 +158,13 @@ class _DashboardViewState extends State<DashboardView> {
                           .where("startPoint", isEqualTo: from)
                           .where("endPoint", isEqualTo: to)
                           .where("trainClass", isEqualTo: trainClass)
+                          .where("tripDate", isEqualTo: tripDate)
                           .snapshots();
-                      setState(() {});
                     },
-                    child: const Text(
+                    child: Text(
                       "Search",
-                      style: TextStyle(
-                        color: Color(0xff383d47),
-                        fontSize: 16,
-                      ),
+                      style: MyFonts.font18White
+                          .copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

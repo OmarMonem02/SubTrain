@@ -13,10 +13,10 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final _userInput = TextEditingController();
 
-  static const apiKey = "Your API";
+  static const apiKey = "AIzaSyDlNlFivhlOAWywp_ci4wldzghh4RrEQhM";
 
   final model =
-      GenerativeModel(model: 'ChatBot Version', apiKey: apiKey);
+      GenerativeModel(model: 'gemini-1.5-flash-latest', apiKey: apiKey);
 
   final List<Message> _messages = [];
 
@@ -106,7 +106,10 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
       appBar: AppBar(
-        title: const Text("SubTrain Bot"),
+        title: Text(
+          "SubTrain Bot",
+          style: MyFonts.appbar,
+        ),
       ),
     );
   }
@@ -151,14 +154,12 @@ class Messages extends StatelessWidget {
           Text(
             message,
             style: TextStyle(
-                fontSize: 16, color: isUser ? Colors.white : Colors.black),
+                fontSize: 16, color: isUser ? Colors.white : Colors.white),
           ),
           Text(
             date,
             style: TextStyle(
-              fontSize: 10,
-              color: isUser ? Colors.white : Colors.black,
-            ),
+                fontSize: 10, color: isUser ? Colors.white : Colors.white),
           )
         ],
       ),

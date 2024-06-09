@@ -250,7 +250,7 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                         },
                         style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
-                            backgroundColor: Color.fromRGBO(26, 96, 122, 1)),
+                            backgroundColor: Styles.primaryColor),
                         child: Row(
                           children: [
                             Icon(
@@ -259,8 +259,7 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                             ),
                             Text(
                               'Auto Locate',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                              style: MyFonts.font18White,
                             )
                           ],
                         ),
@@ -272,11 +271,10 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                         },
                         style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
-                            backgroundColor: Color.fromRGBO(26, 96, 122, 1)),
-                        child: const Text(
+                            backgroundColor: Styles.primaryColor),
+                        child: Text(
                           'Show Path',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
+                          style: MyFonts.font18White,
                         ),
                       ),
                       SizedBox(height: 8),
@@ -290,8 +288,7 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                       Expanded(
                         child: Text(
                           'Total Amount: ${_counter * price}LE',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                          style: MyFonts.font22Black,
                         ),
                       ),
                       Row(
@@ -306,11 +303,12 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                               decoration: BoxDecoration(
                                 color: (_counter == 0)
                                     ? const Color(0xffdedede)
-                                    : const Color(0xfffdc620),
+                                    : Styles.primaryColor,
                               ),
                               child: const Icon(
                                 Icons.remove,
                                 size: 25.0,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -328,12 +326,13 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                               margin: const EdgeInsets.only(
                                 left: 20.0,
                               ),
-                              decoration: const BoxDecoration(
-                                color: Color(0xfffdc620),
+                              decoration: BoxDecoration(
+                                color: Styles.primaryColor,
                               ),
                               child: const Icon(
                                 Icons.add,
                                 size: 25.0,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -348,15 +347,18 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                     children: [
                       SizedBox(height: 16.0),
                       RadioListTile<int>(
-                        activeColor: Color.fromRGBO(26, 96, 122, 1),
+                        activeColor: Styles.primaryColor,
                         title: Row(
                           children: [
                             Icon(
                               Icons.credit_card,
-                              color: Color.fromRGBO(26, 96, 122, 1),
+                              color: Styles.primaryColor,
                             ),
                             SizedBox(width: 8.0),
-                            const Text("Pay With Paymob"),
+                            Text(
+                              "Pay With Paymob",
+                              style: MyFonts.font18Black,
+                            ),
                           ],
                         ),
                         value: 1,
@@ -368,15 +370,18 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                         },
                       ),
                       RadioListTile<int>(
-                        activeColor: Color.fromRGBO(26, 96, 122, 1),
+                        activeColor: Styles.primaryColor,
                         title: Row(
                           children: [
                             Icon(
                               Icons.wallet,
-                              color: Color.fromRGBO(26, 96, 122, 1),
+                              color: Styles.primaryColor,
                             ),
                             SizedBox(width: 8.0),
-                            const Text("Pay By Your Wallet"),
+                            Text(
+                              "Pay By Your Wallet",
+                              style: MyFonts.font18Black,
+                            ),
                           ],
                         ),
                         value: 2,
@@ -389,62 +394,79 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 330),
+                  SizedBox(height: 16),
                 ],
               ),
               SizedBox(
                 height: 48,
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width * 0.4,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Styles.primaryColor,
+                    backgroundColor: Styles.contrastColor,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                   ),
                   onPressed: () {
+                    if (startSearchController.text.isEmpty ||
+                        endSearchController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                              'Please select both start and end stations.'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return; // Exit early if fields are not filled
+                    }
+
                     if (_value == 1) {
                       _pay();
                     } else if (_value == 2) {
                       if (balance! < (price * _counter)) {
                         QuickAlert.show(
-                            context: context,
-                            type: QuickAlertType.error,
-                            text: "You don't have balance!",
-                            onConfirmBtnTap: () async {
-                              Navigator.pop(context);
-                            });
+                          context: context,
+                          type: QuickAlertType.error,
+                          text: "You don't have enough balance!",
+                          onConfirmBtnTap: () async {
+                            Navigator.pop(context);
+                          },
+                        );
                       } else if (balance! >= (price * _counter)) {
                         QuickAlert.show(
-                            context: context,
-                            type: QuickAlertType.confirm,
-                            text: 'Are you sure you want buy it by Wallet!',
-                            confirmBtnText: 'Yes',
-                            cancelBtnText: 'No',
-                            confirmBtnColor: Colors.lightGreen,
-                            animType: QuickAlertAnimType.slideInUp,
-                            onCancelBtnTap: () async {
-                              Navigator.pop(context);
-                            },
-                            onConfirmBtnTap: () async {
-                              Navigator.pop(context);
-                              int count = _counter;
-                              for (count; 0 < count; count--) {
-                                addTicket(_user!.uid);
-                              }
-                              _updateData();
-                              QuickAlert.show(
-                                  context: context,
-                                  type: QuickAlertType.success,
-                                  text: "Your Ticket is Purchased!",
-                                  onConfirmBtnTap: () async {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => BottomNavBar(),
-                                        ));
-                                  });
-                            });
+                          context: context,
+                          type: QuickAlertType.confirm,
+                          text:
+                              'Are you sure you want to buy it with your Wallet?',
+                          confirmBtnText: 'Yes',
+                          cancelBtnText: 'No',
+                          confirmBtnColor: Styles.primaryColor,
+                          animType: QuickAlertAnimType.slideInUp,
+                          onCancelBtnTap: () async {
+                            Navigator.pop(context);
+                          },
+                          onConfirmBtnTap: () async {
+                            Navigator.pop(context);
+                            int count = _counter;
+                            for (count; count > 0; count--) {
+                              addTicket(_user!.uid);
+                            }
+                            _updateData();
+                            QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.success,
+                              text: "Your Ticket is Purchased!",
+                              onConfirmBtnTap: () async {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BottomNavBar(),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        );
                       }
                     }
                     print(_value);
@@ -461,7 +483,10 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
       ),
       appBar: AppBar(
         elevation: 0,
-        title: const Text('Subway Booking'),
+        title: Text(
+          'Subway Booking',
+          style: MyFonts.appbar,
+        ),
       ),
     );
   }

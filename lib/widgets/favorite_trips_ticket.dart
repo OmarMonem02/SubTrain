@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 import 'package:subtraingrad/widgets/thick_container.dart';
 import 'package:ticket_widget/ticket_widget.dart';
 
@@ -30,7 +31,7 @@ class FavoriteTripsTicket extends StatefulWidget {
 class _FavoriteTripsTicketState extends State<FavoriteTripsTicket> {
   @override
   Widget build(BuildContext context) {
-    const Color color = Color.fromARGB(255, 212, 212, 212);
+    Color color = Styles.primaryColor;
 
     return Center(
       child: Padding(
@@ -54,7 +55,7 @@ class _FavoriteTripsTicketState extends State<FavoriteTripsTicket> {
                   children: [
                     Row(
                       children: [
-                        const ThickContainer(color: Colors.black),
+                        const ThickContainer(color: Colors.white),
                         Expanded(
                           child: Stack(
                             children: [
@@ -76,7 +77,7 @@ class _FavoriteTripsTicketState extends State<FavoriteTripsTicket> {
                                           height: 1,
                                           child: DecoratedBox(
                                             decoration: BoxDecoration(
-                                                color: Colors.black),
+                                                color: Colors.white),
                                           ),
                                         ),
                                       ),
@@ -85,12 +86,12 @@ class _FavoriteTripsTicketState extends State<FavoriteTripsTicket> {
                                 ),
                               ),
                               const Center(
-                                child: Icon(Icons.train, color: Colors.black),
+                                child: Icon(Icons.train, color: Colors.white),
                               ),
                             ],
                           ),
                         ),
-                        const ThickContainer(color: Colors.black),
+                        const ThickContainer(color: Colors.white),
                       ],
                     ),
                     Row(
@@ -98,17 +99,11 @@ class _FavoriteTripsTicketState extends State<FavoriteTripsTicket> {
                       children: [
                         Text(
                           widget.startPoint,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: MyFonts.font16White.copyWith(fontSize: 14),
                         ),
                         Text(
                           widget.endPoint,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: MyFonts.font16White.copyWith(fontSize: 14),
                         ),
                       ],
                     ),
@@ -132,7 +127,7 @@ class _FavoriteTripsTicketState extends State<FavoriteTripsTicket> {
                                       height: 1,
                                       child: DecoratedBox(
                                         decoration:
-                                            BoxDecoration(color: Colors.black),
+                                            BoxDecoration(color: Colors.white),
                                       ),
                                     ),
                                   ),
@@ -151,8 +146,7 @@ class _FavoriteTripsTicketState extends State<FavoriteTripsTicket> {
                           children: [
                             Text(
                               'Price: ${widget.fare}LE',
-                              style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.normal),
+                              style: MyFonts.font16White.copyWith(fontSize: 14),
                             ),
                             IconButton(
                               onPressed: () {

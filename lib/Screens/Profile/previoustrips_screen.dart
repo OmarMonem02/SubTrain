@@ -28,6 +28,7 @@ class _PreviousTripsState extends State<PreviousTrips> {
             .collection("users")
             .doc(_user.uid)
             .collection("Privouse_Trip")
+            .orderBy('bookingDate', descending: false)
             .snapshots();
       });
     }
@@ -60,7 +61,7 @@ class _PreviousTripsState extends State<PreviousTrips> {
         backgroundColor: Styles.backGroundColor,
         title: Text(
           "Previous Trips",
-          style: MyFonts.font22White.copyWith(color: Colors.black),
+          style: MyFonts.appbar,
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -77,7 +78,8 @@ class _PreviousTripsState extends State<PreviousTrips> {
               itemBuilder: (context, index) {
                 final DocumentSnapshot documentSnapshot =
                     streamSnapshot.data!.docs[index];
-                bool isFavorite = false; // Add logic to check if it's a favorite
+                bool isFavorite =
+                    false; // Add logic to check if it's a favorite
 
                 return PreviousTripsTicket(
                   bookingDate: documentSnapshot['bookingDate'],
@@ -93,7 +95,11 @@ class _PreviousTripsState extends State<PreviousTrips> {
               },
             );
           } else {
-            return const Center(child: Text("You do not have subway tickets"));
+            return Center(
+                child: Text(
+              "You do not have subway tickets",
+              style: MyFonts.font16BlackFaded,
+            ));
           }
         },
       ),

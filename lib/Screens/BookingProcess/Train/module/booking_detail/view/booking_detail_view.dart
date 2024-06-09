@@ -7,6 +7,7 @@ import 'package:random_string/random_string.dart';
 import 'package:subtraingrad/Payments/Paymob_Manager/paymob_manager.dart';
 import 'package:subtraingrad/Payments/withdraw_payment_getway.dart';
 import 'package:subtraingrad/Screens/auth/add_new_data.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 import 'package:subtraingrad/widgets/bottom_nav_bar.dart';
 import '../../../../../../widgets/Train_Booking_Widgets/separator.dart';
 
@@ -15,7 +16,7 @@ class BookingDetailView extends StatefulWidget {
   final List<int> selectedSeats;
   final int seatCount;
 
-  const BookingDetailView({
+  BookingDetailView({
     super.key,
     required this.tripID,
     required this.selectedSeats,
@@ -162,14 +163,14 @@ class _BookingDetailViewState extends State<BookingDetailView> {
         await _updateData(); // Update the user's balance here
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text('Payment Successful.'),
             backgroundColor: Colors.green,
           ),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text('Payment failed! Please try again.'),
             backgroundColor: Colors.red,
           ),
@@ -192,13 +193,13 @@ class _BookingDetailViewState extends State<BookingDetailView> {
   Widget _buildTicketDetails(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Color.fromARGB(255, 220, 220, 220),
         borderRadius: BorderRadius.all(Radius.circular(16.0)),
       ),
       child: Stack(
         children: [
-          const Positioned(
+          Positioned(
             top: 64,
             left: -18,
             child: CircleAvatar(
@@ -206,7 +207,7 @@ class _BookingDetailViewState extends State<BookingDetailView> {
               backgroundColor: Color.fromARGB(255, 255, 255, 255),
             ),
           ),
-          const Positioned(
+          Positioned(
             top: 64,
             right: -18,
             child: CircleAvatar(
@@ -214,7 +215,7 @@ class _BookingDetailViewState extends State<BookingDetailView> {
               backgroundColor: Color.fromARGB(255, 255, 255, 255),
             ),
           ),
-          const Positioned(
+          Positioned(
             top: 80,
             left: 18,
             right: 18,
@@ -230,39 +231,39 @@ class _BookingDetailViewState extends State<BookingDetailView> {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      margin: const EdgeInsets.all(30.0),
+      margin: EdgeInsets.all(30.0),
       child: Column(
         children: [
-          const _TicketInfoRow(),
-          const SizedBox(height: 60.0),
+          _TicketInfoRow(),
+          SizedBox(height: 60.0),
           _TicketDetailSection(
             label1: "From",
             value1: startPoint,
             label2: "To",
             value2: endPoint,
           ),
-          const SizedBox(height: 20.0),
+          SizedBox(height: 20.0),
           _TicketDetailSection(
-            label1: "From",
+            label1: "Start",
             value1: departureStation,
-            label2: "To",
+            label2: "End",
             value2: arrivalStation,
           ),
-          const SizedBox(height: 20.0),
+          SizedBox(height: 20.0),
           _TicketDetailSection(
             label1: "Departure",
             value1: departureTime,
             label2: "Arrival",
             value2: arrivalTime,
           ),
-          const SizedBox(height: 20.0),
+          SizedBox(height: 20.0),
           _TicketDetailSection(
             label1: "Class",
             value1: trainClass,
             label2: "Train No.",
             value2: trainNum,
           ),
-          const SizedBox(height: 20.0),
+          SizedBox(height: 20.0),
           _TicketDetailSection(
             label1: "Price Per seat",
             value1: "$price LE",
@@ -278,7 +279,11 @@ class _BookingDetailViewState extends State<BookingDetailView> {
     return Column(
       children: [
         RadioListTile<int>(
-          title: const Text("Pay With Paymob"),
+          activeColor: Styles.primaryColor,
+          title: Text(
+            "Pay With Paymob",
+            style: MyFonts.font18Black,
+          ),
           value: 1,
           groupValue: _selectedPaymentMethod,
           onChanged: (value) {
@@ -288,7 +293,11 @@ class _BookingDetailViewState extends State<BookingDetailView> {
           },
         ),
         RadioListTile<int>(
-          title: const Text("Pay By Your Wallet"),
+          activeColor: Styles.primaryColor,
+          title: Text(
+            "Pay By Your Wallet",
+            style: MyFonts.font18Black,
+          ),
           value: 2,
           groupValue: _selectedPaymentMethod,
           onChanged: (value) {
@@ -307,15 +316,15 @@ class _BookingDetailViewState extends State<BookingDetailView> {
       width: MediaQuery.of(context).size.width,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xfffdc620),
+          backgroundColor: Styles.contrastColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(30),
           ),
         ),
         onPressed: () async {
           if (_selectedPaymentMethod == 0) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
+              SnackBar(
                 content: Text('Please Select Payment Method'),
                 backgroundColor: Colors.red,
               ),
@@ -361,12 +370,9 @@ class _BookingDetailViewState extends State<BookingDetailView> {
             }
           }
         },
-        child: const Text(
+        child: Text(
           "Done",
-          style: TextStyle(
-            color: Color(0xff383d47),
-            fontSize: 16,
-          ),
+          style: MyFonts.font18White.copyWith(fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -389,29 +395,25 @@ class _BookingDetailViewState extends State<BookingDetailView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "Ticket",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: MyFonts.appbar,
         ),
-        centerTitle: true,
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(child: CircularProgressIndicator())
           : Container(
-              padding: const EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(20.0),
               child: Column(
                 children: [
                   Expanded(
                     child: _buildTicketDetails(context),
                   ),
-                  const SizedBox(height: 35.0),
+                  SizedBox(height: 35.0),
                   _buildPaymentOptions(context),
-                  const SizedBox(height: 35.0),
+                  SizedBox(height: 35.0),
                   _buildDoneButton(context),
-                  const SizedBox(height: 60.0),
+                  SizedBox(height: 60.0),
                 ],
               ),
             ),
@@ -420,20 +422,16 @@ class _BookingDetailViewState extends State<BookingDetailView> {
 }
 
 class _TicketInfoRow extends StatelessWidget {
-  const _TicketInfoRow();
+  _TicketInfoRow();
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
+      children: [
         Text(
           "Confirm Your Ticket",
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-            color: Color(0xff393e48),
-          ),
+          style: MyFonts.font30Black.copyWith(fontSize: 26),
         ),
       ],
     );
@@ -446,7 +444,7 @@ class _TicketDetailSection extends StatelessWidget {
   final String label2;
   final String value2;
 
-  const _TicketDetailSection({
+  _TicketDetailSection({
     required this.label1,
     required this.value1,
     required this.label2,
@@ -463,18 +461,12 @@ class _TicketDetailSection extends StatelessWidget {
             children: [
               Text(
                 label1,
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 144, 144, 144),
-                  fontSize: 12.0,
-                ),
+                style: MyFonts.font16Black
+                    .copyWith(fontSize: 14, color: Colors.black38),
               ),
               Text(
                 value1,
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  color: Color(0xff393e48),
-                  fontWeight: FontWeight.bold,
-                ),
+                style: MyFonts.font16Black.copyWith(fontSize: 14),
               ),
             ],
           ),
@@ -485,19 +477,13 @@ class _TicketDetailSection extends StatelessWidget {
             children: [
               Text(
                 label2,
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 144, 144, 144),
-                  fontSize: 12.0,
-                ),
+                style: MyFonts.font16Black
+                    .copyWith(fontSize: 14, color: Colors.black38),
               ),
               Text(
                 value2,
                 textAlign: TextAlign.end,
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  color: Color(0xff393e48),
-                  fontWeight: FontWeight.bold,
-                ),
+                style: MyFonts.font16Black.copyWith(fontSize: 14),
               ),
             ],
           ),

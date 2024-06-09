@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 import 'package:subtraingrad/widgets/thick_container.dart';
 import 'package:ticket_widget/ticket_widget.dart';
 
@@ -25,11 +26,11 @@ class TrainTicketActive extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Color.fromARGB(255, 212, 212, 212);
+    Color color = Styles.primaryColor;
     if (status == "New") {
-      color = Color.fromARGB(255, 220, 220, 220);
+      color = Styles.primaryColor;
     } else if (status == "Checked") {
-      color = Color.fromARGB(255, 255, 100, 100);
+      color = Styles.primary2Color;
     }
     return Center(
       child: Padding(
@@ -49,7 +50,7 @@ class TrainTicketActive extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        ThickContainer(color: Colors.black),
+                        ThickContainer(color: Colors.white),
                         Expanded(
                           child: Stack(children: [
                             SizedBox(
@@ -71,7 +72,7 @@ class TrainTicketActive extends StatelessWidget {
                                               height: 1,
                                               child: DecoratedBox(
                                                   decoration: BoxDecoration(
-                                                      color: Colors.black)),
+                                                      color: Colors.white)),
                                             )),
                                   );
                                 },
@@ -80,12 +81,12 @@ class TrainTicketActive extends StatelessWidget {
                             Center(
                               child: Icon(
                                 Icons.train,
-                                color: Colors.black,
+                                color: Colors.white,
                               ),
                             )
                           ]),
                         ),
-                        ThickContainer(color: Colors.black),
+                        ThickContainer(color: Colors.white),
                       ],
                     ),
                     Row(
@@ -93,38 +94,22 @@ class TrainTicketActive extends StatelessWidget {
                       children: [
                         Column(
                           children: [
-                            Text(
-                              startPoint,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              departureStation,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            Text(startPoint,
+                                style: MyFonts.font16White.copyWith(
+                                    fontSize: 14, fontWeight: FontWeight.bold)),
+                            Text(departureStation,
+                                style: MyFonts.font16White.copyWith(
+                                    fontSize: 14, fontWeight: FontWeight.bold)),
                           ],
                         ),
                         Column(
                           children: [
-                            Text(
-                              endPoint,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              arrivalStation,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            Text(endPoint,
+                                style: MyFonts.font16White.copyWith(
+                                    fontSize: 14, fontWeight: FontWeight.bold)),
+                            Text(arrivalStation,
+                                style: MyFonts.font16White.copyWith(
+                                    fontSize: 14, fontWeight: FontWeight.bold)),
                           ],
                         ),
                       ],
@@ -150,7 +135,7 @@ class TrainTicketActive extends StatelessWidget {
                                             height: 1,
                                             child: DecoratedBox(
                                               decoration: BoxDecoration(
-                                                  color: Colors.black),
+                                                  color: Colors.white),
                                             ),
                                           )),
                                 );
@@ -171,23 +156,23 @@ class TrainTicketActive extends StatelessWidget {
                           children: [
                             Text(
                               'Date: ${bookingDate}',
-                              style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.normal),
+                              style: MyFonts.font16White.copyWith(
+                                  fontSize: 12, fontWeight: FontWeight.bold),
                             ),
                             Text(
                               'Price: ${fare}LE ',
-                              style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.normal),
+                              style: MyFonts.font16White.copyWith(
+                                  fontSize: 12, fontWeight: FontWeight.bold),
                             ),
                             Text(
                               'Status: ${status}',
-                              style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.normal),
+                              style: MyFonts.font16White.copyWith(
+                                  fontSize: 12, fontWeight: FontWeight.bold),
                             ),
                             Text(
                               'Seat: ${seat}',
-                              style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.normal),
+                              style: MyFonts.font16White.copyWith(
+                                  fontSize: 12, fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),

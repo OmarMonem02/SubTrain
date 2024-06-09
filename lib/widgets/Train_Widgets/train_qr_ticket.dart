@@ -152,17 +152,6 @@ class TrainQrTicket extends StatelessWidget {
               ),
               const SizedBox(height: 50),
               ElevatedButton(
-                style: buttonPrimary,
-                child: const Text(
-                  'Modify',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                onPressed: () {
-                  // Implement modification logic here
-                },
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
                 style: buttonRed,
                 child: const Text(
                   'Cancel',

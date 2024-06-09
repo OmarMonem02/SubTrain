@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 import 'package:subtraingrad/widgets/Subway_Widgets/subway_ticket_active.dart';
 import 'package:subtraingrad/widgets/Subway_Widgets/subway_qr_ticket.dart';
 
@@ -104,7 +105,11 @@ class _SubwayTicketsScreenState extends State<SubwayTicketsScreen> {
               },
             );
           } else {
-            return Center(child: Text("You do not have subway tickets"));
+            return Center(
+                child: Text(
+              "You do not have subway tickets",
+              style: MyFonts.font18Black,
+            ));
           }
         },
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 import '../../../state_util.dart';
 import '../view/seat_picker_view.dart';
 
@@ -14,7 +15,7 @@ class SeatPickerController extends State<SeatPickerView>
   List<int> usedSeats = [];
   List<int> selectedSeats = [];
   List<int> unclickableSeats = [];
-  static const int maxSeats = 4;
+  static const int maxSeats = 5;
 
   String selectedRow = "A"; // Default row
 
@@ -26,7 +27,7 @@ class SeatPickerController extends State<SeatPickerView>
     // Initialize usedSeats and unclickableSeats based on the seats map
     widget.seats.forEach((rowKey, rowValue) {
       rowValue.forEach((seatKey, seatValue) {
-        int seatIndex = int.parse(seatKey) - 1; // Adjust index to start from 0
+        int seatIndex = int.parse(seatKey); // No adjustment needed here
         if (!seatValue) {
           unclickableSeats.add(seatIndex);
         }
@@ -55,7 +56,10 @@ class SeatPickerController extends State<SeatPickerView>
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('You can select a maximum of $maxSeats seats.'),
+              content: Text(
+                'You can select a maximum of $maxSeats seats.',
+                style: MyFonts.font16White,
+              ),
             ),
           );
         }
@@ -65,7 +69,6 @@ class SeatPickerController extends State<SeatPickerView>
       }
     });
   }
-
 
   void selectRow(String row) {
     setState(() {
@@ -77,7 +80,7 @@ class SeatPickerController extends State<SeatPickerView>
     List<int> availableSeats = [];
     if (widget.seats.containsKey(row)) {
       widget.seats[row]!.forEach((seatKey, seatValue) {
-        int seatIndex = int.parse(seatKey) - 1; // Adjust index to start from 0
+        int seatIndex = int.parse(seatKey); // No adjustment needed here
         if (seatValue) {
           availableSeats.add(seatIndex);
         }

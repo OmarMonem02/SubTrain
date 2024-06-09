@@ -106,7 +106,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
+      appBar: AppBar(
+          title: Text(
+        'Profile',
+        style: MyFonts.appbar,
+      )),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -154,8 +158,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
               SubTextField(
                 enable: true,
                 controller: _phoneController,
-                textLabel: 'Email',
-                hint: 'Email',
+                textLabel: 'Phone',
+                hint: 'Phone',
                 textInputType: TextInputType.number,
               ),
               const Gap(24),
@@ -204,15 +208,12 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     width: 300,
                     height: 75,
                     alignment: Alignment.center,
-                    child: const Text(
-                      'Update Profile',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.w500,
+                    child: Text('Update Profile',
+                        style: MyFonts.font24White
+                            .copyWith(fontWeight: FontWeight.bold)
                         // fontFamily: GoogleFonts.manrope().fontFamily,
-                      ),
-                    ),
+
+                        ),
                   ),
                 ),
               ),

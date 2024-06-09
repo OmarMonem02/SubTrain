@@ -4,31 +4,27 @@ import 'package:subtraingrad/widgets/thick_container.dart';
 import 'package:ticket_widget/ticket_widget.dart';
 
 // ignore: must_be_immutable
-class PreviousTripsTicket extends StatefulWidget {
+class ResentTripsTicket extends StatefulWidget {
   final String bookingDate;
   final String endPoint;
   final int fare;
   final String startPoint;
   final String status;
-  bool favBtn;
-  final Function(bool) onFavChanged; // Add this line
 
-  PreviousTripsTicket({
+  ResentTripsTicket({
     Key? key,
     required this.bookingDate,
     required this.endPoint,
     required this.fare,
     required this.startPoint,
-    required this.status,
-    required this.favBtn,
-    required this.onFavChanged, // Add this line
+    required this.status, // Add this line
   }) : super(key: key);
 
   @override
-  _PreviousTripsTicketState createState() => _PreviousTripsTicketState();
+  _ResentTripsTicketState createState() => _ResentTripsTicketState();
 }
 
-class _PreviousTripsTicketState extends State<PreviousTripsTicket> {
+class _ResentTripsTicketState extends State<ResentTripsTicket> {
   @override
   Widget build(BuildContext context) {
     Color color = Styles.primaryColor;
@@ -151,22 +147,6 @@ class _PreviousTripsTicketState extends State<PreviousTripsTicket> {
                             Text(
                               'Price: ${widget.fare}LE',
                               style: MyFonts.font16White.copyWith(fontSize: 12),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  widget.favBtn = !widget.favBtn;
-                                  widget.onFavChanged(
-                                      widget.favBtn); // Add this line
-                                });
-                              },
-                              icon: Icon(
-                                widget.favBtn
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                color:
-                                    widget.favBtn ? Colors.red : Colors.white,
-                              ),
                             ),
                           ],
                         ),

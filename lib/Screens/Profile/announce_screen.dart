@@ -52,7 +52,10 @@ class _AnnouncementsState extends State<Announcements> {
             }),
       ),
       appBar: AppBar(
-        title: Text("Announcements"),
+        title: Text(
+          "Announcements",
+          style: MyFonts.appbar,
+        ),
       ),
     );
   }
