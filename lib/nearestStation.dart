@@ -32,8 +32,3 @@ TestLocation getNearestStation({
   // Return the nearest location
   return sortedLocations.first;
 }
-
-void main() {
-  // Create a list of TestLocation instances
-  
-}

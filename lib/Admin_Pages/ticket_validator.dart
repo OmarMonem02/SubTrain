@@ -22,9 +22,9 @@ class _TicketValidatorState extends State<TicketValidator> {
   void reassemble() {
     super.reassemble();
     if (Platform.isAndroid) {
-      controller!.pauseCamera();
+      controller?.pauseCamera();
     } else if (Platform.isIOS) {
-      controller!.resumeCamera();
+      controller?.resumeCamera();
     }
   }
 
@@ -47,9 +47,7 @@ class _TicketValidatorState extends State<TicketValidator> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              "Ticket Validate",
-            ),
+            const Text("Ticket Validate"),
           ],
         ),
       ),
@@ -59,30 +57,33 @@ class _TicketValidatorState extends State<TicketValidator> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-        // Assuming the QR code data is in the format "data/userID"
-        List<String> splitData = result!.code!.split('/');
-        if (splitData.length == 2) {
-          data = splitData[0];
-          userID = splitData[1];
+      // ignore: unnecessary_null_comparison
+      if (scanData != null && scanData.code != null) {
+        setState(() {
+          result = scanData;
+          // Assuming the QR code data is in the format "data/userID"
+          List<String> splitData = result!.code!.split('/');
+          if (splitData.length == 2) {
+            data = splitData[0];
+            userID = splitData[1];
 
-          // Navigate to TicketValidationView page
-          controller.dispose();
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TicketValidationView(
-                data: data!,
-                userID: userID!,
+            // Navigate to TicketValidationView page
+            controller.dispose();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TicketValidationView(
+                  data: data!,
+                  userID: userID!,
+                ),
               ),
-            ),
-          );
-        } else {
-          data = null;
-          userID = null;
-        }
-      });
+            );
+          } else {
+            data = null;
+            userID = null;
+          }
+        });
+      }
     });
   }
 

@@ -5,9 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:subtraingrad/Chat_Bot/chat_screen.dart';
 import 'package:subtraingrad/Screens/Home/subway_home.dart';
 import 'package:subtraingrad/Screens/Home/train_home.dart';
@@ -21,13 +19,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Print the nearest station
-  // print('Nearest station: ${nearestStation.city}');
-  String username = ""; // Initialize an empty username
+  String username = "";
   final User? _user = FirebaseAuth.instance.currentUser;
   bool scanning = true;
   String? address, coordinates;
-
   // Fetch data on initialization
   @override
   void initState() {
@@ -52,105 +47,145 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  bool _isTypeSelected = false;
+  bool _isTypeSelected = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Styles.backGroundColor,
       body: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
               children: [
-                const Gap(20),
+                const Gap(8),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Hello $username,',
-                          style: Styles.headLineStyle3,
-                        ),
-                        Text(
-                          'Select Ticket Mode',
-                          style: Styles.headLineStyle2,
-                        ),
+                        Text('Hello $username!', style: MyFonts.font24Black),
                       ],
                     ),
-                    LiteRollingSwitch(
-                      onSwipe: () {},
-                      onDoubleTap: () {},
-                      onTap: () {},
-                      width: 120,
-                      textSize: 16,
-                      value: _isTypeSelected,
-                      textOn: 'Train',
-                      textOnColor: Colors.white,
-                      iconOn: Icons.train_outlined,
-                      colorOn: Styles.mainColor,
-                      textOff: 'Subway',
-                      textOffColor: Colors.black,
-                      colorOff: Styles.secColor,
-                      animationDuration: const Duration(milliseconds: 400),
-                      iconOff: Icons.subway_outlined,
-                      onChanged: (isSelected) {
-                        setState(() {
-                          _isTypeSelected = isSelected;
-                        });
-                      },
-                    ),
                   ],
+                ),
+                const Gap(16),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isTypeSelected = true;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: _isTypeSelected
+                                    ? Styles.contrastColor
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(30)),
+                            padding: EdgeInsets.all(12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.train,
+                                  color: _isTypeSelected
+                                      ? Colors.white
+                                      : Colors.grey,
+                                ),
+                                Text(
+                                  'Subway',
+                                  style: TextStyle(
+                                      color: _isTypeSelected
+                                          ? Colors.white
+                                          : Colors.grey,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isTypeSelected = false;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: !_isTypeSelected
+                                  ? Styles.contrastColor
+                                  : Colors.white,
+                              borderRadius: BorderRadius.circular(30)),
+                          padding: EdgeInsets.all(12.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.subway,
+                                color: !_isTypeSelected
+                                    ? Colors.white
+                                    : Colors.grey,
+                              ),
+                              SizedBox(width: 8.0),
+                              Text(
+                                'Train',
+                                style: TextStyle(
+                                    color: !_isTypeSelected
+                                        ? Colors.white
+                                        : Colors.grey,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ),
+                      ))
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
           const Gap(15),
-          _isTypeSelected ? const TrainHome() : const SubwayHome(),
+          _isTypeSelected ? const SubwayHome() : const TrainHome(),
         ],
       ),
       appBar: AppBar(
-        toolbarHeight: 60,
+        backgroundColor: Styles.backGroundColor,
         automaticallyImplyLeading: false,
         elevation: 0,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'SubTrain',
-              style: const TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(26, 96, 122, 1),
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.notifications,
-                color: Styles.secColor,
-                size: 35,
-              ),
-            )
+            Text('SubTrain', style: MyFonts.appbar),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const ChatScreen();
-            }));
-          },
-          elevation: 10,
-          backgroundColor: Colors.white,
-          tooltip: "Chat with Broxi",
-          child: Image.asset(
-            "assets/logo3.png",
-            height: double.infinity,
-          )),
+        onPressed: () async {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const ChatScreen();
+          }));
+        },
+        elevation: 10,
+        backgroundColor: Styles.thirdColor,
+        tooltip: "Chat with SubBot",
+        child: Icon(
+          Icons.settings_accessibility,
+          size: 30,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 
@@ -173,29 +208,6 @@ class _HomeScreenState extends State<HomeScreen> {
     if (permission == LocationPermission.deniedForever) {
       Fluttertoast.showToast(msg: "Request Denied Forever !");
       return;
-    }
-    getLocation();
-  }
-
-  getLocation() async {
-    setState(() {
-      scanning = true;
-    });
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-      coordinates =
-          'Latitude : ${position.latitude}\nLongitude : ${position.longitude}';
-      List<Placemark> result =
-          await placemarkFromCoordinates(position.latitude, position.longitude);
-      if (result.isEmpty) {
-        address =
-            '${result[0].name},${result[0].locality},${result[0].administrativeArea}';
-      }
-      print(position);
-      print(address);
-    } catch (e) {
-      Fluttertoast.showToast(msg: "${e.toString()}");
     }
   }
 }

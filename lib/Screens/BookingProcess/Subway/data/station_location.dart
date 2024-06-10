@@ -1,4 +1,4 @@
-import 'package:subtraingrad/test.dart';
+import 'package:subtraingrad/nearestStation.dart';
 
 class StationLocation {
   static List<TestLocation> locations = [
@@ -24,27 +24,27 @@ class StationLocation {
         longitude: 31.313565),
     TestLocation(
         id: 5,
-        stationName: 'Hadayek Helwan',
-        latitude: 29.897140,
-        longitude: 31.303996),
-    TestLocation(
-        id: 6,
-        stationName: 'El-Maasara',
+        stationName: 'Elmasraa',
         latitude: 29.90611111,
         longitude: 31.29972222),
     TestLocation(
-        id: 7,
-        stationName: 'Tora El-Asmant',
+        id: 6,
+        stationName: 'Tura El-Esmant',
         latitude: 29.92583333,
         longitude: 31.28777778),
     TestLocation(
+        id: 7,
+        stationName: 'Cairo University',
+        latitude: 30.02611111,
+        longitude: 31.20111111),
+    TestLocation(
         id: 8,
-        stationName: 'Kozzika ',
+        stationName: 'Kozzika',
         latitude: 29.93611111,
         longitude: 31.28166667),
     TestLocation(
         id: 9,
-        stationName: 'Tora El-Balad',
+        stationName: 'Tura El-Balad',
         latitude: 29.94638889,
         longitude: 31.27361111),
     TestLocation(
@@ -84,7 +84,7 @@ class StationLocation {
         longitude: 31.23444444),
     TestLocation(
         id: 17,
-        stationName: 'El-Malek El-Saleh',
+        stationName: 'El-Malak El-Saleh',
         latitude: 30.01694444,
         longitude: 31.23083333),
     TestLocation(
@@ -99,14 +99,14 @@ class StationLocation {
         longitude: 31.23805556),
     TestLocation(
         id: 20,
-        stationName: 'Sadat',
-        latitude: 30.04444444,
-        longitude: 31.23555556),
+        stationName: 'Gamet El-Dowal',
+        latitude: 30.05083333,
+        longitude: 31.19972222),
     TestLocation(
         id: 21,
-        stationName: 'Gamal Ahabd Al Naser',
-        latitude: 30.05361111,
-        longitude: 31.23888889),
+        stationName: 'Boulak El-Dakrour',
+        latitude: 30.03611111,
+        longitude: 31.17972222),
     TestLocation(
         id: 22,
         stationName: 'Orabi',
@@ -114,9 +114,9 @@ class StationLocation {
         longitude: 31.24250000),
     TestLocation(
         id: 23,
-        stationName: 'Al-Shohadaa',
-        latitude: 30.06194444,
-        longitude: 31.25111111),
+        stationName: 'Wadi El-Nile',
+        latitude: 30.05833333,
+        longitude: 31.20111111),
     TestLocation(
         id: 24,
         stationName: 'Ghamra',
@@ -139,87 +139,87 @@ class StationLocation {
         longitude: 31.29388889),
     TestLocation(
         id: 28,
-        stationName: 'Hadayek Helwan',
-        latitude: 29.897140,
-        longitude: 31.303996),
-    TestLocation(
-        id: 29,
         stationName: 'Hammamat El-Qobba',
         latitude: 30.09027778,
         longitude: 31.29805556),
     TestLocation(
-        id: 30,
-        stationName: 'Hadayek Helwan',
-        latitude: 29.897140,
-        longitude: 31.303996),
-    TestLocation(
-        id: 31,
-        stationName: 'Saray El-Qobba',
+        id: 29,
+        stationName: 'Saraya El-Qobba',
         latitude: 30.09805556,
         longitude: 31.30472222),
     TestLocation(
-        id: 32,
+        id: 30,
         stationName: 'Hadayeq El-Zaitoun',
         latitude: 30.10527778,
         longitude: 31.31000000),
     TestLocation(
-        id: 33,
+        id: 31,
         stationName: 'Helmeyet El-Zaitoun',
         latitude: 30.11444444,
         longitude: 31.31388889),
     TestLocation(
-        id: 34,
+        id: 32,
         stationName: 'El-Matareyya',
         latitude: 30.12138889,
         longitude: 31.31388889),
     TestLocation(
-        id: 35,
+        id: 33,
         stationName: 'Ain Shams',
         latitude: 30.13111111,
         longitude: 31.31916667),
     TestLocation(
-        id: 36,
+        id: 34,
         stationName: 'Ezbet El-Nakhl',
         latitude: 30.13916667,
         longitude: 31.32444444),
     TestLocation(
-        id: 37,
+        id: 35,
         stationName: 'El-Marg',
         latitude: 30.15222222,
         longitude: 31.33555556),
     TestLocation(
-        id: 38,
-        stationName: 'New El-Marg',
+        id: 36,
+        stationName: 'New Marg',
         latitude: 30.16333333,
         longitude: 31.33833333),
     TestLocation(
-        id: 39,
-        stationName: 'El-Mounib',
+        id: 37,
+        stationName: 'El-Monib',
         latitude: 29.98138889,
         longitude: 31.21194444),
     TestLocation(
-        id: 40,
+        id: 38,
         stationName: 'Sakiat Mekky',
         latitude: 29.99555556,
         longitude: 31.20861111),
     TestLocation(
-        id: 41,
+        id: 39,
         stationName: 'Omm El-Masryeen',
         latitude: 30.00527778,
         longitude: 31.20805556),
     TestLocation(
-        id: 42,
-        stationName: 'El Giza',
+        id: 40,
+        stationName: 'Giza',
         latitude: 30.01055556,
         longitude: 31.20694444),
     TestLocation(
-        id: 43,
+        id: 41,
         stationName: 'Faisal',
         latitude: 30.01722222,
         longitude: 31.20388889),
     TestLocation(
+        id: 42,
+        stationName: 'Tawfikia',
+        latitude: 30.08194444,
+        longitude: 31.20250000),
+    TestLocation(
+        id: 43,
+        stationName: 'Rod El-Farag Corridor',
+        latitude: 30.10194444,
+        longitude: 31.18416667),
+    TestLocation(
         id: 44,
-        stationName: 'El Bohoth',
+        stationName: 'El-Bohoth',
         latitude: 30.03583333,
         longitude: 31.20027778),
     TestLocation(
@@ -239,7 +239,7 @@ class StationLocation {
         longitude: 31.23555556),
     TestLocation(
         id: 48,
-        stationName: 'Mohamed Naguib',
+        stationName: 'Nageib',
         latitude: 30.04527778,
         longitude: 31.24416667),
     TestLocation(
@@ -259,12 +259,12 @@ class StationLocation {
         longitude: 31.24500000),
     TestLocation(
         id: 52,
-        stationName: 'Road El-Farag',
+        stationName: 'Rod El-Farag',
         latitude: 30.08055556,
         longitude: 31.24555556),
     TestLocation(
         id: 53,
-        stationName: 'Saint Teresa',
+        stationName: 'St. Teresa',
         latitude: 31.245298,
         longitude: 31.245298),
     TestLocation(
@@ -274,17 +274,17 @@ class StationLocation {
         longitude: 31.24527778),
     TestLocation(
         id: 55,
-        stationName: 'Mezallat',
+        stationName: 'Mazallat',
         latitude: 30.10500000,
         longitude: 31.24666667),
     TestLocation(
         id: 56,
-        stationName: 'Kolleyyet El-Zeraa',
+        stationName: 'Koliet El-Zeraa',
         latitude: 30.11388889,
         longitude: 31.24861111),
     TestLocation(
         id: 57,
-        stationName: 'Shubra El-Kheima',
+        stationName: 'Shubra Al Khaimah',
         latitude: 30.12250000,
         longitude: 31.24472222),
     TestLocation(
@@ -294,7 +294,7 @@ class StationLocation {
         longitude: 31.42138889),
     TestLocation(
         id: 59,
-        stationName: 'El Haykestep',
+        stationName: 'Haykestep',
         latitude: 30.14388889,
         longitude: 31.40472222),
     TestLocation(
@@ -304,7 +304,7 @@ class StationLocation {
         longitude: 31.39416667),
     TestLocation(
         id: 61,
-        stationName: 'Qobaa',
+        stationName: 'Qubaa',
         latitude: 30.13472222,
         longitude: 31.38388889),
     TestLocation(
@@ -314,12 +314,12 @@ class StationLocation {
         longitude: 31.37277778),
     TestLocation(
         id: 63,
-        stationName: 'El-Nozha',
+        stationName: 'El Nozha',
         latitude: 30.12833333,
         longitude: 31.36000000),
     TestLocation(
         id: 64,
-        stationName: 'Nadi El-Shams',
+        stationName: 'El Shams Club',
         latitude: 30.12222222,
         longitude: 31.34388889),
     TestLocation(
@@ -329,7 +329,7 @@ class StationLocation {
         longitude: 31.33972222),
     TestLocation(
         id: 66,
-        stationName: 'Heliopolis Square',
+        stationName: 'Heliopolis',
         latitude: 30.10805556,
         longitude: 31.33805556),
     TestLocation(
@@ -359,7 +359,7 @@ class StationLocation {
         longitude: 31.30111111),
     TestLocation(
         id: 72,
-        stationName: 'Abbassia',
+        stationName: 'Abbassiya',
         latitude: 30.06972222,
         longitude: 31.28083333),
     TestLocation(
@@ -369,93 +369,58 @@ class StationLocation {
         longitude: 31.27472222),
     TestLocation(
         id: 74,
-        stationName: 'El Geish',
+        stationName: 'El-Geish',
         latitude: 30.06194444,
         longitude: 31.26694444),
     TestLocation(
         id: 75,
-        stationName: 'Bab El Shaaria',
+        stationName: 'Bab El-Shaariya',
         latitude: 30.05388889,
         longitude: 31.25611111),
     TestLocation(
         id: 76,
-        stationName: 'Attaba ',
-        latitude: 30.05250000,
-        longitude: 31.24694444),
-    TestLocation(
-        id: 77,
-        stationName: 'Gamal Ahabd Al Naser',
+        stationName: 'Gamal AbdelNaser',
         latitude: 30.053496,
         longitude: 31.238722),
     TestLocation(
+        id: 77,
+        stationName: 'Maspiro',
+        latitude: 30.05555556,
+        longitude: 31.23222222),
+    TestLocation(
         id: 78,
-        stationName: 'Maspero',
+        stationName: 'Safaa Hijazy',
         latitude: 30.05555556,
         longitude: 31.23222222),
     TestLocation(
         id: 79,
-        stationName: 'Safaa Hegazy',
-        latitude: 30.05555556,
-        longitude: 31.23222222),
-    TestLocation(
-        id: 80,
-        stationName: 'Kit Kat ',
+        stationName: 'Kit-Kat ',
         latitude: 30.06666667,
         longitude: 31.21305556),
     TestLocation(
-        id: 81,
-        stationName: 'Sudan Street',
+        id: 80,
+        stationName: 'Sudan',
         latitude: 30.06972222,
         longitude: 31.20527778),
     TestLocation(
-        id: 82,
+        id: 81,
         stationName: 'Imbaba',
         latitude: 30.07583333,
         longitude: 31.20750000),
     TestLocation(
-        id: 83,
+        id: 82,
         stationName: 'El-Bohy',
         latitude: 30.08222222,
         longitude: 31.21055556),
     TestLocation(
-        id: 84,
-        stationName: 'Al-Qawmeya Al-Arabiya',
+        id: 83,
+        stationName: 'El-Qawmia',
         latitude: 30.07666667,
         longitude: 31.20888889),
     TestLocation(
-        id: 85,
+        id: 84,
         stationName: 'Ring Road ',
         latitude: 30.09638889,
         longitude: 31.19972222),
-    TestLocation(
-        id: 87,
-        stationName: 'Rod al-Farag',
-        latitude: 30.10194444,
-        longitude: 31.18416667),
-    TestLocation(
-        id: 88,
-        stationName: 'El-Tawfikeya',
-        latitude: 30.08194444,
-        longitude: 31.20250000),
-    TestLocation(
-        id: 89,
-        stationName: 'Wadi El-Nil',
-        latitude: 30.05833333,
-        longitude: 31.20111111),
-    TestLocation(
-        id: 90,
-        stationName: 'Gamaat El Dowal Al-Arabiya',
-        latitude: 30.05083333,
-        longitude: 31.19972222),
-    TestLocation(
-        id: 91,
-        stationName: 'Bulaq El-Dakroor',
-        latitude: 30.03611111,
-        longitude: 31.17972222),
-    TestLocation(
-        id: 92,
-        stationName: 'Cairo University',
-        latitude: 30.02611111,
-        longitude: 31.20111111),
   ];
 }

@@ -1,13 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:subtraingrad/Screens/BookingProcess/Train/module/dashboard/view/dashboard_view.dart';
+import 'package:subtraingrad/Screens/Profile/previoustrips_screen.dart';
 import 'package:subtraingrad/Style/app_layout.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
-import 'package:subtraingrad/widgets/recent_trip_card.dart';
-import 'package:subtraingrad/widgets/ticket_view.dart';
+import 'package:subtraingrad/widgets/resent_ticket.dart';
 
-class TrainHome extends StatelessWidget {
+class TrainHome extends StatefulWidget {
   const TrainHome({super.key});
+
+  @override
+  State<TrainHome> createState() => _TrainHomeState();
+}
+
+class _TrainHomeState extends State<TrainHome> {
+  final User? _user = FirebaseAuth.instance.currentUser;
+  Stream<QuerySnapshot>? _searchStream;
+
+  @override
+  void initState() {
+    super.initState();
+    initialData();
+  }
+
+  initialData() {
+    _searchStream = FirebaseFirestore.instance
+        .collection("users")
+        .doc(_user!.uid)
+        .collection("Privouse_Trip")
+        .where("type", isEqualTo: "Train_tickets")
+        .orderBy('validateDate')
+        .limit(4)
+        .snapshots();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,71 +52,27 @@ class TrainHome extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Navigator.push(context,MaterialPageRoute(builder: (context) => const DashboardView(),));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const DashboardView(),
+                  ));
             },
             child: Ink(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                gradient: LinearGradient(
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
-                  colors: [
-                    Styles.mainColor,
-                    Styles.main2Color,
-                  ],
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Styles.primaryColor),
               child: Container(
                 width: size.width * 0.80,
                 height: 110,
                 alignment: Alignment.center,
-                child: const Text(
+                child: Text(
                   'Book Train Ticket',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: MyFonts.font24White,
                 ),
               ),
             ),
-          ),
-        ),
-        const Gap(20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Upcoming Trips", style: Styles.headLineStyle2),
-              InkWell(
-                onTap: () {},
-                child: Text(
-                  "View all",
-                  style: Styles.textStyle.copyWith(color: Styles.mainColor),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const Gap(20),
-        const SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.only(left: 20),
-          child: Row(
-            children: [
-              TicketView(
-                sPoint: "CAI", // Start Point
-                lsPoint: "Cairo", // Label Start Point
-                ePoint: "ASW", // End Point
-                lePoint: "Aswan", // Label End Point
-                dur: "18H 30M", // Duration
-                date: "1 AUG", // Date
-                depTime: "08:00AM", // Departure Time
-                tNum: "152", // Train Number
-              ),
-            ],
           ),
         ),
         const Gap(16),
@@ -98,19 +81,60 @@ class TrainHome extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Recent Trips", style: Styles.headLineStyle2),
+              Text("Recent Trips", style: MyFonts.font18Black),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PreviousTrips(),
+                      ));
+                },
                 child: Text(
                   "View all",
-                  style: Styles.textStyle.copyWith(color: Styles.mainColor),
+                  style: MyFonts.font16Black,
                 ),
               ),
             ],
           ),
         ),
-        const Gap(20),
-        const RecentTripCard(),
+        SizedBox(
+          height: 450,
+          child: StreamBuilder<QuerySnapshot>(
+            stream: _searchStream,
+            builder: (context, streamSnapshot) {
+              if (streamSnapshot.hasData) {
+                if (streamSnapshot.data!.docs.isEmpty) {
+                  return const Center(child: Text("No results found"));
+                }
+
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: streamSnapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    final DocumentSnapshot documentSnapshot =
+                        streamSnapshot.data!.docs[index];
+                    return Center(
+                      child: ResentTripsTicket(
+                        bookingDate: documentSnapshot['bookingDate'],
+                        endPoint: documentSnapshot['endPoint'],
+                        fare: documentSnapshot['fare'],
+                        startPoint: documentSnapshot['startPoint'],
+                        status: documentSnapshot['status'],
+                      ),
+                    );
+                  },
+                );
+              } else if (streamSnapshot.hasError) {
+                return Center(child: Text("Error: ${streamSnapshot.error}"));
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+        ),
       ],
     );
   }

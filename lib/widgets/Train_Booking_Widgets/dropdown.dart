@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 
 class QDropdownField extends StatefulWidget {
   final String label;
@@ -93,6 +94,7 @@ class _QDropdownFieldState extends State<QDropdownField> {
         return InputDecorator(
           decoration: InputDecoration(
             labelText: widget.label,
+            labelStyle: MyFonts.font16Black,
             errorText: field.errorText,
             helperText: widget.hint,
             enabledBorder: const UnderlineInputBorder(
@@ -118,12 +120,7 @@ class _QDropdownFieldState extends State<QDropdownField> {
                   ),
                   iconSize: 16,
                   elevation: 16,
-                  style: TextStyle(
-                    fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
-                    fontFamily:
-                        Theme.of(context).textTheme.bodyMedium!.fontFamily,
-                    color: Theme.of(context).textTheme.bodyMedium!.color,
-                  ),
+                  style: MyFonts.font16Black,
                   underline: Container(
                     height: 0,
                     color: Colors.grey[300],

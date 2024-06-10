@@ -1,62 +1,52 @@
 import 'package:flutter/material.dart';
-
-Color primary = const Color(0xFFEEEdf2);
-
-class DarkStyle {
-  static Color primaryColor = primary;
-  static Color textColor = const Color(0xFF3B3B3B);
-  static Color bdColor = const Color.fromARGB(255, 249, 249, 249);
-  static Color mainColor = const Color(0xFF1a5f7a);
-  static Color main2Color = const Color(0xff1e8bb4);
-  static Color secColor = const Color(0xFFECBA00);
-  static Color sec2Color = const Color(0xFFECBA55);
-  static TextStyle textStyle =
-      TextStyle(fontSize: 16, color: textColor, fontWeight: FontWeight.w500);
-  static TextStyle headLineStyle1 =
-      TextStyle(fontSize: 26, color: textColor, fontWeight: FontWeight.bold);
-  static TextStyle headLineStyle2 =
-      TextStyle(fontSize: 21, color: textColor, fontWeight: FontWeight.bold);
-  static TextStyle headLineStyle3 = TextStyle(
-      fontSize: 17, color: Colors.grey.shade500, fontWeight: FontWeight.w500);
-  static TextStyle headLineStyle4 = TextStyle(
-      fontSize: 14, color: Colors.grey.shade500, fontWeight: FontWeight.w500);
-}
+import 'package:google_fonts/google_fonts.dart';
 
 class Styles {
-  static Color primaryColor = primary;
-  static Color textColor = const Color(0xFF3B3B3B);
-  static Color bdColor = const Color.fromARGB(255, 249, 249, 249);
-  static Color mainColor = const Color(0xFF1a5f7a);
-  static Color main2Color = const Color(0xff1e8bb4);
-  static Color secColor = const Color(0xFFECBA00);
-  static Color sec2Color = const Color(0xFFECBA55);
+  static Color backGroundColor = const Color(0xFFF6F6F6);
+  static Color primaryColor = const Color(0xFF023246);
+  static Color secondaryColor = const Color(0xFF0C7B63);
+  static Color secondary2Color = Color.fromARGB(255, 160, 160, 160);
+  static Color thirdColor = const Color(0xFF005566);
+  static Color contrastColor = const Color(0xFFF58F00);
+  static Color primary2Color = const Color(0xFF11A786);
+}
 
-  static TextStyle textStyle =
-      TextStyle(fontSize: 16, color: textColor, fontWeight: FontWeight.w500);
-  static TextStyle headLineStyle1 =
-      TextStyle(fontSize: 26, color: textColor, fontWeight: FontWeight.bold);
-  static TextStyle headLineStyle2 =
-      TextStyle(fontSize: 21, color: textColor, fontWeight: FontWeight.bold);
-  static TextStyle headLineStyle3 =
-      const TextStyle(fontSize: 17, fontWeight: FontWeight.w500);
-  static TextStyle headLineStyle4 =
-      const TextStyle(fontSize: 14, fontWeight: FontWeight.w500);
+class MyFonts {
+  static TextStyle get font30White => GoogleFonts.fredoka(
+      color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold);
+  static TextStyle get font30Black => GoogleFonts.fredoka(
+      color: Color(0xFF2B2B2B), fontSize: 30, fontWeight: FontWeight.bold);
+
+  //
+  static TextStyle get appbar => GoogleFonts.fredoka(
+      color: Color(0xFF2B2B2B), fontSize: 30, fontWeight: FontWeight.w500);
+  static TextStyle get font24White => GoogleFonts.fredoka(
+      color: Colors.white, fontSize: 24, fontWeight: FontWeight.w500);
+  static TextStyle get font22White =>
+      GoogleFonts.fredoka(color: Colors.white, fontSize: 22);
+  static TextStyle get font18White =>
+      GoogleFonts.fredoka(color: Colors.white, fontSize: 18);
+  static TextStyle get font16White =>
+      GoogleFonts.fredoka(color: Colors.white, fontSize: 16);
+  static TextStyle get font24Black => GoogleFonts.fredoka(
+      color: Color(0xFF2B2B2B), fontSize: 24, fontWeight: FontWeight.w500);
+  static TextStyle get font22Black =>
+      GoogleFonts.fredoka(color: Color(0xFF2B2B2B), fontSize: 22);
+  static TextStyle get font18Black =>
+      GoogleFonts.fredoka(color: Color(0xFF2B2B2B), fontSize: 18);
+  static TextStyle get font16Black =>
+      GoogleFonts.fredoka(color: Color(0xFF2B2B2B), fontSize: 16);
+  static TextStyle get font16WhiteFaded =>
+      GoogleFonts.fredoka(color: Colors.white, fontSize: 16);
+  static TextStyle get font16GrayFaded =>
+      GoogleFonts.fredoka(color: Colors.grey.withOpacity(0.6), fontSize: 16);
+  static TextStyle get font16BlackFaded =>
+      GoogleFonts.fredoka(color: Color(0xEE2B2B2B), fontSize: 16);
 }
 
 final ButtonStyle buttonPrimary = ElevatedButton.styleFrom(
   minimumSize: const Size(230, 55),
-  backgroundColor: Styles.mainColor,
-  elevation: 0,
-  shape: const RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(
-      Radius.circular(50),
-    ),
-  ),
-);
-
-final ButtonStyle buttonSecondary = ElevatedButton.styleFrom(
-  minimumSize: const Size(230, 55),
-  backgroundColor: const Color.fromRGBO(71, 126, 148, 1.0),
+  backgroundColor: Styles.primaryColor,
   elevation: 0,
   shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(
@@ -67,7 +57,7 @@ final ButtonStyle buttonSecondary = ElevatedButton.styleFrom(
 
 final ButtonStyle buttonRed = ElevatedButton.styleFrom(
   minimumSize: const Size(230, 55),
-  backgroundColor: const Color.fromRGBO(128, 84, 84, 1.0),
+  backgroundColor: Styles.contrastColor,
   elevation: 10,
   shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(
@@ -102,26 +92,18 @@ class SubTextField extends StatelessWidget {
             enabled: enable,
             keyboardType: textInputType,
             controller: controller,
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary,
-                fontSize: 15,
-                fontWeight: FontWeight.w600),
+            style: MyFonts.font16Black,
             decoration: InputDecoration(
               hintText: hint,
               labelText: textLabel,
-              labelStyle: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary, fontSize: 15),
-              hintStyle: TextStyle(
-                color: Colors.grey.shade600,
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-              ),
+              labelStyle: MyFonts.font16Black,
+              hintStyle: MyFonts.font16GrayFaded,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
-                  color: Styles.mainColor,
+                  color: Styles.primaryColor,
                   width: 2,
                 ),
               ),
@@ -129,7 +111,7 @@ class SubTextField extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
                   width: 2,
-                  color: Styles.secColor,
+                  color: Styles.secondaryColor,
                 ),
               ),
               disabledBorder: OutlineInputBorder(
@@ -171,16 +153,11 @@ class SubPassField extends StatelessWidget {
         color: Colors.transparent,
         child: TextField(
           controller: controller,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimary,
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-          ),
+          style: MyFonts.font16Black,
           obscureText: obscureText,
           decoration: InputDecoration(
             labelText: textLabel,
-            labelStyle: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary, fontSize: 15),
+            labelStyle: MyFonts.font16Black,
             suffixIcon: IconButton(
               onPressed: onPressed,
               icon: Icon(
@@ -190,11 +167,7 @@ class SubPassField extends StatelessWidget {
               ),
             ),
             hintText: hintText,
-            hintStyle: TextStyle(
-              color: Colors.grey.shade600,
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-            ),
+            hintStyle: MyFonts.font16GrayFaded,
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             enabledBorder: OutlineInputBorder(

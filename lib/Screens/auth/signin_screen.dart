@@ -23,7 +23,6 @@ class _SignInState extends State<SignIn> {
   bool passwordObscured = true;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  // String? _errorMessage;
 
   @override
   void dispose() {
@@ -45,19 +44,16 @@ class _SignInState extends State<SignIn> {
             BackButton(
               color: const Color.fromRGBO(26, 96, 122, 1),
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const Welcome()),
                 );
               },
             ),
-            const Text(
-              'SIGN IN',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(26, 96, 122, 1),
-              ),
+            Text(
+              'Sign in',
+              style: MyFonts.font24Black.copyWith(
+                  fontWeight: FontWeight.bold, color: Styles.primaryColor),
             ),
           ],
         ),
@@ -73,12 +69,13 @@ class _SignInState extends State<SignIn> {
                 const SizedBox(height: 8),
                 Center(
                   child: Image.asset(
-                    'assets/logo3.png',
+                    'assets/logoblue.png',
                     alignment: Alignment.center,
                     height: 250,
                     width: 250,
                   ),
                 ),
+                const SizedBox(height: 16),
                 SubTextField(
                   enable: true,
                   controller: _emailController,
@@ -112,7 +109,10 @@ class _SignInState extends State<SignIn> {
                               msg: 'The link sent to your email');
                         });
                       },
-                      child: const Text("Forget Password?"),
+                      child: Text(
+                        "Forget Password?",
+                        style: MyFonts.font16BlackFaded,
+                      ),
                     ),
                     const SizedBox(width: 8),
                   ],
@@ -126,14 +126,13 @@ class _SignInState extends State<SignIn> {
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Styles.mainColor,
+                        color: Styles.primaryColor,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Center(
                         child: Text(
                           'Sign In',
-                          style: Styles.headLineStyle2
-                              .copyWith(color: Colors.white),
+                          style: MyFonts.font18White,
                         ),
                       ),
                     ),
@@ -148,19 +147,14 @@ class _SignInState extends State<SignIn> {
                       children: [
                         Text(
                           'Don\'t have an account? ',
-                          style: Styles.headLineStyle4.copyWith(
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            fontWeight: FontWeight.w400,
-                          ),
+                          style: MyFonts.font16GrayFaded,
                         ),
                         const SizedBox(width: 2),
                         GestureDetector(
                           onTap: widget.showSignUpPage,
                           child: Text(
                             "Sign Up",
-                            style: Styles.textStyle.copyWith(
-                              color: Styles.secColor,
-                            ),
+                            style: MyFonts.font16BlackFaded,
                           ),
                         ),
                       ],

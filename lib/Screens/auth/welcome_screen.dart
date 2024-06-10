@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:subtraingrad/Screens/auth/auth_page.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({super.key});
@@ -31,7 +32,7 @@ class Welcome extends StatelessWidget {
                 ),
                 const Image(
                   alignment: Alignment.center,
-                  image: AssetImage('assets/logo3.png'),
+                  image: AssetImage('assets/logoblue.png'),
                   height: 350,
                 ),
                 const SizedBox(
@@ -40,8 +41,8 @@ class Welcome extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(
                       left: 20, right: 20, bottom: 20, top: 60),
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(0, 75, 101, 1.0),
+                  decoration: BoxDecoration(
+                    color: Styles.primaryColor,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(35),
                       topRight: Radius.circular(35),
@@ -73,25 +74,15 @@ class Welcome extends StatelessWidget {
                           child: Ink(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              gradient: const LinearGradient(
-                                colors: [
-                                  Color.fromRGBO(26, 96, 122, 1),
-                                  Color.fromRGBO(71, 126, 148, 1.0),
-                                ],
-                              ),
+                              color: Styles.contrastColor,
                             ),
                             child: Container(
                               width: 300,
                               height: 80,
                               alignment: Alignment.center,
-                              child: const Text(
+                              child: Text(
                                 'Get Start',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w500,
-                                  // fontFamily: GoogleFonts.manrope().fontFamily,
-                                ),
+                                style: MyFonts.font30White,
                               ),
                             ),
                           ),

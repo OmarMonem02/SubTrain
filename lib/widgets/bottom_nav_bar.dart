@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:subtraingrad/Screens/Tickets/tickets_screen.dart';
 import 'package:subtraingrad/Screens/Home/home_screen.dart';
 import 'package:subtraingrad/Screens/Profile/profile_screen.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({
@@ -36,26 +37,38 @@ class _BottomNavBarState extends State<BottomNavBar> {
       ),
       bottomNavigationBar: FlashyTabBar(
         selectedIndex: _selectedIndex,
+        height: 70,
         showElevation: true,
         onItemSelected: _onItemTapped,
+        animationCurve: Curves.easeInOut,
+        animationDuration: Duration(milliseconds: 300),
         items: [
           FlashyTabBarItem(
             icon: Icon(FluentSystemIcons.ic_fluent_home_filled),
-            title: Text('Home'),
-            activeColor: Color.fromRGBO(26, 96, 122, 1),
-            inactiveColor: Color.fromRGBO(26, 96, 122, 1),
+            title: Text(
+              'Home',
+              style: MyFonts.font18Black.copyWith(color: Styles.primaryColor),
+            ),
+            activeColor: Styles.primaryColor,
+            inactiveColor: Styles.primaryColor,
           ),
           FlashyTabBarItem(
             icon: Icon(FluentSystemIcons.ic_fluent_ticket_filled),
-            title: Text('Tickets'),
-            activeColor: Color.fromRGBO(26, 96, 122, 1),
-            inactiveColor: Color.fromRGBO(26, 96, 122, 1),
+            title: Text(
+              'Tickets',
+              style: MyFonts.font18Black.copyWith(color: Styles.primaryColor),
+            ),
+            activeColor: Styles.primaryColor,
+            inactiveColor: Styles.primaryColor,
           ),
           FlashyTabBarItem(
             icon: Icon(FluentSystemIcons.ic_fluent_person_filled),
-            title: Text('Profile'),
-            activeColor: Color.fromRGBO(26, 96, 122, 1),
-            inactiveColor: Color.fromRGBO(26, 96, 122, 1),
+            title: Text(
+              'Profile',
+              style: MyFonts.font18Black.copyWith(color: Styles.primaryColor),
+            ),
+            activeColor: Styles.primaryColor,
+            inactiveColor: Styles.primaryColor,
           ),
         ],
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 
 class QDatePicker extends StatefulWidget {
   final String label;
@@ -55,8 +56,8 @@ class _QDatePickerState extends State<QDatePicker> {
         DateTime? pickedDate = await showDatePicker(
           context: context,
           initialDate: DateTime.now(),
-          firstDate: DateTime(2024),
-          lastDate: DateTime(2030),
+          firstDate: DateTime.now(),
+          lastDate: DateTime.now().add(const Duration(days: 365)),
         );
         selectedValue = pickedDate;
         controller.text = getFormattedValue();
@@ -76,9 +77,7 @@ class _QDatePickerState extends State<QDatePicker> {
           readOnly: true,
           decoration: InputDecoration(
             labelText: widget.label,
-            labelStyle: const TextStyle(
-              color: Color(0xff393e48),
-            ),
+            labelStyle: MyFonts.font16Black,
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.white,

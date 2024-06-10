@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:subtraingrad/Screens/BookingProcess/Train/data/train_stations.dart';
 import 'package:subtraingrad/Screens/BookingProcess/Train/module/seat_picker/view/seat_picker_view.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 import 'package:subtraingrad/widgets/Train_Booking_Widgets/datepicker.dart';
 import 'package:subtraingrad/widgets/Train_Booking_Widgets/dropdown.dart';
 import 'package:subtraingrad/widgets/Train_Booking_Widgets/trip_widget.dart';
 
 class DashboardView extends StatefulWidget {
-  const DashboardView({super.key});
+  const DashboardView({Key? key});
 
   @override
   State<DashboardView> createState() => _DashboardViewState();
@@ -16,24 +17,25 @@ class DashboardView extends StatefulWidget {
 
 class _DashboardViewState extends State<DashboardView> {
   Stream<QuerySnapshot>? _searchStream;
-  String tripDate = "";
+  String tripDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
   String trainClass = "";
   String from = "";
   String to = "";
-  int trueCount = 0;
+  String departureStation = "";
+  String arrivalStation = "";
+  String departureTime = "";
+  String arrivalTime = "";
+  String tripID = "";
+  int tripPrice = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Book Your Ticket",
-          style: TextStyle(
-            fontSize: 24.0,
-            fontWeight: FontWeight.bold,
-          ),
+        title: Text(
+          "Train Booking",
+          style: MyFonts.appbar,
         ),
-        centerTitle: true,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -55,7 +57,7 @@ class _DashboardViewState extends State<DashboardView> {
                     Expanded(
                       child: QDropdownField(
                         label: "From",
-                        value: "", // validator: Validator.required,
+                        value: from,
                         items: TrainData.trainData,
                         onChanged: (value, label) {
                           setState(() {
@@ -67,7 +69,7 @@ class _DashboardViewState extends State<DashboardView> {
                     Expanded(
                       child: QDropdownField(
                         label: "To",
-                        value: "", // validator: Validator.required,
+                        value: to,
                         items: TrainData.trainData,
                         onChanged: (value, label) {
                           setState(() {
@@ -87,7 +89,6 @@ class _DashboardViewState extends State<DashboardView> {
                       child: QDatePicker(
                         label: "Date",
                         value: DateTime.now(),
-                        // validator: Validator.required,
                         onChanged: (value) {
                           setState(() {
                             tripDate = DateFormat('dd/MM/yyyy').format(value);
@@ -109,8 +110,7 @@ class _DashboardViewState extends State<DashboardView> {
                     Expanded(
                       child: QDropdownField(
                         label: "Train Classes",
-                        value: "",
-                        // validator: Validator.required,
+                        value: trainClass,
                         items: const [
                           {
                             "label": "PLD Special",
@@ -145,9 +145,9 @@ class _DashboardViewState extends State<DashboardView> {
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xfffdc620),
+                      backgroundColor: Styles.contrastColor,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(30),
                       ),
                     ),
                     onPressed: () {
@@ -157,15 +157,14 @@ class _DashboardViewState extends State<DashboardView> {
                             .where("startPoint", isEqualTo: from)
                             .where("endPoint", isEqualTo: to)
                             .where("trainClass", isEqualTo: trainClass)
+                            .where("tripDate", isEqualTo: tripDate)
                             .snapshots();
                       });
                     },
-                    child: const Text(
+                    child: Text(
                       "Search",
-                      style: TextStyle(
-                        color: Color(0xff383d47),
-                        fontSize: 16,
-                      ),
+                      style: MyFonts.font18White
+                          .copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
@@ -176,21 +175,56 @@ class _DashboardViewState extends State<DashboardView> {
             child: StreamBuilder<QuerySnapshot>(
               stream: _searchStream,
               builder: (context, streamSnapshot) {
-                if (streamSnapshot.hasData) {
+                if (streamSnapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (streamSnapshot.hasError) {
+                  return Center(child: Text("Error: ${streamSnapshot.error}"));
+                } else if (streamSnapshot.hasData) {
                   if (streamSnapshot.data!.docs.isEmpty) {
-                    return Center(child: Text("No results found"));
+                    return const Center(child: Text("No results found"));
                   }
+
                   return ListView.builder(
                     itemCount: streamSnapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       final DocumentSnapshot documentSnapshot =
                           streamSnapshot.data!.docs[index];
+
+                      // Calculate trueCount for this document
+                      int documentTrueCount = 0;
+                      Map<String, dynamic>? availableSeats =
+                          documentSnapshot['availableSeats'];
+                      Map<String, Map<String, bool>> seats = {};
+                      if (availableSeats != null) {
+                        availableSeats.forEach((key, value) {
+                          if (value is Map<String, dynamic>) {
+                            Map<String, bool> innerSeats = {};
+                            value.forEach((innerKey, innerValue) {
+                              if (innerValue is bool) {
+                                innerSeats[innerKey] = innerValue;
+                                if (innerValue) {
+                                  documentTrueCount++;
+                                }
+                              }
+                            });
+                            seats[key] = innerSeats;
+                          }
+                        });
+                      }
+
                       return InkWell(
                         onTap: () {
+                          setState(() {
+                            tripID = documentSnapshot['trainScheduleID'];
+                            tripPrice = documentSnapshot['price'];
+                          });
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SeatPickerView(),
+                              builder: (context) => SeatPickerView(
+                                seats: seats,
+                                tripID: tripID,
+                              ),
                             ),
                           );
                         },
@@ -202,15 +236,13 @@ class _DashboardViewState extends State<DashboardView> {
                             departureTime: documentSnapshot['departureTime'],
                             arrivalTime: documentSnapshot['arrivalTime'],
                             trainID: documentSnapshot['trainID'],
-                            availableSeats: 600,
+                            availableSeats: documentTrueCount,
+                            price: documentSnapshot['price'],
                           ),
                         ),
                       );
                     },
                   );
-                } else if (streamSnapshot.hasError) {
-                  // Handle errors
-                  return Center(child: Text("Error: ${streamSnapshot.error}"));
                 } else {
                   return const Center(child: Text("Select Your Trip Option"));
                 }

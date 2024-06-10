@@ -41,7 +41,7 @@ class _RecentTripCardState extends State<RecentTripCard> {
                 const Icon(Icons.train_outlined, size: 40),
                 const Gap(12),
                 Text('Cairo',
-                    style: Styles.headLineStyle3.copyWith(color: Colors.black)),
+                    style: MyFonts.font18Black),
                 const ThickContainer(color: Colors.black),
                 Expanded(
                     child: Stack(
@@ -74,7 +74,7 @@ class _RecentTripCardState extends State<RecentTripCard> {
                 )),
                 const ThickContainer(color: Colors.black),
                 Text('Luxor',
-                    style: Styles.headLineStyle3.copyWith(color: Colors.black)),
+                    style: MyFonts.font18Black),
               ],
             ),
           ),
