@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:random_string/random_string.dart';
 import 'package:subtraingrad/Screens/auth/add_new_data.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
-import 'package:subtraingrad/widgets/recent_trip_card.dart';
 import 'package:subtraingrad/widgets/resent_ticket.dart';
 
 class TicketValidationView extends StatefulWidget {

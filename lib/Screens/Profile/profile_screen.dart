@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:subtraingrad/Chat_Pages/chat_screen.dart';
+import 'package:subtraingrad/Support_Pages/Chat_Pages/chat_screen.dart';
 import 'package:subtraingrad/Screens/auth/auth_page.dart';
 import 'package:subtraingrad/Style/app_layout.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
+import 'package:subtraingrad/Support_Pages/support_home_screen.dart';
 import 'package:subtraingrad/widgets/setting_button.dart';
 import 'package:subtraingrad/widgets/add_money.dart';
 
@@ -44,11 +45,13 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final User? _user = FirebaseAuth.instance.currentUser;
+  bool isSupportUser = false;
 
   @override
   void initState() {
     super.initState();
     _fetchData();
+    _checkUserType();
   }
 
   Future<void> _fetchData() async {
@@ -61,6 +64,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (userData != null) {
         setState(() {
           balance = userData['balance'];
+        });
+      }
+    }
+  }
+
+  Future<void> _checkUserType() async {
+    if (_user != null) {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(_user.uid)
+          .get();
+      final userData = snapshot.data();
+      if (userData != null && userData['isSupportUser'] == true) {
+        setState(() {
+          isSupportUser = true;
         });
       }
     }
@@ -100,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   context: context,
                   title: "Logout",
                   type: QuickAlertType.confirm,
-                  text: 'Are you sure you want Logout!',
+                  text: 'Are you sure you want to Logout!',
                   confirmBtnText: 'Yes',
                   cancelBtnText: 'No',
                   confirmBtnColor: Colors.red,
@@ -231,15 +249,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const CustomerSupportChatPage();
-            }));
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CustomerSupportChatPage(
+                  receiverUserEmail: "support@subtrain.com",
+                  receiverUserID:
+                      "SFTtlUs3gxNajKcPRaIMKEvnGZc2", // replace with actual support user ID
+                ),
+              ),
+            );
           },
           elevation: 10,
           backgroundColor: Colors.white,
-          tooltip: "Chat with SubBot",
-          child: Icon(Icons.help)),
+          tooltip: "Chat with Support",
+          child: const Icon(Icons.help)),
     );
   }
 }
