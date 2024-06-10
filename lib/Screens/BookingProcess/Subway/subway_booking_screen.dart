@@ -31,6 +31,7 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
   int _value = 0;
   bool scanning = true;
   String? address, coordinates;
+  bool _isLoading = false; // Add this line
 
   void _incrementCounter() {
     setState(() {
@@ -421,6 +422,9 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                     }
 
                     if (_value == 1) {
+                      setState(() {
+                        _isLoading = true; // Show loading indicator
+                      });
                       _pay();
                     } else if (_value == 2) {
                       if (balance! < (price * _counter)) {
@@ -471,12 +475,18 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
                     }
                     print(_value);
                   },
-                  child: Text(
-                    "Done",
-                    style: MyFonts.font18White,
-                  ),
+                  child: _isLoading
+                      ? // Conditionally show loading indicator
+                      Center(
+                          child: CircularProgressIndicator(
+                          color: Styles.thirdColor,
+                        ))
+                      : Text(
+                          "Pay",
+                          style: MyFonts.font18White,
+                        ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -534,7 +544,11 @@ class _SubwayBookingScreenState extends State<SubwayBookingScreen> {
           );
         }
       },
-    ).whenComplete(() {});
+    ).whenComplete(() {
+      setState(() {
+        _isLoading = false; // Hide loading indicator
+      });
+    });
   }
 
   List<String> findShortestPath(

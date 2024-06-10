@@ -172,18 +172,20 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const ChatScreen();
-            }));
-          },
-          elevation: 10,
-          backgroundColor: Colors.white,
-          tooltip: "Chat with SubBot",
-          child: Image.asset(
-            "assets/logoblue.png",
-            height: double.infinity,
-          )),
+        onPressed: () async {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const ChatScreen();
+          }));
+        },
+        elevation: 10,
+        backgroundColor: Styles.thirdColor,
+        tooltip: "Chat with SubBot",
+        child: Icon(
+          Icons.settings_accessibility,
+          size: 30,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 

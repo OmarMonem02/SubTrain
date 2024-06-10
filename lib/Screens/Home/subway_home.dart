@@ -19,12 +19,13 @@ class _SubwayHomeState extends State<SubwayHome> {
   final User? _user = FirebaseAuth.instance.currentUser;
   Stream<QuerySnapshot>? _searchStream;
 
+  @override
   void initState() {
     super.initState();
     initialData();
   }
 
-  initialData() {
+  void initialData() {
     _searchStream = FirebaseFirestore.instance
         .collection("users")
         .doc(_user!.uid)
@@ -91,7 +92,7 @@ class _SubwayHomeState extends State<SubwayHome> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => PreviousTrips(),
+                        builder: (context) => const PreviousTrips(),
                       ));
                 },
                 child: Text(
@@ -102,11 +103,18 @@ class _SubwayHomeState extends State<SubwayHome> {
             ],
           ),
         ),
-        StreamBuilder<QuerySnapshot>(
-          stream: _searchStream,
-          builder: (context, streamSnapshot) {
-            if (streamSnapshot.hasData) {
-              if (streamSnapshot.data!.docs.isEmpty) {
+        SizedBox(
+          height: 450,
+          child: StreamBuilder<QuerySnapshot>(
+            stream: _searchStream,
+            builder: (context, streamSnapshot) {
+              if (streamSnapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (streamSnapshot.hasError) {
+                return Center(child: Text("Error: ${streamSnapshot.error}"));
+              }
+              if (streamSnapshot.hasData && streamSnapshot.data!.docs.isEmpty) {
                 return const Center(child: Text("No results found"));
               }
 
@@ -127,14 +135,8 @@ class _SubwayHomeState extends State<SubwayHome> {
                   );
                 },
               );
-            } else if (streamSnapshot.hasError) {
-              return Center(child: Text("Error: ${streamSnapshot.error}"));
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
+            },
+          ),
         ),
       ],
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:subtraingrad/Style/app_styles.dart';
 
 class QDatePicker extends StatefulWidget {
   final String label;
@@ -76,9 +77,7 @@ class _QDatePickerState extends State<QDatePicker> {
           readOnly: true,
           decoration: InputDecoration(
             labelText: widget.label,
-            labelStyle: const TextStyle(
-              color: Color(0xff393e48),
-            ),
+            labelStyle: MyFonts.font16Black,
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.white,

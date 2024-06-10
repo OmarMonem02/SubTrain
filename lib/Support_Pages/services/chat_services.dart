@@ -41,33 +41,6 @@ class ChatServices extends ChangeNotifier {
     });
   }
 
-/*
-  Future<void> sendMessage(String receiverId, String message) async {
-    //get current user info
-    final String currentUserId = _firebaseAuth.currentUser!.uid;
-    final String currentUserEmail = _firebaseAuth.currentUser!.email.toString();
-    final Timestamp timestamp = Timestamp.now();
-
-    // create new Message
-    Message newMessage = Message(
-        senderId: currentUserId,
-        senderEmail: currentUserEmail,
-        receiverId: receiverId,
-        timestamp: timestamp,
-        message: message);
-
-    //constract chatroom
-    List<String> ids = [currentUserId, receiverId];
-    ids.sort();
-    String chatRoomId = ids.join("_");
-
-    await _fireStore
-        .collection('chat_rooms')
-        .doc(chatRoomId)
-        .collection('message')
-        .add(newMessage.toMap());
-  }
-*/
   //get messages
   Stream<QuerySnapshot> getMessages(String userId, String otherUserId) {
     List<String> ids = [userId, otherUserId];

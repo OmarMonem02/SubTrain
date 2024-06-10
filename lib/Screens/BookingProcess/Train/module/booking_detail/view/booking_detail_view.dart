@@ -29,6 +29,7 @@ class BookingDetailView extends StatefulWidget {
 
 class _BookingDetailViewState extends State<BookingDetailView> {
   bool loading = false;
+  bool paymentLoading = false; // New loading state for payment
   int _selectedPaymentMethod = 0;
   String departureStation = "";
   String arrivalStation = "";
@@ -160,7 +161,6 @@ class _BookingDetailViewState extends State<BookingDetailView> {
         for (int seat in widget.selectedSeats) {
           await addTicket(_user!.uid, seat);
         }
-        await _updateData(); // Update the user's balance here
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -178,6 +178,10 @@ class _BookingDetailViewState extends State<BookingDetailView> {
       }
     } catch (e) {
       _showError('An error occurred while processing payment');
+    } finally {
+      setState(() {
+        paymentLoading = false;
+      });
     }
   }
 
@@ -330,6 +334,9 @@ class _BookingDetailViewState extends State<BookingDetailView> {
               ),
             );
           } else if (_selectedPaymentMethod == 1) {
+            setState(() {
+              paymentLoading = true;
+            });
             _pay();
           } else if (_selectedPaymentMethod == 2) {
             int balance = await _getUserBalance();
@@ -347,11 +354,17 @@ class _BookingDetailViewState extends State<BookingDetailView> {
                 onCancelBtnTap: () => Navigator.pop(context),
                 onConfirmBtnTap: () async {
                   Navigator.pop(context);
+                  setState(() {
+                    paymentLoading = true;
+                  });
                   _updateSeatStatus;
                   for (int seat in widget.selectedSeats) {
                     await addTicket(_user!.uid, seat);
                   }
                   await _updateData(); // Update the user's balance here
+                  setState(() {
+                    paymentLoading = false;
+                  });
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.success,
@@ -370,10 +383,16 @@ class _BookingDetailViewState extends State<BookingDetailView> {
             }
           }
         },
-        child: Text(
-          "Done",
-          style: MyFonts.font18White.copyWith(fontWeight: FontWeight.bold),
-        ),
+        child: paymentLoading
+            ? Center(
+                child: CircularProgressIndicator(
+                color: Styles.thirdColor,
+              ))
+            : Text(
+                "Pay",
+                style:
+                    MyFonts.font18White.copyWith(fontWeight: FontWeight.bold),
+              ),
       ),
     );
   }
@@ -401,19 +420,27 @@ class _BookingDetailViewState extends State<BookingDetailView> {
         ),
       ),
       body: loading
-          ? Center(child: CircularProgressIndicator())
+          ? Center(
+              child: Card(
+                  child: CircularProgressIndicator(
+              color: Styles.thirdColor,
+            )))
           : Container(
               padding: EdgeInsets.all(20.0),
-              child: Column(
+              child: Stack(
                 children: [
-                  Expanded(
-                    child: _buildTicketDetails(context),
+                  Column(
+                    children: [
+                      Expanded(
+                        child: _buildTicketDetails(context),
+                      ),
+                      SizedBox(height: 35.0),
+                      _buildPaymentOptions(context),
+                      SizedBox(height: 35.0),
+                      _buildDoneButton(context),
+                      SizedBox(height: 60.0),
+                    ],
                   ),
-                  SizedBox(height: 35.0),
-                  _buildPaymentOptions(context),
-                  SizedBox(height: 35.0),
-                  _buildDoneButton(context),
-                  SizedBox(height: 60.0),
                 ],
               ),
             ),

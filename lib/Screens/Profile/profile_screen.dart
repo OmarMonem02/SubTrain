@@ -8,7 +8,6 @@ import 'package:subtraingrad/Support_Pages/Chat_Pages/chat_screen.dart';
 import 'package:subtraingrad/Screens/auth/auth_page.dart';
 import 'package:subtraingrad/Style/app_layout.dart';
 import 'package:subtraingrad/Style/app_styles.dart';
-import 'package:subtraingrad/Support_Pages/support_home_screen.dart';
 import 'package:subtraingrad/widgets/setting_button.dart';
 import 'package:subtraingrad/widgets/add_money.dart';
 
@@ -99,6 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final size = AppLayout.getSize(context);
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -262,9 +262,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             );
           },
           elevation: 10,
-          backgroundColor: Colors.white,
+          backgroundColor: Styles.thirdColor,
           tooltip: "Chat with Support",
-          child: const Icon(Icons.help)),
+          child: const Icon(
+            Icons.support_agent_outlined,
+            size: 30,
+            color: Colors.white,
+          )),
     );
   }
 }

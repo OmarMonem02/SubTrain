@@ -86,17 +86,18 @@ class _SupportHomePageState extends State<SupportHomePage> {
         title: Text(data['email']),
         trailing: IconButton(
           icon: Icon(Icons.delete, color: Colors.red),
-          onPressed: () => _deleteChat(document.id),
+          onPressed: () => _deleteChat(document.id, data['id']),
         ),
         onTap: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CustomerSupportChatPage(
-                  receiverUserEmail: data['email'],
-                  receiverUserID: data['id'],
-                ),
-              ));
+            context,
+            MaterialPageRoute(
+              builder: (context) => CustomerSupportChatPage(
+                receiverUserEmail: data['email'],
+                receiverUserID: data['id'],
+              ),
+            ),
+          );
         },
       );
     } else {
@@ -104,12 +105,30 @@ class _SupportHomePageState extends State<SupportHomePage> {
     }
   }
 
-  Future<void> _deleteChat(String documentId) async {
+  Future<void> _deleteChat(
+      String customerSupportChatId, String chatRoomId) async {
     try {
+      // Delete from customerSupportChat
       await FirebaseFirestore.instance
           .collection('customerSupportChat')
-          .doc(documentId)
+          .doc(customerSupportChatId)
           .delete();
+
+      // Get a reference to the chat room document
+      DocumentReference chatRoomDoc =
+          FirebaseFirestore.instance.collection('chat_rooms').doc(chatRoomId);
+
+      // Get all messages within the chat room
+      QuerySnapshot messagesSnapshot =
+          await chatRoomDoc.collection('message').get();
+
+      // Delete each message in the chat room
+      for (DocumentSnapshot messageDoc in messagesSnapshot.docs) {
+        await messageDoc.reference.delete();
+      }
+
+      // Delete the chat room document itself
+      await chatRoomDoc.delete();
     } catch (e) {
       print("Error deleting document: $e");
     }

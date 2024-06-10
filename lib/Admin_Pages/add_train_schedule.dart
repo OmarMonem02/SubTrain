@@ -42,13 +42,14 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
     arrivalStation.dispose();
     departureStation.dispose();
     trainID.dispose();
+    priceController.dispose();
     super.dispose();
   }
 
   Future<void> addTrainTrip() async {
-    if (validateInputs()) {
+    if (!validateInputs()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Please fill all fields'),
           backgroundColor: Colors.red,
         ),
@@ -82,7 +83,7 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
   }
 
   bool validateInputs() {
-    return arrivalStation.text.isEmpty ||
+    return !(arrivalStation.text.isEmpty ||
         departureStation.text.isEmpty ||
         trainID.text.isEmpty ||
         tripDate.isEmpty ||
@@ -90,12 +91,12 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
         _endPoint == 'Select End Point' ||
         _arrivalTime == 'Arrival Time' ||
         _departureTime == 'Departure Time' ||
-        trainClass == 'Train Class';
+        trainClass == 'Train Class');
   }
 
   void showSuccessMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Train trip added successfully'),
         backgroundColor: Colors.green,
       ),
@@ -104,7 +105,7 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
 
   void showErrorMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Failed to add train trip'),
         backgroundColor: Colors.red,
       ),
@@ -129,7 +130,7 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
   Future<void> showDateTimePicker(Function(DateTime) onDateTimeSelected) async {
     DateTime? dateTime = await showOmniDateTimePicker(
       context: context,
-      separator: Text("Time"),
+      separator: const Text("Time"),
       type: OmniDateTimePickerType.dateAndTime,
       initialDate: DateTime.now(),
       firstDate: DateTime(1600).subtract(const Duration(days: 3652)),
@@ -196,35 +197,24 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Column(
           children: [
             Row(
               children: [
-                Expanded(
-                  child: QDropdownField(
-                    label: "Start Point",
-                    value: _startPoint,
-                    items: TrainData.trainData,
-                    onChanged: (value, label) {
-                      setState(() {
-                        _startPoint = value.toString();
-                      });
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: QDropdownField(
-                    label: "End Point",
-                    value: _endPoint,
-                    items: TrainData.trainData,
-                    onChanged: (value, label) {
-                      setState(() {
-                        _endPoint = value.toString();
-                      });
-                    },
-                  ),
-                ),
+                buildDropdownField(
+                    "Start Point", _startPoint, NewTrainData.trainData,
+                    (value) {
+                  setState(() {
+                    _startPoint = value;
+                  });
+                }),
+                buildDropdownField(
+                    "End Point", _endPoint, NewTrainData.trainData, (value) {
+                  setState(() {
+                    _endPoint = value;
+                  });
+                }),
               ],
             ),
             Row(
@@ -265,7 +255,7 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
                     TextInputType.text),
               ],
             ),
-            Gap(16),
+            const Gap(16),
             Row(
               children: [
                 buildTextField(priceController, "Trip Price", "Trip Price",
@@ -277,7 +267,7 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
               children: [
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: QDropdownField(
                       label: "Train Classes",
                       value: trainClass,
@@ -296,7 +286,7 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
                 ),
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.only(left: 16),
+                    padding: const EdgeInsets.only(left: 16),
                     child: QDatePicker(
                       label: "Date",
                       value: DateTime.now(),
@@ -311,7 +301,7 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
               ],
             ),
             Container(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: SizedBox(
                 height: 48,
                 width: MediaQuery.of(context).size.width,
@@ -345,14 +335,14 @@ class _AddTrainScheduleState extends State<AddTrainSchedule> {
         elevation: 10,
         backgroundColor: Colors.white,
         tooltip: "Valid Ticket",
-        child: Icon(Icons.qr_code_scanner),
+        child: const Icon(Icons.qr_code_scanner),
       ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Dashboard"),
+            const Text("Dashboard"),
             IconButton(
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();

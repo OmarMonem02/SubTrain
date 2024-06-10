@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:subtraingrad/widgets/bottom_nav_bar.dart';
 
 class WithdrawPaymentGetway extends StatefulWidget {
   final String paymentToken;
@@ -48,14 +49,16 @@ class _WithdrawPaymentGetwayState extends State<WithdrawPaymentGetway> {
             setState(() {
               status = true;
             });
-            Navigator.pop(context, true);
-
             QuickAlert.show(
                 context: context,
                 type: QuickAlertType.success,
                 text: "Your Ticket is Purchased!",
                 onConfirmBtnTap: () async {
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BottomNavBar(),
+                      ));
                 });
             log('payment success');
           } else if (url != null &&
@@ -71,7 +74,11 @@ class _WithdrawPaymentGetwayState extends State<WithdrawPaymentGetway> {
                 type: QuickAlertType.error,
                 text: "Your Ticket Can Not Purchased!",
                 onConfirmBtnTap: () async {
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BottomNavBar(),
+                      ));
                 });
           }
         },

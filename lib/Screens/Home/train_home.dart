@@ -98,39 +98,42 @@ class _TrainHomeState extends State<TrainHome> {
             ],
           ),
         ),
-        StreamBuilder<QuerySnapshot>(
-          stream: _searchStream,
-          builder: (context, streamSnapshot) {
-            if (streamSnapshot.hasData) {
-              if (streamSnapshot.data!.docs.isEmpty) {
-                return const Center(child: Text("No results found"));
-              }
+        SizedBox(
+          height: 450,
+          child: StreamBuilder<QuerySnapshot>(
+            stream: _searchStream,
+            builder: (context, streamSnapshot) {
+              if (streamSnapshot.hasData) {
+                if (streamSnapshot.data!.docs.isEmpty) {
+                  return const Center(child: Text("No results found"));
+                }
 
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: streamSnapshot.data!.docs.length,
-                itemBuilder: (context, index) {
-                  final DocumentSnapshot documentSnapshot =
-                      streamSnapshot.data!.docs[index];
-                  return Center(
-                    child: ResentTripsTicket(
-                      bookingDate: documentSnapshot['bookingDate'],
-                      endPoint: documentSnapshot['endPoint'],
-                      fare: documentSnapshot['fare'],
-                      startPoint: documentSnapshot['startPoint'],
-                      status: documentSnapshot['status'],
-                    ),
-                  );
-                },
-              );
-            } else if (streamSnapshot.hasError) {
-              return Center(child: Text("Error: ${streamSnapshot.error}"));
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: streamSnapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    final DocumentSnapshot documentSnapshot =
+                        streamSnapshot.data!.docs[index];
+                    return Center(
+                      child: ResentTripsTicket(
+                        bookingDate: documentSnapshot['bookingDate'],
+                        endPoint: documentSnapshot['endPoint'],
+                        fare: documentSnapshot['fare'],
+                        startPoint: documentSnapshot['startPoint'],
+                        status: documentSnapshot['status'],
+                      ),
+                    );
+                  },
+                );
+              } else if (streamSnapshot.hasError) {
+                return Center(child: Text("Error: ${streamSnapshot.error}"));
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
         ),
       ],
     );

@@ -17,7 +17,7 @@ class DashboardView extends StatefulWidget {
 
 class _DashboardViewState extends State<DashboardView> {
   Stream<QuerySnapshot>? _searchStream;
-  String tripDate = "";
+  String tripDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
   String trainClass = "";
   String from = "";
   String to = "";
@@ -33,7 +33,7 @@ class _DashboardViewState extends State<DashboardView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Book Your Ticket",
+          "Train Booking",
           style: MyFonts.appbar,
         ),
       ),
@@ -57,7 +57,7 @@ class _DashboardViewState extends State<DashboardView> {
                     Expanded(
                       child: QDropdownField(
                         label: "From",
-                        value: "", // validator: Validator.required,
+                        value: from,
                         items: TrainData.trainData,
                         onChanged: (value, label) {
                           setState(() {
@@ -69,7 +69,7 @@ class _DashboardViewState extends State<DashboardView> {
                     Expanded(
                       child: QDropdownField(
                         label: "To",
-                        value: "", // validator: Validator.required,
+                        value: to,
                         items: TrainData.trainData,
                         onChanged: (value, label) {
                           setState(() {
@@ -89,7 +89,6 @@ class _DashboardViewState extends State<DashboardView> {
                       child: QDatePicker(
                         label: "Date",
                         value: DateTime.now(),
-                        // validator: Validator.required,
                         onChanged: (value) {
                           setState(() {
                             tripDate = DateFormat('dd/MM/yyyy').format(value);
@@ -111,8 +110,7 @@ class _DashboardViewState extends State<DashboardView> {
                     Expanded(
                       child: QDropdownField(
                         label: "Train Classes",
-                        value: "",
-                        // validator: Validator.required,
+                        value: trainClass,
                         items: const [
                           {
                             "label": "PLD Special",
@@ -153,13 +151,15 @@ class _DashboardViewState extends State<DashboardView> {
                       ),
                     ),
                     onPressed: () {
-                      _searchStream = FirebaseFirestore.instance
-                          .collection("Train_Schedule")
-                          .where("startPoint", isEqualTo: from)
-                          .where("endPoint", isEqualTo: to)
-                          .where("trainClass", isEqualTo: trainClass)
-                          .where("tripDate", isEqualTo: tripDate)
-                          .snapshots();
+                      setState(() {
+                        _searchStream = FirebaseFirestore.instance
+                            .collection("Train_Schedule")
+                            .where("startPoint", isEqualTo: from)
+                            .where("endPoint", isEqualTo: to)
+                            .where("trainClass", isEqualTo: trainClass)
+                            .where("tripDate", isEqualTo: tripDate)
+                            .snapshots();
+                      });
                     },
                     child: Text(
                       "Search",
@@ -175,7 +175,11 @@ class _DashboardViewState extends State<DashboardView> {
             child: StreamBuilder<QuerySnapshot>(
               stream: _searchStream,
               builder: (context, streamSnapshot) {
-                if (streamSnapshot.hasData) {
+                if (streamSnapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (streamSnapshot.hasError) {
+                  return Center(child: Text("Error: ${streamSnapshot.error}"));
+                } else if (streamSnapshot.hasData) {
                   if (streamSnapshot.data!.docs.isEmpty) {
                     return const Center(child: Text("No results found"));
                   }
@@ -233,13 +237,12 @@ class _DashboardViewState extends State<DashboardView> {
                             arrivalTime: documentSnapshot['arrivalTime'],
                             trainID: documentSnapshot['trainID'],
                             availableSeats: documentTrueCount,
+                            price: documentSnapshot['price'],
                           ),
                         ),
                       );
                     },
                   );
-                } else if (streamSnapshot.hasError) {
-                  return Center(child: Text("Error: ${streamSnapshot.error}"));
                 } else {
                   return const Center(child: Text("Select Your Trip Option"));
                 }

@@ -11,17 +11,16 @@ class TrainTrip extends StatelessWidget {
   final String arrivalStation;
   final String trainID;
   final int availableSeats;
+  final int price;
   const TrainTrip({
     super.key,
-    // required this.arrivalStation,
-    // required this.tripDate,
-    // required this.departureStation,
     required this.trainID,
     required this.availableSeats,
     required this.departureStation,
     required this.departureTime,
     required this.arrivalStation,
     required this.arrivalTime,
+    required this.price,
   });
 
   @override
@@ -43,18 +42,18 @@ class TrainTrip extends StatelessWidget {
               Expanded(
                   child: Text("Seats: ${availableSeats}",
                       style: MyFonts.font16Black)),
-              // Expanded(child: Text("Date: ${tripDate}")),
+              Expanded(child: Text("price: ${price}")),
             ],
           ),
           Row(
             children: [
               Expanded(
                   child: Text(
-                "From\n${departureStation}\n${departureTime}",
+                "From: ${departureStation}\n${departureTime}",
                 style: MyFonts.font16Black,
               )),
               Expanded(
-                  child: Text("To\n${arrivalStation}\n${arrivalTime}",
+                  child: Text("To: ${arrivalStation}\n${arrivalTime}",
                       style: MyFonts.font16Black)),
             ],
           ),
